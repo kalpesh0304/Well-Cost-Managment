@@ -1,0 +1,189 @@
+{
+  "xsappname": "wcm-app",
+  "tenant-mode": "dedicated",
+  "description": "Well Cost Management Security Configuration",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.WellRead",
+      "description": "Read well master data"
+    },
+    {
+      "name": "$XSAPPNAME.WellWrite",
+      "description": "Create/update well master data"
+    },
+    {
+      "name": "$XSAPPNAME.AFERead",
+      "description": "Read AFE documents"
+    },
+    {
+      "name": "$XSAPPNAME.AFEWrite",
+      "description": "Create/update AFE documents"
+    },
+    {
+      "name": "$XSAPPNAME.AFEApprove",
+      "description": "Approve AFE documents"
+    },
+    {
+      "name": "$XSAPPNAME.CostRead",
+      "description": "Read cost data"
+    },
+    {
+      "name": "$XSAPPNAME.CostWrite",
+      "description": "Post cost actuals"
+    },
+    {
+      "name": "$XSAPPNAME.PartnerRead",
+      "description": "Read partner data"
+    },
+    {
+      "name": "$XSAPPNAME.PartnerWrite",
+      "description": "Manage partner data"
+    },
+    {
+      "name": "$XSAPPNAME.JIBRead",
+      "description": "Read JIB statements"
+    },
+    {
+      "name": "$XSAPPNAME.JIBWrite",
+      "description": "Create JIB statements"
+    },
+    {
+      "name": "$XSAPPNAME.EconomicsRead",
+      "description": "Read economics analysis"
+    },
+    {
+      "name": "$XSAPPNAME.EconomicsWrite",
+      "description": "Create economics analysis"
+    },
+    {
+      "name": "$XSAPPNAME.ReportRead",
+      "description": "Read reports"
+    },
+    {
+      "name": "$XSAPPNAME.Admin",
+      "description": "Administrator access"
+    }
+  ],
+  "attributes": [
+    {
+      "name": "FieldScope",
+      "description": "Allowed field codes",
+      "valueType": "string"
+    },
+    {
+      "name": "WellScope",
+      "description": "Allowed well numbers",
+      "valueType": "string"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "DrillingEngineer",
+      "description": "Drilling Engineer Role",
+      "scope-references": [
+        "$XSAPPNAME.WellRead",
+        "$XSAPPNAME.AFERead",
+        "$XSAPPNAME.AFEWrite",
+        "$XSAPPNAME.CostRead",
+        "$XSAPPNAME.EconomicsRead"
+      ],
+      "attribute-references": ["FieldScope"]
+    },
+    {
+      "name": "AFECoordinator",
+      "description": "AFE Coordinator Role",
+      "scope-references": [
+        "$XSAPPNAME.WellRead",
+        "$XSAPPNAME.AFERead",
+        "$XSAPPNAME.AFEWrite",
+        "$XSAPPNAME.CostRead",
+        "$XSAPPNAME.PartnerRead"
+      ],
+      "attribute-references": ["FieldScope"]
+    },
+    {
+      "name": "CostManager",
+      "description": "Cost Manager Role",
+      "scope-references": [
+        "$XSAPPNAME.WellRead",
+        "$XSAPPNAME.AFERead",
+        "$XSAPPNAME.CostRead",
+        "$XSAPPNAME.CostWrite",
+        "$XSAPPNAME.ReportRead"
+      ],
+      "attribute-references": ["FieldScope"]
+    },
+    {
+      "name": "FinanceController",
+      "description": "Finance Controller Role",
+      "scope-references": [
+        "$XSAPPNAME.WellRead",
+        "$XSAPPNAME.AFERead",
+        "$XSAPPNAME.AFEApprove",
+        "$XSAPPNAME.CostRead",
+        "$XSAPPNAME.JIBRead",
+        "$XSAPPNAME.JIBWrite",
+        "$XSAPPNAME.ReportRead"
+      ],
+      "attribute-references": ["FieldScope"]
+    },
+    {
+      "name": "Economist",
+      "description": "Petroleum Economist Role",
+      "scope-references": [
+        "$XSAPPNAME.WellRead",
+        "$XSAPPNAME.AFERead",
+        "$XSAPPNAME.CostRead",
+        "$XSAPPNAME.EconomicsRead",
+        "$XSAPPNAME.EconomicsWrite",
+        "$XSAPPNAME.ReportRead"
+      ],
+      "attribute-references": ["FieldScope"]
+    },
+    {
+      "name": "AssetManager",
+      "description": "Asset Manager Role",
+      "scope-references": [
+        "$XSAPPNAME.WellRead",
+        "$XSAPPNAME.AFERead",
+        "$XSAPPNAME.AFEApprove",
+        "$XSAPPNAME.CostRead",
+        "$XSAPPNAME.EconomicsRead",
+        "$XSAPPNAME.ReportRead"
+      ],
+      "attribute-references": ["FieldScope"]
+    },
+    {
+      "name": "PartnerRepresentative",
+      "description": "Partner Representative Role",
+      "scope-references": [
+        "$XSAPPNAME.WellRead",
+        "$XSAPPNAME.AFERead",
+        "$XSAPPNAME.PartnerRead",
+        "$XSAPPNAME.JIBRead"
+      ],
+      "attribute-references": ["FieldScope"]
+    },
+    {
+      "name": "Administrator",
+      "description": "System Administrator Role",
+      "scope-references": [
+        "$XSAPPNAME.Admin",
+        "$XSAPPNAME.WellRead",
+        "$XSAPPNAME.WellWrite",
+        "$XSAPPNAME.AFERead",
+        "$XSAPPNAME.AFEWrite",
+        "$XSAPPNAME.AFEApprove",
+        "$XSAPPNAME.CostRead",
+        "$XSAPPNAME.CostWrite",
+        "$XSAPPNAME.PartnerRead",
+        "$XSAPPNAME.PartnerWrite",
+        "$XSAPPNAME.JIBRead",
+        "$XSAPPNAME.JIBWrite",
+        "$XSAPPNAME.EconomicsRead",
+        "$XSAPPNAME.EconomicsWrite",
+        "$XSAPPNAME.ReportRead"
+      ]
+    }
+  ]
+}

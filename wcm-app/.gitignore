@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build output
+gen/
+dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+default-env.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test
+coverage/
+
+# SAP specific
+mta_archives/
+*.mtar
