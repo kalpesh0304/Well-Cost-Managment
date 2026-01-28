@@ -43,7 +43,6 @@ service AdminService {
   // ============================================
   // USER ROLES
   // ============================================
-  @odata.draft.enabled
   entity UserRoles as projection on sec.UserRoles {
     *,
     user : redirected to Users,
