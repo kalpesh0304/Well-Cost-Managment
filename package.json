@@ -30,6 +30,25 @@
       "db": {
         "kind": "sql"
       },
+      "[development]": {
+        "auth": {
+          "kind": "mocked",
+          "users": {
+            "alice": {
+              "password": "alice",
+              "roles": ["Admin", "WellRead", "WellWrite", "AFERead", "AFEWrite", "AFEApprove", "CostRead", "CostWrite", "PartnerRead", "PartnerWrite", "JIBRead", "JIBWrite", "EconomicsRead", "EconomicsWrite", "ReportRead", "authenticated-user"]
+            },
+            "bob": {
+              "password": "bob",
+              "roles": ["AFERead", "AFEWrite", "CostRead", "WellRead", "authenticated-user"]
+            },
+            "carol": {
+              "password": "carol",
+              "roles": ["AFERead", "CostRead", "WellRead", "ReportRead", "authenticated-user"]
+            }
+          }
+        }
+      },
       "[production]": {
         "db": {
           "kind": "hana-cloud"
