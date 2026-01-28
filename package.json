@@ -1,0 +1,19 @@
+{
+  "name": "well-cost-management",
+  "version": "1.0.0",
+  "description": "Well Cost Management for Upstream Oil & Gas Companies",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "oil",
+    "gas",
+    "well",
+    "cost",
+    "management"
+  ],
+  "license": "MIT"
+}
