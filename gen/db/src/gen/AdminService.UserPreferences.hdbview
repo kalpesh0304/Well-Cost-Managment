@@ -1,0 +1,10 @@
+VIEW AdminService_UserPreferences AS SELECT
+  UserPreferences_0.ID,
+  UserPreferences_0.user_ID,
+  UserPreferences_0.preferenceKey,
+  UserPreferences_0.preferenceValue,
+  UserPreferences_0.modifiedAt
+FROM wcm_security_UserPreferences AS UserPreferences_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_Users AS "USER" ON ("USER".ID = user_ID)
+)

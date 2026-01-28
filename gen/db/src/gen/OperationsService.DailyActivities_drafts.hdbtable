@@ -1,0 +1,20 @@
+COLUMN TABLE OperationsService_DailyActivities_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  report_ID NVARCHAR(36) NULL,
+  startTime TIME NULL,
+  endTime TIME NULL,
+  durationHours DECIMAL(5, 2) NULL,
+  activityCode NVARCHAR(20) NULL,
+  activityName NVARCHAR(100) NULL,
+  description NVARCHAR(500) NULL,
+  isNPT BOOLEAN NULL DEFAULT FALSE,
+  nptCategory NVARCHAR(50) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN OperationsService_DailyReports_drafts AS report ON (report.ID = report_ID),
+  MANY TO ONE JOIN OperationsService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

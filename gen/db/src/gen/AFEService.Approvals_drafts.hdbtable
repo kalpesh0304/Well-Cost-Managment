@@ -1,0 +1,27 @@
+COLUMN TABLE AFEService_Approvals_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  afe_ID NVARCHAR(36) NULL,
+  approvalLevel INTEGER NULL,
+  approverRole NVARCHAR(50) NULL,
+  approverUserId NVARCHAR(100) NULL,
+  approverName NVARCHAR(100) NULL,
+  delegatedFrom NVARCHAR(100) NULL,
+  assignedDate TIMESTAMP NULL,
+  dueDate TIMESTAMP NULL,
+  actionDate TIMESTAMP NULL,
+  actionStatus NVARCHAR(20) NULL DEFAULT 'Pending',
+  comments NVARCHAR(1000) NULL,
+  conditions NVARCHAR(500) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AFEService_AFEs_drafts AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN AFEService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

@@ -1,0 +1,19 @@
+COLUMN TABLE wcm_economics_HurdleRates (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  rateType NVARCHAR(20) NOT NULL,
+  field_ID NVARCHAR(36),
+  rateName NVARCHAR(50) NOT NULL,
+  rateValue DECIMAL(8, 4) NOT NULL,
+  riskPremium DECIMAL(8, 4),
+  effectiveFromDate DATE NOT NULL,
+  effectiveToDate DATE,
+  approvedBy NVARCHAR(100),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_master_Fields AS field ON (field.ID = field_ID)
+)

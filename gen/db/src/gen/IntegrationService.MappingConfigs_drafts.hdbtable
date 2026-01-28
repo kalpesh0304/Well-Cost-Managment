@@ -1,0 +1,21 @@
+COLUMN TABLE IntegrationService_MappingConfigs_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  isActive BOOLEAN NULL DEFAULT TRUE,
+  mappingName NVARCHAR(100) NULL,
+  sourceSystem NVARCHAR(50) NULL,
+  targetSystem NVARCHAR(50) NULL,
+  sourceEntity NVARCHAR(50) NULL,
+  targetEntity NVARCHAR(50) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO MANY JOIN IntegrationService_FieldMappings_drafts AS fieldMappings ON (fieldMappings.config_ID = ID),
+  MANY TO ONE JOIN IntegrationService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

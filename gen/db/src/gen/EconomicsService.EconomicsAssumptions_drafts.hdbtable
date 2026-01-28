@@ -1,0 +1,19 @@
+COLUMN TABLE EconomicsService_EconomicsAssumptions_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  analysis_ID NVARCHAR(36) NULL,
+  assumptionType NVARCHAR(50) NULL,
+  assumptionName NVARCHAR(100) NULL,
+  assumptionValue NVARCHAR(200) NULL,
+  numericValue DECIMAL(15, 4) NULL,
+  unit NVARCHAR(20) NULL,
+  source NVARCHAR(100) NULL,
+  effectiveDate DATE NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN EconomicsService_EconomicsAnalyses_drafts AS analysis ON (analysis.ID = analysis_ID),
+  MANY TO ONE JOIN EconomicsService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

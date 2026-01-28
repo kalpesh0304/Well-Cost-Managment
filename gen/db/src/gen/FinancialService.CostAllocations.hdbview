@@ -1,0 +1,21 @@
+VIEW FinancialService_CostAllocations AS SELECT
+  CostAllocations_0.ID,
+  CostAllocations_0.createdAt,
+  CostAllocations_0.createdBy,
+  CostAllocations_0.modifiedAt,
+  CostAllocations_0.modifiedBy,
+  CostAllocations_0.afe_ID,
+  CostAllocations_0.costActual_ID,
+  CostAllocations_0.partner_ID,
+  CostAllocations_0.allocationDate,
+  CostAllocations_0.grossAmount,
+  CostAllocations_0.workingInterest,
+  CostAllocations_0.allocatedAmount,
+  CostAllocations_0.currency_ID
+FROM wcm_financial_CostAllocations AS CostAllocations_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN FinancialService_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN FinancialService_CostActuals AS costActual ON (costActual.ID = costActual_ID),
+  MANY TO ONE JOIN FinancialService_Partners AS partner ON (partner.ID = partner_ID),
+  MANY TO ONE JOIN FinancialService_Currencies AS currency ON (currency.ID = currency_ID)
+)

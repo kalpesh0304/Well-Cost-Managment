@@ -1,0 +1,24 @@
+VIEW OperationsService_Alerts AS SELECT
+  Alerts_0.ID,
+  Alerts_0.createdAt,
+  Alerts_0.createdBy,
+  Alerts_0.modifiedAt,
+  Alerts_0.modifiedBy,
+  Alerts_0.alertType,
+  Alerts_0.severity,
+  Alerts_0.title,
+  Alerts_0.message,
+  Alerts_0.well_ID,
+  Alerts_0.afe_ID,
+  Alerts_0.triggeredAt,
+  Alerts_0.acknowledgedBy,
+  Alerts_0.acknowledgedAt,
+  Alerts_0.resolvedBy,
+  Alerts_0.resolvedAt,
+  Alerts_0.status
+FROM wcm_operations_Alerts AS Alerts_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN OperationsService_Wells AS well ON (well.ID = well_ID),
+  MANY TO ONE JOIN OperationsService_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO MANY JOIN OperationsService_AlertRecipients AS recipients ON (recipients.alert_ID = ID)
+)

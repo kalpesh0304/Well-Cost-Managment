@@ -1,0 +1,24 @@
+COLUMN TABLE MasterDataService_CostCategories_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  isActive BOOLEAN NULL DEFAULT TRUE,
+  categoryCode NVARCHAR(10) NULL,
+  categoryName NVARCHAR(100) NULL,
+  categoryType NVARCHAR(20) NULL,
+  parent_ID NVARCHAR(36) NULL,
+  s4CostElement NVARCHAR(10) NULL,
+  accountingTreatment NVARCHAR(20) NULL,
+  hierarchyLevel INTEGER NULL DEFAULT 1,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN MasterDataService_CostCategories_drafts AS parent ON (parent.ID = parent_ID),
+  MANY TO MANY JOIN MasterDataService_CostCategories_drafts AS children ON (children.parent_ID = ID),
+  MANY TO ONE JOIN MasterDataService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

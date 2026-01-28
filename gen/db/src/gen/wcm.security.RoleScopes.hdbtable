@@ -1,0 +1,10 @@
+COLUMN TABLE wcm_security_RoleScopes (
+  ID NVARCHAR(36) NOT NULL,
+  role_ID NVARCHAR(36) NOT NULL,
+  scopeCode NVARCHAR(50) NOT NULL,
+  scopeName NVARCHAR(100),
+  scopeType NVARCHAR(20),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_security_Roles AS role ON (role.ID = role_ID)
+)

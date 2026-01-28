@@ -1,0 +1,15 @@
+COLUMN TABLE wcm_operations_DailyActivities (
+  ID NVARCHAR(36) NOT NULL,
+  report_ID NVARCHAR(36) NOT NULL,
+  startTime TIME,
+  endTime TIME,
+  durationHours DECIMAL(5, 2),
+  activityCode NVARCHAR(20),
+  activityName NVARCHAR(100),
+  description NVARCHAR(500),
+  isNPT BOOLEAN DEFAULT FALSE,
+  nptCategory NVARCHAR(50),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_operations_DailyReports AS report ON (report.ID = report_ID)
+)

@@ -1,0 +1,26 @@
+COLUMN TABLE AdminService_ApprovalMatrix_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  isActive BOOLEAN NULL DEFAULT TRUE,
+  matrixName NVARCHAR(100) NULL,
+  entityType NVARCHAR(50) NULL,
+  field_ID NVARCHAR(36) NULL,
+  wellType NVARCHAR(20) NULL,
+  amountFrom DECIMAL(15, 2) NULL,
+  amountTo DECIMAL(15, 2) NULL,
+  approvalLevel INTEGER NULL,
+  approverRole NVARCHAR(50) NULL,
+  escalationDays INTEGER NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_Fields AS field ON (field.ID = field_ID),
+  MANY TO MANY JOIN AdminService_ApprovalMatrixConditions_drafts AS conditions ON (conditions.matrix_ID = ID),
+  MANY TO ONE JOIN AdminService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

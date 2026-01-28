@@ -1,0 +1,18 @@
+COLUMN TABLE wcm_integration_IntegrationLogs (
+  ID NVARCHAR(36) NOT NULL,
+  integrationName NVARCHAR(100) NOT NULL,
+  sourceSystem NVARCHAR(50) NOT NULL,
+  targetSystem NVARCHAR(50) NOT NULL,
+  direction NVARCHAR(20),
+  recordCount INTEGER,
+  processingStartTime TIMESTAMP NOT NULL,
+  processingEndTime TIMESTAMP,
+  status NVARCHAR(20) NOT NULL,
+  errorMessage NVARCHAR(1000),
+  recordsProcessed INTEGER,
+  recordsFailed INTEGER,
+  correlationId NVARCHAR(36),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO MANY JOIN wcm_integration_IntegrationLogDetails AS details ON (details.log_ID = ID)
+)

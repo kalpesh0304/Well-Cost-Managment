@@ -1,0 +1,17 @@
+COLUMN TABLE wcm_configuration_WorkflowSteps (
+  ID NVARCHAR(36) NOT NULL,
+  workflow_ID NVARCHAR(36) NOT NULL,
+  stepNumber INTEGER NOT NULL,
+  stepName NVARCHAR(100) NOT NULL,
+  stepType NVARCHAR(20),
+  assigneeType NVARCHAR(20),
+  assigneeValue NVARCHAR(100),
+  timeoutDays INTEGER,
+  escalateTo NVARCHAR(100),
+  onApprove INTEGER,
+  onReject INTEGER,
+  onReturn INTEGER,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_configuration_WorkflowDefinitions AS workflow ON (workflow.ID = workflow_ID)
+)

@@ -1,0 +1,19 @@
+VIEW OperationsService_DailyCosts AS SELECT
+  DailyCosts_0.ID,
+  DailyCosts_0.report_ID,
+  DailyCosts_0.costElement_ID,
+  DailyCosts_0.vendor_ID,
+  DailyCosts_0.description,
+  DailyCosts_0.quantity,
+  DailyCosts_0.uom_ID,
+  DailyCosts_0.unitRate,
+  DailyCosts_0.amount,
+  DailyCosts_0.currency_ID
+FROM wcm_operations_DailyCosts AS DailyCosts_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN OperationsService_DailyReports AS report ON (report.ID = report_ID),
+  MANY TO ONE JOIN OperationsService_CostElements AS costElement ON (costElement.ID = costElement_ID),
+  MANY TO ONE JOIN OperationsService_Vendors AS vendor ON (vendor.ID = vendor_ID),
+  MANY TO ONE JOIN OperationsService_UnitsOfMeasure AS uom ON (uom.ID = uom_ID),
+  MANY TO ONE JOIN OperationsService_Currencies AS currency ON (currency.ID = currency_ID)
+)

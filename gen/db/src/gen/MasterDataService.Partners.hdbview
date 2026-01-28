@@ -1,0 +1,20 @@
+VIEW MasterDataService_Partners AS SELECT
+  Partners_0.ID,
+  Partners_0.createdAt,
+  Partners_0.createdBy,
+  Partners_0.modifiedAt,
+  Partners_0.modifiedBy,
+  Partners_0.isActive,
+  Partners_0.partnerCode,
+  Partners_0.partnerName,
+  Partners_0.partnerType,
+  Partners_0.country_ID,
+  Partners_0.workingInterestDefault,
+  Partners_0.s4BusinessPartner,
+  Partners_0.billingAddress,
+  Partners_0.contactName,
+  Partners_0.contactEmail
+FROM wcm_master_Partners AS Partners_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN MasterDataService_Countries AS country ON (country.ID = country_ID)
+)

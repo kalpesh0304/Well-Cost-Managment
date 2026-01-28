@@ -1,0 +1,12 @@
+COLUMN TABLE wcm_financial_JIBLineItems (
+  ID NVARCHAR(36) NOT NULL,
+  statement_ID NVARCHAR(36) NOT NULL,
+  costElement_ID NVARCHAR(36),
+  description NVARCHAR(200),
+  grossAmount DECIMAL(15, 2) NOT NULL,
+  partnerShare DECIMAL(15, 2) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_financial_JIBStatements AS statement ON (statement.ID = statement_ID),
+  MANY TO ONE JOIN wcm_master_CostElements AS costElement ON (costElement.ID = costElement_ID)
+)

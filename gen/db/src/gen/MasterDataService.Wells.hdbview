@@ -1,0 +1,26 @@
+VIEW MasterDataService_Wells AS SELECT
+  Wells_0.ID,
+  Wells_0.createdAt,
+  Wells_0.createdBy,
+  Wells_0.modifiedAt,
+  Wells_0.modifiedBy,
+  Wells_0.isActive,
+  Wells_0.s4SyncStatus,
+  Wells_0.s4LastSyncAt,
+  Wells_0.s4ErrorMessage,
+  Wells_0.wellNumber,
+  Wells_0.wellName,
+  Wells_0.wellType,
+  Wells_0.wellboreType,
+  Wells_0.field_ID,
+  Wells_0.spudDate,
+  Wells_0.totalDepthMD,
+  Wells_0.totalDepthTVD,
+  Wells_0.surfaceLatitude,
+  Wells_0.surfaceLongitude,
+  Wells_0.s4WBSElement,
+  Wells_0.status
+FROM wcm_master_Wells AS Wells_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN MasterDataService_Fields AS field ON (field.ID = field_ID)
+)

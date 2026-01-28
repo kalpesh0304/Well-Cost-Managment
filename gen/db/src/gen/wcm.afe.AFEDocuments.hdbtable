@@ -1,0 +1,19 @@
+COLUMN TABLE wcm_afe_AFEDocuments (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  afe_ID NVARCHAR(36) NOT NULL,
+  documentName NVARCHAR(200) NOT NULL,
+  documentType NVARCHAR(50),
+  documentCategory NVARCHAR(50),
+  fileSize INTEGER,
+  "MIMETYPE" NVARCHAR(100),
+  storageUrl NVARCHAR(500),
+  uploadedBy NVARCHAR(100),
+  uploadedAt TIMESTAMP,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_afe_AFEs AS afe ON (afe.ID = afe_ID)
+)

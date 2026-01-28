@@ -1,0 +1,28 @@
+VIEW FinancialService_JIBStatements AS SELECT
+  JIBStatements_0.ID,
+  JIBStatements_0.createdAt,
+  JIBStatements_0.createdBy,
+  JIBStatements_0.modifiedAt,
+  JIBStatements_0.modifiedBy,
+  JIBStatements_0.statementNumber,
+  JIBStatements_0.well_ID,
+  JIBStatements_0.afe_ID,
+  JIBStatements_0.partner_ID,
+  JIBStatements_0.billingPeriodFrom,
+  JIBStatements_0.billingPeriodTo,
+  JIBStatements_0.workingInterest,
+  JIBStatements_0.grossAmount,
+  JIBStatements_0.partnerShare,
+  JIBStatements_0.currency_ID,
+  JIBStatements_0.dueDate,
+  JIBStatements_0.status,
+  JIBStatements_0.sentDate,
+  JIBStatements_0.paidDate
+FROM wcm_financial_JIBStatements AS JIBStatements_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN FinancialService_Wells AS well ON (well.ID = well_ID),
+  MANY TO ONE JOIN FinancialService_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN FinancialService_Partners AS partner ON (partner.ID = partner_ID),
+  MANY TO ONE JOIN FinancialService_Currencies AS currency ON (currency.ID = currency_ID),
+  MANY TO MANY JOIN FinancialService_JIBLineItems AS lineItems ON (lineItems.statement_ID = ID)
+)

@@ -1,0 +1,11 @@
+COLUMN TABLE wcm_configuration_TemplatePlaceholders (
+  ID NVARCHAR(36) NOT NULL,
+  template_ID NVARCHAR(36) NOT NULL,
+  placeholderKey NVARCHAR(50) NOT NULL,
+  placeholderName NVARCHAR(100),
+  dataSource NVARCHAR(100),
+  defaultValue NVARCHAR(200),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_configuration_NotificationTemplates AS template ON (template.ID = template_ID)
+)

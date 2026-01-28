@@ -1,0 +1,17 @@
+VIEW AdminService_AuditLogs AS SELECT
+  AuditLogs_0.ID,
+  AuditLogs_0.eventCategory,
+  AuditLogs_0.eventType,
+  AuditLogs_0.entityType,
+  AuditLogs_0.entityId,
+  AuditLogs_0.userId,
+  AuditLogs_0.userName,
+  AuditLogs_0.action,
+  AuditLogs_0.beforeValue,
+  AuditLogs_0.afterValue,
+  AuditLogs_0."TIMESTAMP",
+  AuditLogs_0.ipAddress,
+  AuditLogs_0.sessionId,
+  AuditLogs_0.correlationId,
+  AuditLogs_0.userAgent
+FROM wcm_security_AuditLogs AS AuditLogs_0

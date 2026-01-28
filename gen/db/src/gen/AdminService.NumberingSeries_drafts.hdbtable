@@ -1,0 +1,26 @@
+COLUMN TABLE AdminService_NumberingSeries_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  isActive BOOLEAN NULL DEFAULT TRUE,
+  seriesCode NVARCHAR(20) NULL,
+  seriesName NVARCHAR(100) NULL,
+  entityType NVARCHAR(50) NULL,
+  prefix NVARCHAR(20) NULL,
+  suffix NVARCHAR(20) NULL,
+  currentNumber INTEGER NULL DEFAULT 0,
+  numberLength INTEGER NULL DEFAULT 6,
+  resetPeriod NVARCHAR(20) NULL,
+  lastResetDate DATE NULL,
+  field_ID NVARCHAR(36) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_Fields AS field ON (field.ID = field_ID),
+  MANY TO ONE JOIN AdminService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

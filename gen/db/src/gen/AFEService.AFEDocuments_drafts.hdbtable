@@ -1,0 +1,24 @@
+COLUMN TABLE AFEService_AFEDocuments_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  afe_ID NVARCHAR(36) NULL,
+  documentName NVARCHAR(200) NULL,
+  documentType NVARCHAR(50) NULL,
+  documentCategory NVARCHAR(50) NULL,
+  fileSize INTEGER NULL,
+  "MIMETYPE" NVARCHAR(100) NULL,
+  storageUrl NVARCHAR(500) NULL,
+  uploadedBy NVARCHAR(100) NULL,
+  uploadedAt TIMESTAMP NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AFEService_AFEs_drafts AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN AFEService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

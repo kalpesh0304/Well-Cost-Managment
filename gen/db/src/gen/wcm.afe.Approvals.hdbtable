@@ -1,0 +1,22 @@
+COLUMN TABLE wcm_afe_Approvals (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  afe_ID NVARCHAR(36) NOT NULL,
+  approvalLevel INTEGER NOT NULL,
+  approverRole NVARCHAR(50) NOT NULL,
+  approverUserId NVARCHAR(100) NOT NULL,
+  approverName NVARCHAR(100),
+  delegatedFrom NVARCHAR(100),
+  assignedDate TIMESTAMP NOT NULL,
+  dueDate TIMESTAMP,
+  actionDate TIMESTAMP,
+  actionStatus NVARCHAR(20) NOT NULL DEFAULT 'Pending',
+  comments NVARCHAR(1000),
+  conditions NVARCHAR(500),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_afe_AFEs AS afe ON (afe.ID = afe_ID)
+)

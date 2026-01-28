@@ -1,0 +1,18 @@
+COLUMN TABLE IntegrationService_FieldMappings_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  config_ID NVARCHAR(36) NULL,
+  sourceField NVARCHAR(50) NULL,
+  targetField NVARCHAR(50) NULL,
+  transformationType NVARCHAR(20) NULL,
+  transformationExpr NVARCHAR(500) NULL,
+  defaultValue NVARCHAR(200) NULL,
+  isRequired BOOLEAN NULL DEFAULT FALSE,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN IntegrationService_MappingConfigs_drafts AS config ON (config.ID = config_ID),
+  MANY TO ONE JOIN IntegrationService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

@@ -1,0 +1,15 @@
+VIEW AdminService_Roles AS SELECT
+  Roles_0.ID,
+  Roles_0.createdAt,
+  Roles_0.createdBy,
+  Roles_0.modifiedAt,
+  Roles_0.modifiedBy,
+  Roles_0.isActive,
+  Roles_0.roleCode,
+  Roles_0.roleName,
+  Roles_0.roleType,
+  Roles_0.description
+FROM wcm_security_Roles AS Roles_0
+WITH ASSOCIATIONS (
+  MANY TO MANY JOIN AdminService_RoleScopes AS scopes ON (scopes.role_ID = ID)
+)

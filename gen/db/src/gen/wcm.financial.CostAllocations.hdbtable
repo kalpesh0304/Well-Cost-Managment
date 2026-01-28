@@ -1,0 +1,21 @@
+COLUMN TABLE wcm_financial_CostAllocations (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  afe_ID NVARCHAR(36) NOT NULL,
+  costActual_ID NVARCHAR(36),
+  partner_ID NVARCHAR(36) NOT NULL,
+  allocationDate DATE NOT NULL,
+  grossAmount DECIMAL(15, 2) NOT NULL,
+  workingInterest DECIMAL(8, 4) NOT NULL,
+  allocatedAmount DECIMAL(15, 2) NOT NULL,
+  currency_ID NVARCHAR(36),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_afe_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN wcm_financial_CostActuals AS costActual ON (costActual.ID = costActual_ID),
+  MANY TO ONE JOIN wcm_master_Partners AS partner ON (partner.ID = partner_ID),
+  MANY TO ONE JOIN wcm_master_Currencies AS currency ON (currency.ID = currency_ID)
+)

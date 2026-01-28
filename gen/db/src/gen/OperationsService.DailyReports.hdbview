@@ -1,0 +1,35 @@
+VIEW OperationsService_DailyReports AS SELECT
+  DailyReports_0.ID,
+  DailyReports_0.createdAt,
+  DailyReports_0.createdBy,
+  DailyReports_0.modifiedAt,
+  DailyReports_0.modifiedBy,
+  DailyReports_0.well_ID,
+  DailyReports_0.afe_ID,
+  DailyReports_0.reportDate,
+  DailyReports_0.dayNumber,
+  DailyReports_0.depthMD,
+  DailyReports_0.depthTVD,
+  DailyReports_0.footageDrilled,
+  DailyReports_0.productiveHours,
+  DailyReports_0.nptHours,
+  DailyReports_0.nptCategory,
+  DailyReports_0.dailyCost,
+  DailyReports_0.cumulativeCost,
+  DailyReports_0.currency_ID,
+  DailyReports_0.operationPhase,
+  DailyReports_0.currentActivity,
+  DailyReports_0.remarks,
+  DailyReports_0.submittedBy,
+  DailyReports_0.submittedAt,
+  DailyReports_0.approvedBy,
+  DailyReports_0.approvedAt,
+  DailyReports_0.status
+FROM wcm_operations_DailyReports AS DailyReports_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN OperationsService_Wells AS well ON (well.ID = well_ID),
+  MANY TO ONE JOIN OperationsService_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN OperationsService_Currencies AS currency ON (currency.ID = currency_ID),
+  MANY TO MANY JOIN OperationsService_DailyActivities AS activities ON (activities.report_ID = ID),
+  MANY TO MANY JOIN OperationsService_DailyCosts AS costs ON (costs.report_ID = ID)
+)

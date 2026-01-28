@@ -1,0 +1,32 @@
+COLUMN TABLE wcm_financial_CostActuals (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  s4SyncStatus NVARCHAR(20),
+  s4LastSyncAt TIMESTAMP,
+  s4ErrorMessage NVARCHAR(500),
+  afe_ID NVARCHAR(36) NOT NULL,
+  wbsElement_ID NVARCHAR(36),
+  costElement_ID NVARCHAR(36),
+  vendor_ID NVARCHAR(36),
+  postingDate DATE NOT NULL,
+  documentDate DATE,
+  quantity DECIMAL(15, 4),
+  uom_ID NVARCHAR(36),
+  actualAmount DECIMAL(15, 2) NOT NULL,
+  currency_ID NVARCHAR(36),
+  s4DocumentNo NVARCHAR(10),
+  s4PONumber NVARCHAR(10),
+  referenceText NVARCHAR(100),
+  costType NVARCHAR(20) NOT NULL DEFAULT 'Actual',
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_afe_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN wcm_afe_WBSElements AS wbsElement ON (wbsElement.ID = wbsElement_ID),
+  MANY TO ONE JOIN wcm_master_CostElements AS costElement ON (costElement.ID = costElement_ID),
+  MANY TO ONE JOIN wcm_master_Vendors AS vendor ON (vendor.ID = vendor_ID),
+  MANY TO ONE JOIN wcm_master_UnitsOfMeasure AS uom ON (uom.ID = uom_ID),
+  MANY TO ONE JOIN wcm_master_Currencies AS currency ON (currency.ID = currency_ID)
+)

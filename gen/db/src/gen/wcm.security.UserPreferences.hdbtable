@@ -1,0 +1,10 @@
+COLUMN TABLE wcm_security_UserPreferences (
+  ID NVARCHAR(36) NOT NULL,
+  user_ID NVARCHAR(36) NOT NULL,
+  preferenceKey NVARCHAR(100) NOT NULL,
+  preferenceValue NVARCHAR(1000),
+  modifiedAt TIMESTAMP,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_security_Users AS "USER" ON ("USER".ID = user_ID)
+)

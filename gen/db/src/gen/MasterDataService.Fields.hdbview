@@ -1,0 +1,20 @@
+VIEW MasterDataService_Fields AS SELECT
+  Fields_0.ID,
+  Fields_0.createdAt,
+  Fields_0.createdBy,
+  Fields_0.modifiedAt,
+  Fields_0.modifiedBy,
+  Fields_0.isActive,
+  Fields_0.fieldCode,
+  Fields_0.fieldName,
+  Fields_0.basin,
+  Fields_0.country_ID,
+  Fields_0.region,
+  Fields_0.operatorName,
+  Fields_0.s4ProfitCenter,
+  Fields_0.s4CostCenter
+FROM wcm_master_Fields AS Fields_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN MasterDataService_Countries AS country ON (country.ID = country_ID),
+  MANY TO MANY JOIN MasterDataService_Wells AS wells ON (wells.field_ID = ID)
+)

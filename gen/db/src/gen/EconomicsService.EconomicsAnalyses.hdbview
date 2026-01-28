@@ -1,0 +1,30 @@
+VIEW EconomicsService_EconomicsAnalyses AS SELECT
+  EconomicsAnalyses_0.ID,
+  EconomicsAnalyses_0.createdAt,
+  EconomicsAnalyses_0.createdBy,
+  EconomicsAnalyses_0.modifiedAt,
+  EconomicsAnalyses_0.modifiedBy,
+  EconomicsAnalyses_0.analysisName,
+  EconomicsAnalyses_0.well_ID,
+  EconomicsAnalyses_0.afe_ID,
+  EconomicsAnalyses_0.analysisType,
+  EconomicsAnalyses_0.discountRate,
+  EconomicsAnalyses_0.inflationRate,
+  EconomicsAnalyses_0.npv,
+  EconomicsAnalyses_0.irr,
+  EconomicsAnalyses_0.mirr,
+  EconomicsAnalyses_0.paybackYears,
+  EconomicsAnalyses_0.discountedPayback,
+  EconomicsAnalyses_0.profitabilityIndex,
+  EconomicsAnalyses_0.recommendation,
+  EconomicsAnalyses_0.calculatedAt,
+  EconomicsAnalyses_0.status
+FROM wcm_economics_EconomicsAnalyses AS EconomicsAnalyses_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN EconomicsService_Wells AS well ON (well.ID = well_ID),
+  MANY TO ONE JOIN EconomicsService_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO MANY JOIN EconomicsService_CashFlows AS cashFlows ON (cashFlows.analysis_ID = ID),
+  MANY TO MANY JOIN EconomicsService_Scenarios AS scenarios ON (scenarios.analysis_ID = ID),
+  MANY TO MANY JOIN EconomicsService_SensitivityResults AS sensitivities ON (sensitivities.analysis_ID = ID),
+  MANY TO MANY JOIN EconomicsService_EconomicsAssumptions AS assumptions ON (assumptions.analysis_ID = ID)
+)

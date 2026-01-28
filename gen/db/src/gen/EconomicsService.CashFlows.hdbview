@@ -1,0 +1,18 @@
+VIEW EconomicsService_CashFlows AS SELECT
+  CashFlows_0.ID,
+  CashFlows_0.analysis_ID,
+  CashFlows_0.yearNumber,
+  CashFlows_0.capex,
+  CashFlows_0.opex,
+  CashFlows_0.revenue,
+  CashFlows_0.royalty,
+  CashFlows_0.taxes,
+  CashFlows_0.netCashFlow,
+  CashFlows_0.discountedCashFlow,
+  CashFlows_0.cumulativeCashFlow,
+  CashFlows_0.oilProduction,
+  CashFlows_0.gasProduction
+FROM wcm_economics_CashFlows AS CashFlows_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN EconomicsService_EconomicsAnalyses AS analysis ON (analysis.ID = analysis_ID)
+)

@@ -1,0 +1,33 @@
+COLUMN TABLE FinancialService_Variances_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  afe_ID NVARCHAR(36) NULL,
+  well_ID NVARCHAR(36) NULL,
+  wbsElement_ID NVARCHAR(36) NULL,
+  costElement_ID NVARCHAR(36) NULL,
+  analysisDate DATE NULL,
+  estimatedAmount DECIMAL(15, 2) NULL,
+  actualAmount DECIMAL(15, 2) NULL,
+  varianceAmount DECIMAL(15, 2) NULL,
+  variancePct DECIMAL(8, 4) NULL,
+  varianceCategory_ID NVARCHAR(36) NULL,
+  explanation NVARCHAR(500) NULL,
+  approvalRequired BOOLEAN NULL DEFAULT FALSE,
+  approvedBy NVARCHAR(100) NULL,
+  approvedAt TIMESTAMP NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN FinancialService_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN FinancialService_Wells AS well ON (well.ID = well_ID),
+  MANY TO ONE JOIN FinancialService_WBSElements AS wbsElement ON (wbsElement.ID = wbsElement_ID),
+  MANY TO ONE JOIN FinancialService_CostElements AS costElement ON (costElement.ID = costElement_ID),
+  MANY TO ONE JOIN FinancialService_VarianceCategories AS varianceCategory ON (varianceCategory.ID = varianceCategory_ID),
+  MANY TO ONE JOIN FinancialService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

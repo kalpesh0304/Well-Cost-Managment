@@ -1,0 +1,17 @@
+VIEW EconomicsService_Scenarios AS SELECT
+  Scenarios_0.ID,
+  Scenarios_0.analysis_ID,
+  Scenarios_0.scenarioType,
+  Scenarios_0.scenarioName,
+  Scenarios_0.npv,
+  Scenarios_0.irr,
+  Scenarios_0.probability,
+  Scenarios_0.oilPrice,
+  Scenarios_0.gasPrice,
+  Scenarios_0.capexMultiplier,
+  Scenarios_0.opexMultiplier,
+  Scenarios_0.productionMultiplier
+FROM wcm_economics_Scenarios AS Scenarios_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN EconomicsService_EconomicsAnalyses AS analysis ON (analysis.ID = analysis_ID)
+)

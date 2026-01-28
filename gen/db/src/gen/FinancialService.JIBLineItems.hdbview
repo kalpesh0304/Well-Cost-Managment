@@ -1,0 +1,12 @@
+VIEW FinancialService_JIBLineItems AS SELECT
+  JIBLineItems_0.ID,
+  JIBLineItems_0.statement_ID,
+  JIBLineItems_0.costElement_ID,
+  JIBLineItems_0.description,
+  JIBLineItems_0.grossAmount,
+  JIBLineItems_0.partnerShare
+FROM wcm_financial_JIBLineItems AS JIBLineItems_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN FinancialService_JIBStatements AS statement ON (statement.ID = statement_ID),
+  MANY TO ONE JOIN FinancialService_CostElements AS costElement ON (costElement.ID = costElement_ID)
+)

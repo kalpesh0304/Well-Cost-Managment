@@ -1,0 +1,20 @@
+COLUMN TABLE AdminService_Roles_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  isActive BOOLEAN NULL DEFAULT TRUE,
+  roleCode NVARCHAR(50) NULL,
+  roleName NVARCHAR(100) NULL,
+  roleType NVARCHAR(20) NULL,
+  description NVARCHAR(500) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO MANY JOIN AdminService_RoleScopes_drafts AS scopes ON (scopes.role_ID = ID),
+  MANY TO ONE JOIN AdminService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

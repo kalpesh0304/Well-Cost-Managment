@@ -1,0 +1,11 @@
+COLUMN TABLE wcm_configuration_ApprovalMatrixConditions (
+  ID NVARCHAR(36) NOT NULL,
+  matrix_ID NVARCHAR(36) NOT NULL,
+  conditionField NVARCHAR(50) NOT NULL,
+  conditionOperator NVARCHAR(20) NOT NULL,
+  conditionValue NVARCHAR(200) NOT NULL,
+  logicalOperator NVARCHAR(10),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_configuration_ApprovalMatrix AS matrix ON (matrix.ID = matrix_ID)
+)

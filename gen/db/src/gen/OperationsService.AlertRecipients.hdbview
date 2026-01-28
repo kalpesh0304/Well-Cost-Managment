@@ -1,0 +1,12 @@
+VIEW OperationsService_AlertRecipients AS SELECT
+  AlertRecipients_0.ID,
+  AlertRecipients_0.alert_ID,
+  AlertRecipients_0.userId,
+  AlertRecipients_0.userName,
+  AlertRecipients_0.email,
+  AlertRecipients_0.notifiedAt,
+  AlertRecipients_0.readAt
+FROM wcm_operations_AlertRecipients AS AlertRecipients_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN OperationsService_Alerts AS alert ON (alert.ID = alert_ID)
+)

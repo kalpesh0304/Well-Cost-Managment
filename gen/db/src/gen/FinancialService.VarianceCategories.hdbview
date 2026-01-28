@@ -1,0 +1,12 @@
+VIEW FinancialService_VarianceCategories AS SELECT
+  VarianceCategories_0.ID,
+  VarianceCategories_0.createdAt,
+  VarianceCategories_0.createdBy,
+  VarianceCategories_0.modifiedAt,
+  VarianceCategories_0.modifiedBy,
+  VarianceCategories_0.isActive,
+  VarianceCategories_0.categoryCode,
+  VarianceCategories_0.categoryName,
+  VarianceCategories_0.categoryType,
+  VarianceCategories_0.description
+FROM wcm_financial_VarianceCategories AS VarianceCategories_0

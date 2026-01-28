@@ -1,0 +1,18 @@
+COLUMN TABLE wcm_integration_SyncStatus (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  entityType NVARCHAR(50) NOT NULL,
+  entityId NVARCHAR(36) NOT NULL,
+  sourceSystem NVARCHAR(50) NOT NULL,
+  targetSystem NVARCHAR(50) NOT NULL,
+  lastSyncAt TIMESTAMP,
+  syncStatus NVARCHAR(20),
+  syncDirection NVARCHAR(20),
+  errorMessage NVARCHAR(500),
+  retryCount INTEGER DEFAULT 0,
+  nextRetryAt TIMESTAMP,
+  PRIMARY KEY(ID)
+)

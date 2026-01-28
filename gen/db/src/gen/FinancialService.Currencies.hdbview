@@ -1,0 +1,11 @@
+VIEW FinancialService_Currencies AS SELECT
+  Currencies_0.ID,
+  Currencies_0.createdAt,
+  Currencies_0.createdBy,
+  Currencies_0.modifiedAt,
+  Currencies_0.modifiedBy,
+  Currencies_0.isActive,
+  Currencies_0.currencyCode,
+  Currencies_0.currencyName,
+  Currencies_0.decimalPlaces
+FROM wcm_master_Currencies AS Currencies_0

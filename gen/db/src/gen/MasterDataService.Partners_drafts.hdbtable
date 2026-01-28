@@ -1,0 +1,25 @@
+COLUMN TABLE MasterDataService_Partners_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  isActive BOOLEAN NULL DEFAULT TRUE,
+  partnerCode NVARCHAR(20) NULL,
+  partnerName NVARCHAR(100) NULL,
+  partnerType NVARCHAR(20) NULL,
+  country_ID NVARCHAR(36) NULL,
+  workingInterestDefault DECIMAL(8, 4) NULL,
+  s4BusinessPartner NVARCHAR(10) NULL,
+  billingAddress NVARCHAR(500) NULL,
+  contactName NVARCHAR(100) NULL,
+  contactEmail NVARCHAR(100) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN MasterDataService_Countries AS country ON (country.ID = country_ID),
+  MANY TO ONE JOIN MasterDataService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

@@ -1,0 +1,13 @@
+COLUMN TABLE wcm_financial_VarianceCategories (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  categoryCode NVARCHAR(20) NOT NULL,
+  categoryName NVARCHAR(100) NOT NULL,
+  categoryType NVARCHAR(20),
+  description NVARCHAR(500),
+  PRIMARY KEY(ID)
+)

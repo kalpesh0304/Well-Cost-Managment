@@ -1,0 +1,19 @@
+VIEW MasterDataService_CostCategories AS SELECT
+  CostCategories_0.ID,
+  CostCategories_0.createdAt,
+  CostCategories_0.createdBy,
+  CostCategories_0.modifiedAt,
+  CostCategories_0.modifiedBy,
+  CostCategories_0.isActive,
+  CostCategories_0.categoryCode,
+  CostCategories_0.categoryName,
+  CostCategories_0.categoryType,
+  CostCategories_0.parent_ID,
+  CostCategories_0.s4CostElement,
+  CostCategories_0.accountingTreatment,
+  CostCategories_0.hierarchyLevel
+FROM wcm_master_CostCategories AS CostCategories_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN MasterDataService_CostCategories AS parent ON (parent.ID = parent_ID),
+  MANY TO MANY JOIN MasterDataService_CostCategories AS children ON (children.parent_ID = ID)
+)

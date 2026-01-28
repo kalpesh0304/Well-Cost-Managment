@@ -1,0 +1,15 @@
+VIEW IntegrationService_IntegrationLogDetails AS SELECT
+  IntegrationLogDetails_0.ID,
+  IntegrationLogDetails_0.log_ID,
+  IntegrationLogDetails_0.recordId,
+  IntegrationLogDetails_0.entityType,
+  IntegrationLogDetails_0.operation,
+  IntegrationLogDetails_0.status,
+  IntegrationLogDetails_0.errorCode,
+  IntegrationLogDetails_0.errorMessage,
+  IntegrationLogDetails_0.sourceData,
+  IntegrationLogDetails_0.targetData
+FROM wcm_integration_IntegrationLogDetails AS IntegrationLogDetails_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN IntegrationService_IntegrationLogs AS "LOG" ON ("LOG".ID = log_ID)
+)

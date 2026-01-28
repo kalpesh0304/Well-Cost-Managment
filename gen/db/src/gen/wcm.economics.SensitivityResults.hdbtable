@@ -1,0 +1,15 @@
+COLUMN TABLE wcm_economics_SensitivityResults (
+  ID NVARCHAR(36) NOT NULL,
+  analysis_ID NVARCHAR(36) NOT NULL,
+  variableName NVARCHAR(50) NOT NULL,
+  baseValue DECIMAL(15, 4),
+  lowValue DECIMAL(15, 4),
+  highValue DECIMAL(15, 4),
+  npvLow DECIMAL(15, 2),
+  npvHigh DECIMAL(15, 2),
+  impactRange DECIMAL(15, 2),
+  sortOrder INTEGER,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_economics_EconomicsAnalyses AS analysis ON (analysis.ID = analysis_ID)
+)

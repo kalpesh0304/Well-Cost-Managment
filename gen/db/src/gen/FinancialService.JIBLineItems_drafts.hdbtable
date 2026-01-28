@@ -1,0 +1,17 @@
+COLUMN TABLE FinancialService_JIBLineItems_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  statement_ID NVARCHAR(36) NULL,
+  costElement_ID NVARCHAR(36) NULL,
+  description NVARCHAR(200) NULL,
+  grossAmount DECIMAL(15, 2) NULL,
+  partnerShare DECIMAL(15, 2) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN FinancialService_JIBStatements_drafts AS statement ON (statement.ID = statement_ID),
+  MANY TO ONE JOIN FinancialService_CostElements AS costElement ON (costElement.ID = costElement_ID),
+  MANY TO ONE JOIN FinancialService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

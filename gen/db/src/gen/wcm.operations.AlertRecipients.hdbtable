@@ -1,0 +1,12 @@
+COLUMN TABLE wcm_operations_AlertRecipients (
+  ID NVARCHAR(36) NOT NULL,
+  alert_ID NVARCHAR(36) NOT NULL,
+  userId NVARCHAR(100) NOT NULL,
+  userName NVARCHAR(100),
+  email NVARCHAR(100),
+  notifiedAt TIMESTAMP,
+  readAt TIMESTAMP,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_operations_Alerts AS alert ON (alert.ID = alert_ID)
+)

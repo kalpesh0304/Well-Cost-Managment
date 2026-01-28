@@ -1,0 +1,13 @@
+COLUMN TABLE wcm_integration_FieldMappings (
+  ID NVARCHAR(36) NOT NULL,
+  config_ID NVARCHAR(36) NOT NULL,
+  sourceField NVARCHAR(50) NOT NULL,
+  targetField NVARCHAR(50) NOT NULL,
+  transformationType NVARCHAR(20),
+  transformationExpr NVARCHAR(500),
+  defaultValue NVARCHAR(200),
+  isRequired BOOLEAN DEFAULT FALSE,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_integration_MappingConfigs AS config ON (config.ID = config_ID)
+)

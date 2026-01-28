@@ -1,0 +1,14 @@
+COLUMN TABLE wcm_security_LoginHistory (
+  ID NVARCHAR(36) NOT NULL,
+  user_ID NVARCHAR(36),
+  userId NVARCHAR(100) NOT NULL,
+  loginAt TIMESTAMP NOT NULL,
+  logoutAt TIMESTAMP,
+  ipAddress NVARCHAR(45),
+  userAgent NVARCHAR(500),
+  loginStatus NVARCHAR(20),
+  failureReason NVARCHAR(200),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_security_Users AS "USER" ON ("USER".ID = user_ID)
+)

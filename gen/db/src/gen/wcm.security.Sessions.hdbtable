@@ -1,0 +1,14 @@
+COLUMN TABLE wcm_security_Sessions (
+  ID NVARCHAR(36) NOT NULL,
+  user_ID NVARCHAR(36) NOT NULL,
+  sessionToken NVARCHAR(500) NOT NULL,
+  createdAt TIMESTAMP NOT NULL,
+  expiresAt TIMESTAMP NOT NULL,
+  lastActivityAt TIMESTAMP,
+  ipAddress NVARCHAR(45),
+  userAgent NVARCHAR(500),
+  isActive BOOLEAN DEFAULT TRUE,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_security_Users AS "USER" ON ("USER".ID = user_ID)
+)

@@ -1,0 +1,21 @@
+COLUMN TABLE wcm_configuration_NumberingSeries (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  seriesCode NVARCHAR(20) NOT NULL,
+  seriesName NVARCHAR(100) NOT NULL,
+  entityType NVARCHAR(50) NOT NULL,
+  prefix NVARCHAR(20),
+  suffix NVARCHAR(20),
+  currentNumber INTEGER NOT NULL DEFAULT 0,
+  numberLength INTEGER DEFAULT 6,
+  resetPeriod NVARCHAR(20),
+  lastResetDate DATE,
+  field_ID NVARCHAR(36),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_master_Fields AS field ON (field.ID = field_ID)
+)

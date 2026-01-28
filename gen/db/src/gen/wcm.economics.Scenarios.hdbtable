@@ -1,0 +1,17 @@
+COLUMN TABLE wcm_economics_Scenarios (
+  ID NVARCHAR(36) NOT NULL,
+  analysis_ID NVARCHAR(36) NOT NULL,
+  scenarioType NVARCHAR(20) NOT NULL,
+  scenarioName NVARCHAR(100),
+  npv DECIMAL(15, 2),
+  irr DECIMAL(8, 4),
+  probability DECIMAL(5, 4),
+  oilPrice DECIMAL(15, 2),
+  gasPrice DECIMAL(15, 2),
+  capexMultiplier DECIMAL(8, 4),
+  opexMultiplier DECIMAL(8, 4),
+  productionMultiplier DECIMAL(8, 4),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_economics_EconomicsAnalyses AS analysis ON (analysis.ID = analysis_ID)
+)

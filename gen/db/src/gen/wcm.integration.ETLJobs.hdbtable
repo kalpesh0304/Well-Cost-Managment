@@ -1,0 +1,20 @@
+COLUMN TABLE wcm_integration_ETLJobs (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  jobName NVARCHAR(100) NOT NULL,
+  jobType NVARCHAR(20),
+  sourceSystem NVARCHAR(50),
+  targetSystem NVARCHAR(50),
+  schedule NVARCHAR(50),
+  isEnabled BOOLEAN DEFAULT TRUE,
+  lastRunAt TIMESTAMP,
+  lastRunStatus NVARCHAR(20),
+  nextRunAt TIMESTAMP,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO MANY JOIN wcm_integration_ETLJobRuns AS runs ON (runs.job_ID = ID)
+)

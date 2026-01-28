@@ -1,0 +1,31 @@
+COLUMN TABLE AFEService_AFELineItems_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  afe_ID NVARCHAR(36) NULL,
+  wbsElement_ID NVARCHAR(36) NULL,
+  costElement_ID NVARCHAR(36) NULL,
+  vendor_ID NVARCHAR(36) NULL,
+  lineNumber INTEGER NULL,
+  description NVARCHAR(200) NULL,
+  quantity DECIMAL(15, 4) NULL,
+  uom_ID NVARCHAR(36) NULL,
+  unitRate DECIMAL(15, 4) NULL,
+  estimatedAmount DECIMAL(15, 2) NULL,
+  currency_ID NVARCHAR(36) NULL,
+  startDate DATE NULL,
+  endDate DATE NULL,
+  durationDays DECIMAL(10, 2) NULL,
+  sourceType NVARCHAR(20) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AFEService_AFEs_drafts AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN AFEService_WBSElements_drafts AS wbsElement ON (wbsElement.ID = wbsElement_ID),
+  MANY TO ONE JOIN AFEService_CostElements AS costElement ON (costElement.ID = costElement_ID),
+  MANY TO ONE JOIN AFEService_Vendors AS vendor ON (vendor.ID = vendor_ID),
+  MANY TO ONE JOIN AFEService_UnitsOfMeasure AS uom ON (uom.ID = uom_ID),
+  MANY TO ONE JOIN AFEService_Currencies AS currency ON (currency.ID = currency_ID),
+  MANY TO ONE JOIN AFEService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

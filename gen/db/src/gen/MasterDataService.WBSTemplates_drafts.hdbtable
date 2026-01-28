@@ -1,0 +1,25 @@
+COLUMN TABLE MasterDataService_WBSTemplates_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  isActive BOOLEAN NULL DEFAULT TRUE,
+  templateCode NVARCHAR(20) NULL,
+  templateName NVARCHAR(100) NULL,
+  wellType NVARCHAR(20) NULL,
+  wellboreType NVARCHAR(20) NULL,
+  region NVARCHAR(50) NULL,
+  hierarchyLevels INTEGER NULL DEFAULT 5,
+  versionNumber INTEGER NULL DEFAULT 1,
+  effectiveFromDate DATE NULL,
+  effectiveToDate DATE NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO MANY JOIN MasterDataService_WBSTemplateElements_drafts AS elements ON (elements.template_ID = ID),
+  MANY TO ONE JOIN MasterDataService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

@@ -1,0 +1,13 @@
+VIEW AdminService_SystemConfigurations AS SELECT
+  SystemConfigurations_0.ID,
+  SystemConfigurations_0.createdAt,
+  SystemConfigurations_0.createdBy,
+  SystemConfigurations_0.modifiedAt,
+  SystemConfigurations_0.modifiedBy,
+  SystemConfigurations_0.configKey,
+  SystemConfigurations_0.configValue,
+  SystemConfigurations_0.configType,
+  SystemConfigurations_0.description,
+  SystemConfigurations_0.category,
+  SystemConfigurations_0.isEncrypted
+FROM wcm_configuration_SystemConfigurations AS SystemConfigurations_0

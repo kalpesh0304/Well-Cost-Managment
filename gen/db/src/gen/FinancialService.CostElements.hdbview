@@ -1,0 +1,22 @@
+VIEW FinancialService_CostElements AS SELECT
+  CostElements_0.ID,
+  CostElements_0.createdAt,
+  CostElements_0.createdBy,
+  CostElements_0.modifiedAt,
+  CostElements_0.modifiedBy,
+  CostElements_0.isActive,
+  CostElements_0.s4SyncStatus,
+  CostElements_0.s4LastSyncAt,
+  CostElements_0.s4ErrorMessage,
+  CostElements_0.elementCode,
+  CostElements_0.elementName,
+  CostElements_0.category_ID,
+  CostElements_0.uom_ID,
+  CostElements_0.s4GLAccount,
+  CostElements_0.s4CostElement,
+  CostElements_0.taxCode
+FROM wcm_master_CostElements AS CostElements_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_master_CostCategories AS category ON (category.ID = category_ID),
+  MANY TO ONE JOIN FinancialService_UnitsOfMeasure AS uom ON (uom.ID = uom_ID)
+)

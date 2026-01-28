@@ -1,0 +1,18 @@
+COLUMN TABLE wcm_security_AuditLogs (
+  ID NVARCHAR(36) NOT NULL,
+  eventCategory NVARCHAR(50) NOT NULL,
+  eventType NVARCHAR(100) NOT NULL,
+  entityType NVARCHAR(50),
+  entityId NVARCHAR(36),
+  userId NVARCHAR(100) NOT NULL,
+  userName NVARCHAR(100),
+  action NVARCHAR(20) NOT NULL,
+  beforeValue NCLOB,
+  afterValue NCLOB,
+  "TIMESTAMP" TIMESTAMP NOT NULL,
+  ipAddress NVARCHAR(45),
+  sessionId NVARCHAR(36),
+  correlationId NVARCHAR(36),
+  userAgent NVARCHAR(500),
+  PRIMARY KEY(ID)
+)

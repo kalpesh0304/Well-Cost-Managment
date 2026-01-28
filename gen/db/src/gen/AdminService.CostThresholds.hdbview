@@ -1,0 +1,18 @@
+VIEW AdminService_CostThresholds AS SELECT
+  CostThresholds_0.ID,
+  CostThresholds_0.createdAt,
+  CostThresholds_0.createdBy,
+  CostThresholds_0.modifiedAt,
+  CostThresholds_0.modifiedBy,
+  CostThresholds_0.isActive,
+  CostThresholds_0.thresholdName,
+  CostThresholds_0.thresholdType,
+  CostThresholds_0.field_ID,
+  CostThresholds_0.wellType,
+  CostThresholds_0.warningThreshold,
+  CostThresholds_0.criticalThreshold,
+  CostThresholds_0.notifyRoles
+FROM wcm_configuration_CostThresholds AS CostThresholds_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_Fields AS field ON (field.ID = field_ID)
+)

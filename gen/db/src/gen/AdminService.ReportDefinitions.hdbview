@@ -1,0 +1,15 @@
+VIEW AdminService_ReportDefinitions AS SELECT
+  ReportDefinitions_0.ID,
+  ReportDefinitions_0.createdAt,
+  ReportDefinitions_0.createdBy,
+  ReportDefinitions_0.modifiedAt,
+  ReportDefinitions_0.modifiedBy,
+  ReportDefinitions_0.isActive,
+  ReportDefinitions_0.reportCode,
+  ReportDefinitions_0.reportName,
+  ReportDefinitions_0.reportCategory,
+  ReportDefinitions_0.description,
+  ReportDefinitions_0.baseEntity,
+  ReportDefinitions_0.defaultParameters,
+  ReportDefinitions_0.outputFormats
+FROM wcm_configuration_ReportDefinitions AS ReportDefinitions_0

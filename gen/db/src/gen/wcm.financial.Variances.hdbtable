@@ -1,0 +1,28 @@
+COLUMN TABLE wcm_financial_Variances (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  afe_ID NVARCHAR(36) NOT NULL,
+  well_ID NVARCHAR(36),
+  wbsElement_ID NVARCHAR(36),
+  costElement_ID NVARCHAR(36),
+  analysisDate DATE NOT NULL,
+  estimatedAmount DECIMAL(15, 2) NOT NULL,
+  actualAmount DECIMAL(15, 2) NOT NULL,
+  varianceAmount DECIMAL(15, 2) NOT NULL,
+  variancePct DECIMAL(8, 4),
+  varianceCategory_ID NVARCHAR(36),
+  explanation NVARCHAR(500),
+  approvalRequired BOOLEAN DEFAULT FALSE,
+  approvedBy NVARCHAR(100),
+  approvedAt TIMESTAMP,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_afe_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN wcm_master_Wells AS well ON (well.ID = well_ID),
+  MANY TO ONE JOIN wcm_afe_WBSElements AS wbsElement ON (wbsElement.ID = wbsElement_ID),
+  MANY TO ONE JOIN wcm_master_CostElements AS costElement ON (costElement.ID = costElement_ID),
+  MANY TO ONE JOIN wcm_financial_VarianceCategories AS varianceCategory ON (varianceCategory.ID = varianceCategory_ID)
+)

@@ -1,0 +1,16 @@
+COLUMN TABLE AdminService_TemplatePlaceholders_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  template_ID NVARCHAR(36) NULL,
+  placeholderKey NVARCHAR(50) NULL,
+  placeholderName NVARCHAR(100) NULL,
+  dataSource NVARCHAR(100) NULL,
+  defaultValue NVARCHAR(200) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_NotificationTemplates_drafts AS template ON (template.ID = template_ID),
+  MANY TO ONE JOIN AdminService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

@@ -1,0 +1,16 @@
+COLUMN TABLE wcm_integration_MappingConfigs (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  mappingName NVARCHAR(100) NOT NULL,
+  sourceSystem NVARCHAR(50) NOT NULL,
+  targetSystem NVARCHAR(50) NOT NULL,
+  sourceEntity NVARCHAR(50) NOT NULL,
+  targetEntity NVARCHAR(50) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO MANY JOIN wcm_integration_FieldMappings AS fieldMappings ON (fieldMappings.config_ID = ID)
+)

@@ -1,0 +1,18 @@
+VIEW IntegrationService_CommunicationScenarios AS SELECT
+  CommunicationScenarios_0.ID,
+  CommunicationScenarios_0.createdAt,
+  CommunicationScenarios_0.createdBy,
+  CommunicationScenarios_0.modifiedAt,
+  CommunicationScenarios_0.modifiedBy,
+  CommunicationScenarios_0.isActive,
+  CommunicationScenarios_0.scenarioId,
+  CommunicationScenarios_0.scenarioName,
+  CommunicationScenarios_0.description,
+  CommunicationScenarios_0.direction,
+  CommunicationScenarios_0.apiEndpoint,
+  CommunicationScenarios_0.authType,
+  CommunicationScenarios_0.isEnabled,
+  CommunicationScenarios_0.batchSize,
+  CommunicationScenarios_0.timeoutMs,
+  CommunicationScenarios_0.retryAttempts
+FROM wcm_integration_CommunicationScenarios AS CommunicationScenarios_0

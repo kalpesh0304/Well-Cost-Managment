@@ -1,0 +1,23 @@
+COLUMN TABLE AdminService_NotificationTemplates_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  isActive BOOLEAN NULL DEFAULT TRUE,
+  templateCode NVARCHAR(50) NULL,
+  templateName NVARCHAR(100) NULL,
+  templateType NVARCHAR(20) NULL,
+  eventType NVARCHAR(50) NULL,
+  subject NVARCHAR(200) NULL,
+  body NCLOB NULL,
+  isHtml BOOLEAN NULL DEFAULT TRUE,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO MANY JOIN AdminService_TemplatePlaceholders_drafts AS placeholders ON (placeholders.template_ID = ID),
+  MANY TO ONE JOIN AdminService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

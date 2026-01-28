@@ -1,0 +1,19 @@
+VIEW OperationsService_AFEDocuments AS SELECT
+  AFEDocuments_0.ID,
+  AFEDocuments_0.createdAt,
+  AFEDocuments_0.createdBy,
+  AFEDocuments_0.modifiedAt,
+  AFEDocuments_0.modifiedBy,
+  AFEDocuments_0.afe_ID,
+  AFEDocuments_0.documentName,
+  AFEDocuments_0.documentType,
+  AFEDocuments_0.documentCategory,
+  AFEDocuments_0.fileSize,
+  AFEDocuments_0."MIMETYPE",
+  AFEDocuments_0.storageUrl,
+  AFEDocuments_0.uploadedBy,
+  AFEDocuments_0.uploadedAt
+FROM wcm_afe_AFEDocuments AS AFEDocuments_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN OperationsService_AFEs AS afe ON (afe.ID = afe_ID)
+)

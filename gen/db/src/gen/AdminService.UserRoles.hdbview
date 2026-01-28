@@ -1,0 +1,19 @@
+VIEW AdminService_UserRoles AS SELECT
+  UserRoles_0.ID,
+  UserRoles_0.createdAt,
+  UserRoles_0.createdBy,
+  UserRoles_0.modifiedAt,
+  UserRoles_0.modifiedBy,
+  UserRoles_0.user_ID,
+  UserRoles_0.role_ID,
+  UserRoles_0.scopeType,
+  UserRoles_0.scopeValue,
+  UserRoles_0.effectiveFromDate,
+  UserRoles_0.effectiveToDate,
+  UserRoles_0.assignedBy,
+  UserRoles_0.assignedAt
+FROM wcm_security_UserRoles AS UserRoles_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_Users AS "USER" ON ("USER".ID = user_ID),
+  MANY TO ONE JOIN AdminService_Roles AS role ON (role.ID = role_ID)
+)

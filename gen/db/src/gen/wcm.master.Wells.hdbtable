@@ -1,0 +1,26 @@
+COLUMN TABLE wcm_master_Wells (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  s4SyncStatus NVARCHAR(20),
+  s4LastSyncAt TIMESTAMP,
+  s4ErrorMessage NVARCHAR(500),
+  wellNumber NVARCHAR(20) NOT NULL,
+  wellName NVARCHAR(100) NOT NULL,
+  wellType NVARCHAR(20) NOT NULL,
+  wellboreType NVARCHAR(20),
+  field_ID NVARCHAR(36),
+  spudDate DATE,
+  totalDepthMD DECIMAL(10, 2),
+  totalDepthTVD DECIMAL(10, 2),
+  surfaceLatitude DECIMAL(10, 6),
+  surfaceLongitude DECIMAL(10, 6),
+  s4WBSElement NVARCHAR(24),
+  status NVARCHAR(20) NOT NULL DEFAULT 'Planned',
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_master_Fields AS field ON (field.ID = field_ID)
+)

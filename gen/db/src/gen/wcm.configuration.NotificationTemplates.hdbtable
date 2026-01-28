@@ -1,0 +1,18 @@
+COLUMN TABLE wcm_configuration_NotificationTemplates (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  templateCode NVARCHAR(50) NOT NULL,
+  templateName NVARCHAR(100) NOT NULL,
+  templateType NVARCHAR(20),
+  eventType NVARCHAR(50),
+  subject NVARCHAR(200),
+  body NCLOB,
+  isHtml BOOLEAN DEFAULT TRUE,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO MANY JOIN wcm_configuration_TemplatePlaceholders AS placeholders ON (placeholders.template_ID = ID)
+)

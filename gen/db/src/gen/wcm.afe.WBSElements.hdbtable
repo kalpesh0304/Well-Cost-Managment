@@ -1,0 +1,16 @@
+COLUMN TABLE wcm_afe_WBSElements (
+  ID NVARCHAR(36) NOT NULL,
+  afe_ID NVARCHAR(36) NOT NULL,
+  elementCode NVARCHAR(24) NOT NULL,
+  elementName NVARCHAR(100) NOT NULL,
+  parent_ID NVARCHAR(36),
+  hierarchyLevel INTEGER NOT NULL,
+  sortOrder INTEGER,
+  s4WBSElement NVARCHAR(24),
+  isActive BOOLEAN DEFAULT TRUE,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_afe_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN wcm_afe_WBSElements AS parent ON (parent.ID = parent_ID),
+  MANY TO MANY JOIN wcm_afe_WBSElements AS children ON (children.parent_ID = ID)
+)

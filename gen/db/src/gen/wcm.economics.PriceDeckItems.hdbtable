@@ -1,0 +1,13 @@
+COLUMN TABLE wcm_economics_PriceDeckItems (
+  ID NVARCHAR(36) NOT NULL,
+  deck_ID NVARCHAR(36) NOT NULL,
+  yearNumber INTEGER NOT NULL,
+  oilPrice DECIMAL(15, 2),
+  gasPrice DECIMAL(15, 2),
+  nglPrice DECIMAL(15, 2),
+  currency_ID NVARCHAR(36),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_economics_PriceDecks AS deck ON (deck.ID = deck_ID),
+  MANY TO ONE JOIN wcm_master_Currencies AS currency ON (currency.ID = currency_ID)
+)

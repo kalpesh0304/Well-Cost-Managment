@@ -1,0 +1,15 @@
+VIEW EconomicsService_SensitivityResults AS SELECT
+  SensitivityResults_0.ID,
+  SensitivityResults_0.analysis_ID,
+  SensitivityResults_0.variableName,
+  SensitivityResults_0.baseValue,
+  SensitivityResults_0.lowValue,
+  SensitivityResults_0.highValue,
+  SensitivityResults_0.npvLow,
+  SensitivityResults_0.npvHigh,
+  SensitivityResults_0.impactRange,
+  SensitivityResults_0.sortOrder
+FROM wcm_economics_SensitivityResults AS SensitivityResults_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN EconomicsService_EconomicsAnalyses AS analysis ON (analysis.ID = analysis_ID)
+)

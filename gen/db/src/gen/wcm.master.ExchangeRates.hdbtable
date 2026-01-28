@@ -1,0 +1,16 @@
+COLUMN TABLE wcm_master_ExchangeRates (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  fromCurrency_ID NVARCHAR(36),
+  toCurrency_ID NVARCHAR(36),
+  rateDate DATE NOT NULL,
+  exchangeRate DECIMAL(15, 4) NOT NULL,
+  rateType NVARCHAR(10) DEFAULT 'SPOT',
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_master_Currencies AS fromCurrency ON (fromCurrency.ID = fromCurrency_ID),
+  MANY TO ONE JOIN wcm_master_Currencies AS toCurrency ON (toCurrency.ID = toCurrency_ID)
+)

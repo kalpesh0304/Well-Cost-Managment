@@ -1,0 +1,928 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Validation.V1.xml">
+    <edmx:Include Alias="Validation" Namespace="Org.OData.Validation.V1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="IntegrationService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Annotation Term="Core.Links">
+        <Collection>
+          <Record>
+            <PropertyValue Property="rel" String="author"/>
+            <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+          </Record>
+        </Collection>
+      </Annotation>
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="IntegrationLogs" EntityType="IntegrationService.IntegrationLogs">
+          <NavigationPropertyBinding Path="details" Target="IntegrationLogDetails"/>
+        </EntitySet>
+        <EntitySet Name="IntegrationLogDetails" EntityType="IntegrationService.IntegrationLogDetails">
+          <NavigationPropertyBinding Path="log" Target="IntegrationLogs"/>
+        </EntitySet>
+        <EntitySet Name="DataQualityRules" EntityType="IntegrationService.DataQualityRules">
+          <NavigationPropertyBinding Path="SiblingEntity" Target="DataQualityRules"/>
+        </EntitySet>
+        <EntitySet Name="MappingConfigs" EntityType="IntegrationService.MappingConfigs">
+          <NavigationPropertyBinding Path="fieldMappings" Target="FieldMappings"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="MappingConfigs"/>
+        </EntitySet>
+        <EntitySet Name="FieldMappings" EntityType="IntegrationService.FieldMappings">
+          <NavigationPropertyBinding Path="config" Target="MappingConfigs"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="FieldMappings"/>
+        </EntitySet>
+        <EntitySet Name="SyncStatus" EntityType="IntegrationService.SyncStatus"/>
+        <EntitySet Name="CommunicationScenarios" EntityType="IntegrationService.CommunicationScenarios">
+          <NavigationPropertyBinding Path="SiblingEntity" Target="CommunicationScenarios"/>
+        </EntitySet>
+        <EntitySet Name="ETLJobs" EntityType="IntegrationService.ETLJobs">
+          <NavigationPropertyBinding Path="runs" Target="ETLJobRuns"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="ETLJobs"/>
+        </EntitySet>
+        <EntitySet Name="ETLJobRuns" EntityType="IntegrationService.ETLJobRuns">
+          <NavigationPropertyBinding Path="job" Target="ETLJobs"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="ETLJobRuns"/>
+        </EntitySet>
+        <FunctionImport Name="getIntegrationHealth" Function="IntegrationService.getIntegrationHealth"/>
+        <FunctionImport Name="getRecentLogs" Function="IntegrationService.getRecentLogs" EntitySet="IntegrationLogs"/>
+        <FunctionImport Name="getFailedSyncs" Function="IntegrationService.getFailedSyncs" EntitySet="SyncStatus"/>
+        <FunctionImport Name="getETLJobStatus" Function="IntegrationService.getETLJobStatus"/>
+        <ActionImport Name="syncVendors" Action="IntegrationService.syncVendors"/>
+        <ActionImport Name="syncCostElements" Action="IntegrationService.syncCostElements"/>
+        <ActionImport Name="syncCostActuals" Action="IntegrationService.syncCostActuals"/>
+        <ActionImport Name="syncCommitments" Action="IntegrationService.syncCommitments"/>
+        <ActionImport Name="syncExchangeRates" Action="IntegrationService.syncExchangeRates"/>
+        <ActionImport Name="runDataQualityCheck" Action="IntegrationService.runDataQualityCheck"/>
+        <ActionImport Name="validateAllData" Action="IntegrationService.validateAllData"/>
+      </EntityContainer>
+      <EntityType Name="IntegrationLogs">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="integrationName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="sourceSystem" Type="Edm.String" MaxLength="50" Nullable="false"/>
+        <Property Name="targetSystem" Type="Edm.String" MaxLength="50" Nullable="false"/>
+        <Property Name="direction" Type="Edm.String" MaxLength="20"/>
+        <Property Name="recordCount" Type="Edm.Int32"/>
+        <Property Name="processingStartTime" Type="Edm.DateTimeOffset" Precision="7" Nullable="false"/>
+        <Property Name="processingEndTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="errorMessage" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="recordsProcessed" Type="Edm.Int32"/>
+        <Property Name="recordsFailed" Type="Edm.Int32"/>
+        <Property Name="correlationId" Type="Edm.Guid"/>
+        <NavigationProperty Name="details" Type="Collection(IntegrationService.IntegrationLogDetails)" Partner="log">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="IntegrationLogDetails">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="log" Type="IntegrationService.IntegrationLogs" Nullable="false" Partner="details">
+          <ReferentialConstraint Property="log_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="log_ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="recordId" Type="Edm.String" MaxLength="100"/>
+        <Property Name="entityType" Type="Edm.String" MaxLength="50"/>
+        <Property Name="operation" Type="Edm.String" MaxLength="20"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20"/>
+        <Property Name="errorCode" Type="Edm.String" MaxLength="20"/>
+        <Property Name="errorMessage" Type="Edm.String" MaxLength="500"/>
+        <Property Name="sourceData" Type="Edm.String"/>
+        <Property Name="targetData" Type="Edm.String"/>
+      </EntityType>
+      <EntityType Name="DataQualityRules">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="ruleName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="entityName" Type="Edm.String" MaxLength="50"/>
+        <Property Name="fieldName" Type="Edm.String" MaxLength="50"/>
+        <Property Name="ruleType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="ruleExpression" Type="Edm.String" MaxLength="500"/>
+        <Property Name="errorMessage" Type="Edm.String" MaxLength="200"/>
+        <Property Name="severity" Type="Edm.String" MaxLength="20"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="IntegrationService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="IntegrationService.DataQualityRules"/>
+      </EntityType>
+      <EntityType Name="MappingConfigs">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="mappingName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="sourceSystem" Type="Edm.String" MaxLength="50"/>
+        <Property Name="targetSystem" Type="Edm.String" MaxLength="50"/>
+        <Property Name="sourceEntity" Type="Edm.String" MaxLength="50"/>
+        <Property Name="targetEntity" Type="Edm.String" MaxLength="50"/>
+        <NavigationProperty Name="fieldMappings" Type="Collection(IntegrationService.FieldMappings)" Partner="config">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="IntegrationService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="IntegrationService.MappingConfigs"/>
+      </EntityType>
+      <EntityType Name="FieldMappings">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="config" Type="IntegrationService.MappingConfigs" Partner="fieldMappings">
+          <ReferentialConstraint Property="config_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="config_ID" Type="Edm.Guid"/>
+        <Property Name="sourceField" Type="Edm.String" MaxLength="50"/>
+        <Property Name="targetField" Type="Edm.String" MaxLength="50"/>
+        <Property Name="transformationType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="transformationExpr" Type="Edm.String" MaxLength="500"/>
+        <Property Name="defaultValue" Type="Edm.String" MaxLength="200"/>
+        <Property Name="isRequired" Type="Edm.Boolean" DefaultValue="false"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="IntegrationService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="IntegrationService.FieldMappings"/>
+      </EntityType>
+      <EntityType Name="SyncStatus">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="entityType" Type="Edm.String" MaxLength="50" Nullable="false"/>
+        <Property Name="entityId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="sourceSystem" Type="Edm.String" MaxLength="50" Nullable="false"/>
+        <Property Name="targetSystem" Type="Edm.String" MaxLength="50" Nullable="false"/>
+        <Property Name="lastSyncAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="syncStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="syncDirection" Type="Edm.String" MaxLength="20"/>
+        <Property Name="errorMessage" Type="Edm.String" MaxLength="500"/>
+        <Property Name="retryCount" Type="Edm.Int32" DefaultValue="0"/>
+        <Property Name="nextRetryAt" Type="Edm.DateTimeOffset" Precision="7"/>
+      </EntityType>
+      <EntityType Name="CommunicationScenarios">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="scenarioId" Type="Edm.String" MaxLength="20"/>
+        <Property Name="scenarioName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="description" Type="Edm.String" MaxLength="500"/>
+        <Property Name="direction" Type="Edm.String" MaxLength="20"/>
+        <Property Name="apiEndpoint" Type="Edm.String" MaxLength="500"/>
+        <Property Name="authType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="isEnabled" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="batchSize" Type="Edm.Int32" DefaultValue="100"/>
+        <Property Name="timeoutMs" Type="Edm.Int32" DefaultValue="30000"/>
+        <Property Name="retryAttempts" Type="Edm.Int32" DefaultValue="3"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="IntegrationService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="IntegrationService.CommunicationScenarios"/>
+      </EntityType>
+      <EntityType Name="ETLJobs">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="jobName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="jobType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="sourceSystem" Type="Edm.String" MaxLength="50"/>
+        <Property Name="targetSystem" Type="Edm.String" MaxLength="50"/>
+        <Property Name="schedule" Type="Edm.String" MaxLength="50"/>
+        <Property Name="isEnabled" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="lastRunAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="lastRunStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="nextRunAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <NavigationProperty Name="runs" Type="Collection(IntegrationService.ETLJobRuns)" Partner="job">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="IntegrationService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="IntegrationService.ETLJobs"/>
+      </EntityType>
+      <EntityType Name="ETLJobRuns">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="job" Type="IntegrationService.ETLJobs" Partner="runs">
+          <ReferentialConstraint Property="job_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="job_ID" Type="Edm.Guid"/>
+        <Property Name="startTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="endTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20"/>
+        <Property Name="recordsExtracted" Type="Edm.Int32"/>
+        <Property Name="recordsTransformed" Type="Edm.Int32"/>
+        <Property Name="recordsLoaded" Type="Edm.Int32"/>
+        <Property Name="recordsFailed" Type="Edm.Int32"/>
+        <Property Name="errorMessage" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="IntegrationService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="IntegrationService.ETLJobRuns"/>
+      </EntityType>
+      <EntityType Name="DraftAdministrativeData">
+        <Key>
+          <PropertyRef Name="DraftUUID"/>
+        </Key>
+        <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+        <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+      </EntityType>
+      <ComplexType Name="return_IntegrationService_DataQualityRules_test">
+        <Property Name="isValid" Type="Edm.Boolean"/>
+        <Property Name="message" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="return_IntegrationService_MappingConfigs_validate">
+        <Property Name="isValid" Type="Edm.Boolean"/>
+        <Property Name="errors" Type="Collection(Edm.String)" Nullable="true"/>
+      </ComplexType>
+      <ComplexType Name="return_IntegrationService_CommunicationScenarios_testConnection">
+        <Property Name="success" Type="Edm.Boolean"/>
+        <Property Name="message" Type="Edm.String"/>
+        <Property Name="latencyMs" Type="Edm.Int32"/>
+      </ComplexType>
+      <ComplexType Name="return_IntegrationService_getIntegrationHealth">
+        <Property Name="overallStatus" Type="Edm.String"/>
+        <Property Name="s4hanaStatus" Type="Edm.String"/>
+        <Property Name="lastSyncTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="pendingSyncs" Type="Edm.Int32"/>
+        <Property Name="failedSyncs" Type="Edm.Int32"/>
+      </ComplexType>
+      <ComplexType Name="return_IntegrationService_getETLJobStatus">
+        <Property Name="jobName" Type="Edm.String"/>
+        <Property Name="lastRunStatus" Type="Edm.String"/>
+        <Property Name="lastRunTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="nextRunTime" Type="Edm.DateTimeOffset" Precision="7"/>
+      </ComplexType>
+      <ComplexType Name="return_IntegrationService_syncVendors">
+        <Property Name="recordsProcessed" Type="Edm.Int32"/>
+        <Property Name="recordsFailed" Type="Edm.Int32"/>
+      </ComplexType>
+      <ComplexType Name="return_IntegrationService_syncCostElements">
+        <Property Name="recordsProcessed" Type="Edm.Int32"/>
+        <Property Name="recordsFailed" Type="Edm.Int32"/>
+      </ComplexType>
+      <ComplexType Name="return_IntegrationService_syncCostActuals">
+        <Property Name="recordsProcessed" Type="Edm.Int32"/>
+        <Property Name="recordsFailed" Type="Edm.Int32"/>
+      </ComplexType>
+      <ComplexType Name="return_IntegrationService_syncCommitments">
+        <Property Name="recordsProcessed" Type="Edm.Int32"/>
+        <Property Name="recordsFailed" Type="Edm.Int32"/>
+      </ComplexType>
+      <ComplexType Name="return_IntegrationService_syncExchangeRates">
+        <Property Name="recordsProcessed" Type="Edm.Int32"/>
+        <Property Name="recordsFailed" Type="Edm.Int32"/>
+      </ComplexType>
+      <ComplexType Name="return_IntegrationService_runDataQualityCheck">
+        <Property Name="entityId" Type="Edm.Guid"/>
+        <Property Name="ruleCode" Type="Edm.String"/>
+        <Property Name="severity" Type="Edm.String"/>
+        <Property Name="message" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="return_IntegrationService_validateAllData">
+        <Property Name="totalEntities" Type="Edm.Int32"/>
+        <Property Name="totalErrors" Type="Edm.Int32"/>
+        <Property Name="totalWarnings" Type="Edm.Int32"/>
+        <Property Name="details" Type="Collection(IntegrationService.return_IntegrationService_validateAllData_details)" Nullable="true"/>
+      </ComplexType>
+      <ComplexType Name="return_IntegrationService_validateAllData_details">
+        <Property Name="entityType" Type="Edm.String"/>
+        <Property Name="errors" Type="Edm.Int32"/>
+        <Property Name="warnings" Type="Edm.Int32"/>
+      </ComplexType>
+      <Action Name="activate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.DataQualityRules"/>
+        <ReturnType Type="IntegrationService.DataQualityRules"/>
+      </Action>
+      <Action Name="deactivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.DataQualityRules"/>
+        <ReturnType Type="IntegrationService.DataQualityRules"/>
+      </Action>
+      <Action Name="test" IsBound="true">
+        <Parameter Name="in" Type="IntegrationService.DataQualityRules"/>
+        <Parameter Name="testData" Type="Edm.String"/>
+        <ReturnType Type="IntegrationService.return_IntegrationService_DataQualityRules_test"/>
+      </Action>
+      <Action Name="test" IsBound="true">
+        <Parameter Name="in" Type="IntegrationService.MappingConfigs"/>
+        <Parameter Name="sourceData" Type="Edm.String"/>
+        <ReturnType Type="Edm.String"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.DataQualityRules"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="IntegrationService.DataQualityRules"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.MappingConfigs"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="IntegrationService.MappingConfigs"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.FieldMappings"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="IntegrationService.FieldMappings"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.CommunicationScenarios"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="IntegrationService.CommunicationScenarios"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.ETLJobs"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="IntegrationService.ETLJobs"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.ETLJobRuns"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="IntegrationService.ETLJobRuns"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.DataQualityRules"/>
+        <ReturnType Type="IntegrationService.DataQualityRules"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.MappingConfigs"/>
+        <ReturnType Type="IntegrationService.MappingConfigs"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.CommunicationScenarios"/>
+        <ReturnType Type="IntegrationService.CommunicationScenarios"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.ETLJobs"/>
+        <ReturnType Type="IntegrationService.ETLJobs"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.DataQualityRules"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="IntegrationService.DataQualityRules"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.MappingConfigs"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="IntegrationService.MappingConfigs"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.CommunicationScenarios"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="IntegrationService.CommunicationScenarios"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.ETLJobs"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="IntegrationService.ETLJobs"/>
+      </Action>
+      <Action Name="validate" IsBound="true">
+        <Parameter Name="in" Type="IntegrationService.MappingConfigs"/>
+        <ReturnType Type="IntegrationService.return_IntegrationService_MappingConfigs_validate"/>
+      </Action>
+      <Action Name="retry" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.SyncStatus"/>
+        <ReturnType Type="IntegrationService.SyncStatus"/>
+      </Action>
+      <Action Name="reset" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.SyncStatus"/>
+        <ReturnType Type="IntegrationService.SyncStatus"/>
+      </Action>
+      <Action Name="enable" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.CommunicationScenarios"/>
+        <ReturnType Type="IntegrationService.CommunicationScenarios"/>
+      </Action>
+      <Action Name="enable" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.ETLJobs"/>
+        <ReturnType Type="IntegrationService.ETLJobs"/>
+      </Action>
+      <Action Name="disable" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.CommunicationScenarios"/>
+        <ReturnType Type="IntegrationService.CommunicationScenarios"/>
+      </Action>
+      <Action Name="disable" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IntegrationService.ETLJobs"/>
+        <ReturnType Type="IntegrationService.ETLJobs"/>
+      </Action>
+      <Action Name="testConnection" IsBound="true">
+        <Parameter Name="in" Type="IntegrationService.CommunicationScenarios"/>
+        <ReturnType Type="IntegrationService.return_IntegrationService_CommunicationScenarios_testConnection"/>
+      </Action>
+      <Action Name="runNow" IsBound="true">
+        <Parameter Name="in" Type="IntegrationService.ETLJobs"/>
+        <ReturnType Type="IntegrationService.ETLJobRuns"/>
+      </Action>
+      <Function Name="getIntegrationHealth" IsBound="false" IsComposable="false">
+        <ReturnType Type="IntegrationService.return_IntegrationService_getIntegrationHealth"/>
+      </Function>
+      <Function Name="getRecentLogs" IsBound="false" IsComposable="false">
+        <Parameter Name="hours" Type="Edm.Int32"/>
+        <ReturnType Type="Collection(IntegrationService.IntegrationLogs)"/>
+      </Function>
+      <Function Name="getFailedSyncs" IsBound="false" IsComposable="false">
+        <ReturnType Type="Collection(IntegrationService.SyncStatus)"/>
+      </Function>
+      <Function Name="getETLJobStatus" IsBound="false" IsComposable="false">
+        <ReturnType Type="Collection(IntegrationService.return_IntegrationService_getETLJobStatus)" Nullable="true"/>
+      </Function>
+      <Action Name="syncVendors" IsBound="false">
+        <ReturnType Type="IntegrationService.return_IntegrationService_syncVendors"/>
+      </Action>
+      <Action Name="syncCostElements" IsBound="false">
+        <ReturnType Type="IntegrationService.return_IntegrationService_syncCostElements"/>
+      </Action>
+      <Action Name="syncCostActuals" IsBound="false">
+        <Parameter Name="fromDate" Type="Edm.Date"/>
+        <Parameter Name="toDate" Type="Edm.Date"/>
+        <ReturnType Type="IntegrationService.return_IntegrationService_syncCostActuals"/>
+      </Action>
+      <Action Name="syncCommitments" IsBound="false">
+        <Parameter Name="fromDate" Type="Edm.Date"/>
+        <Parameter Name="toDate" Type="Edm.Date"/>
+        <ReturnType Type="IntegrationService.return_IntegrationService_syncCommitments"/>
+      </Action>
+      <Action Name="syncExchangeRates" IsBound="false">
+        <Parameter Name="rateDate" Type="Edm.Date"/>
+        <ReturnType Type="IntegrationService.return_IntegrationService_syncExchangeRates"/>
+      </Action>
+      <Action Name="runDataQualityCheck" IsBound="false">
+        <Parameter Name="entityType" Type="Edm.String"/>
+        <ReturnType Type="Collection(IntegrationService.return_IntegrationService_runDataQualityCheck)" Nullable="true"/>
+      </Action>
+      <Action Name="validateAllData" IsBound="false">
+        <ReturnType Type="IntegrationService.return_IntegrationService_validateAllData"/>
+      </Action>
+      <Annotations Target="IntegrationService.EntityContainer/IntegrationLogs">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IntegrationService.IntegrationLogs/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.IntegrationLogs/status">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Success"/>
+              <PropertyValue Property="Value" String="Success"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Failed"/>
+              <PropertyValue Property="Value" String="Failed"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="PartialSuccess"/>
+              <PropertyValue Property="Value" String="PartialSuccess"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IntegrationService.EntityContainer/IntegrationLogDetails">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IntegrationService.IntegrationLogDetails/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.EntityContainer/DataQualityRules">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="IntegrationService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="IntegrationService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="IntegrationService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IntegrationService.DataQualityRules/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.DataQualityRules/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.DataQualityRules/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.DataQualityRules/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.DataQualityRules/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.DataQualityRules/severity">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Error"/>
+              <PropertyValue Property="Value" String="Error"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Warning"/>
+              <PropertyValue Property="Value" String="Warning"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Info"/>
+              <PropertyValue Property="Value" String="Info"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IntegrationService.DataQualityRules/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.DataQualityRules/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.DataQualityRules/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.DataQualityRules/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.EntityContainer/MappingConfigs">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="IntegrationService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="IntegrationService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="IntegrationService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IntegrationService.MappingConfigs/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.MappingConfigs/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.MappingConfigs/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.MappingConfigs/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.MappingConfigs/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.MappingConfigs/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.MappingConfigs/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.MappingConfigs/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.MappingConfigs/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.EntityContainer/FieldMappings">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="IntegrationService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IntegrationService.FieldMappings/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.FieldMappings/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.FieldMappings/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.FieldMappings/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.FieldMappings/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.SyncStatus/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.SyncStatus/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.SyncStatus/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.SyncStatus/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.SyncStatus/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.EntityContainer/CommunicationScenarios">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="IntegrationService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="IntegrationService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="IntegrationService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IntegrationService.CommunicationScenarios/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.CommunicationScenarios/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.CommunicationScenarios/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.CommunicationScenarios/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.CommunicationScenarios/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.CommunicationScenarios/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.CommunicationScenarios/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.CommunicationScenarios/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.CommunicationScenarios/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.EntityContainer/ETLJobs">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="IntegrationService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="IntegrationService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="IntegrationService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IntegrationService.ETLJobs/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.ETLJobs/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.ETLJobs/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.ETLJobs/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.ETLJobs/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.ETLJobs/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.ETLJobs/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.ETLJobs/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.ETLJobs/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.EntityContainer/ETLJobRuns">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="IntegrationService.draftPrepare"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IntegrationService.ETLJobRuns/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.ETLJobRuns/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.ETLJobRuns/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.ETLJobRuns/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.ETLJobRuns/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.getRecentLogs(Edm.Int32)/hours">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IntegrationService.DraftAdministrativeData">
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftAdministrativeData}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.DraftAdministrativeData/DraftUUID">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftUUID}"/>
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.DraftAdministrativeData/CreationDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreationDateTime}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.DraftAdministrativeData/CreatedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreatedByUser}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.DraftAdministrativeData/DraftIsCreatedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsCreatedByMe}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.DraftAdministrativeData/LastChangeDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangeDateTime}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.DraftAdministrativeData/LastChangedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangedByUser}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.DraftAdministrativeData/InProcessByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_InProcessByUser}"/>
+      </Annotations>
+      <Annotations Target="IntegrationService.DraftAdministrativeData/DraftIsProcessedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsProcessedByMe}"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

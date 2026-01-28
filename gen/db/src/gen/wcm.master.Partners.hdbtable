@@ -1,0 +1,20 @@
+COLUMN TABLE wcm_master_Partners (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  partnerCode NVARCHAR(20) NOT NULL,
+  partnerName NVARCHAR(100) NOT NULL,
+  partnerType NVARCHAR(20) NOT NULL,
+  country_ID NVARCHAR(36),
+  workingInterestDefault DECIMAL(8, 4),
+  s4BusinessPartner NVARCHAR(10),
+  billingAddress NVARCHAR(500),
+  contactName NVARCHAR(100),
+  contactEmail NVARCHAR(100),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_master_Countries AS country ON (country.ID = country_ID)
+)

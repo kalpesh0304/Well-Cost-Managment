@@ -1,0 +1,12 @@
+VIEW MasterDataService_Countries AS SELECT
+  Countries_0.ID,
+  Countries_0.createdAt,
+  Countries_0.createdBy,
+  Countries_0.modifiedAt,
+  Countries_0.modifiedBy,
+  Countries_0.isActive,
+  Countries_0.countryCode,
+  Countries_0.countryCode2,
+  Countries_0.countryName,
+  Countries_0.region
+FROM wcm_master_Countries AS Countries_0

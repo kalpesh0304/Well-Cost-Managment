@@ -1,0 +1,21 @@
+VIEW AdminService_Users AS SELECT
+  Users_0.ID,
+  Users_0.createdAt,
+  Users_0.createdBy,
+  Users_0.modifiedAt,
+  Users_0.modifiedBy,
+  Users_0.isActive,
+  Users_0.userId,
+  Users_0.userName,
+  Users_0.email,
+  Users_0.department,
+  Users_0.title,
+  Users_0.manager_ID,
+  Users_0.status,
+  Users_0.lastLoginAt
+FROM wcm_security_Users AS Users_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_Users AS manager ON (manager.ID = manager_ID),
+  MANY TO MANY JOIN AdminService_UserRoles AS roles ON (roles.user_ID = ID),
+  MANY TO MANY JOIN AdminService_UserPreferences AS preferences ON (preferences.user_ID = ID)
+)

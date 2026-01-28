@@ -1,0 +1,29 @@
+COLUMN TABLE OperationsService_CostForecasts_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  afe_ID NVARCHAR(36) NULL,
+  well_ID NVARCHAR(36) NULL,
+  forecastDate DATE NULL,
+  forecastType NVARCHAR(20) NULL,
+  estimatedTotal DECIMAL(15, 2) NULL,
+  actualToDate DECIMAL(15, 2) NULL,
+  forecastToComplete DECIMAL(15, 2) NULL,
+  forecastAtCompletion DECIMAL(15, 2) NULL,
+  varianceAtCompletion DECIMAL(15, 2) NULL,
+  confidenceLevel NVARCHAR(20) NULL,
+  confidencePct DECIMAL(8, 4) NULL,
+  assumptions NVARCHAR(1000) NULL,
+  generatedBy NVARCHAR(100) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN OperationsService_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN OperationsService_Wells AS well ON (well.ID = well_ID),
+  MANY TO ONE JOIN OperationsService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

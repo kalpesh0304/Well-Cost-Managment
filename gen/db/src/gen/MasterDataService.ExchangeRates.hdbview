@@ -1,0 +1,16 @@
+VIEW MasterDataService_ExchangeRates AS SELECT
+  ExchangeRates_0.ID,
+  ExchangeRates_0.createdAt,
+  ExchangeRates_0.createdBy,
+  ExchangeRates_0.modifiedAt,
+  ExchangeRates_0.modifiedBy,
+  ExchangeRates_0.fromCurrency_ID,
+  ExchangeRates_0.toCurrency_ID,
+  ExchangeRates_0.rateDate,
+  ExchangeRates_0.exchangeRate,
+  ExchangeRates_0.rateType
+FROM wcm_master_ExchangeRates AS ExchangeRates_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN MasterDataService_Currencies AS fromCurrency ON (fromCurrency.ID = fromCurrency_ID),
+  MANY TO ONE JOIN MasterDataService_Currencies AS toCurrency ON (toCurrency.ID = toCurrency_ID)
+)

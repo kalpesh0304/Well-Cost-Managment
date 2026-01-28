@@ -1,0 +1,14 @@
+COLUMN TABLE wcm_economics_EconomicsAssumptions (
+  ID NVARCHAR(36) NOT NULL,
+  analysis_ID NVARCHAR(36) NOT NULL,
+  assumptionType NVARCHAR(50) NOT NULL,
+  assumptionName NVARCHAR(100) NOT NULL,
+  assumptionValue NVARCHAR(200),
+  numericValue DECIMAL(15, 4),
+  unit NVARCHAR(20),
+  source NVARCHAR(100),
+  effectiveDate DATE,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_economics_EconomicsAnalyses AS analysis ON (analysis.ID = analysis_ID)
+)

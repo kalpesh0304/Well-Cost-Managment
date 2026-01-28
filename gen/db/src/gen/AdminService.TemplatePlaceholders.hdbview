@@ -1,0 +1,11 @@
+VIEW AdminService_TemplatePlaceholders AS SELECT
+  TemplatePlaceholders_0.ID,
+  TemplatePlaceholders_0.template_ID,
+  TemplatePlaceholders_0.placeholderKey,
+  TemplatePlaceholders_0.placeholderName,
+  TemplatePlaceholders_0.dataSource,
+  TemplatePlaceholders_0.defaultValue
+FROM wcm_configuration_TemplatePlaceholders AS TemplatePlaceholders_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_NotificationTemplates AS template ON (template.ID = template_ID)
+)

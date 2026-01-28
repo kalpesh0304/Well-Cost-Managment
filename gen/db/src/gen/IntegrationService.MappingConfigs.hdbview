@@ -1,0 +1,16 @@
+VIEW IntegrationService_MappingConfigs AS SELECT
+  MappingConfigs_0.ID,
+  MappingConfigs_0.createdAt,
+  MappingConfigs_0.createdBy,
+  MappingConfigs_0.modifiedAt,
+  MappingConfigs_0.modifiedBy,
+  MappingConfigs_0.isActive,
+  MappingConfigs_0.mappingName,
+  MappingConfigs_0.sourceSystem,
+  MappingConfigs_0.targetSystem,
+  MappingConfigs_0.sourceEntity,
+  MappingConfigs_0.targetEntity
+FROM wcm_integration_MappingConfigs AS MappingConfigs_0
+WITH ASSOCIATIONS (
+  MANY TO MANY JOIN IntegrationService_FieldMappings AS fieldMappings ON (fieldMappings.config_ID = ID)
+)

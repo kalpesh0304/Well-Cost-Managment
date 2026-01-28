@@ -1,0 +1,22 @@
+COLUMN TABLE EconomicsService_PriceDecks_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  isActive BOOLEAN NULL DEFAULT TRUE,
+  deckName NVARCHAR(100) NULL,
+  deckType NVARCHAR(20) NULL,
+  effectiveFromDate DATE NULL,
+  effectiveToDate DATE NULL,
+  approvedBy NVARCHAR(100) NULL,
+  approvedAt TIMESTAMP NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO MANY JOIN EconomicsService_PriceDeckItems_drafts AS prices ON (prices.deck_ID = ID),
+  MANY TO ONE JOIN EconomicsService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

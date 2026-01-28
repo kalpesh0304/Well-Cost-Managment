@@ -1,0 +1,25 @@
+COLUMN TABLE IntegrationService_CommunicationScenarios_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  isActive BOOLEAN NULL DEFAULT TRUE,
+  scenarioId NVARCHAR(20) NULL,
+  scenarioName NVARCHAR(100) NULL,
+  description NVARCHAR(500) NULL,
+  direction NVARCHAR(20) NULL,
+  apiEndpoint NVARCHAR(500) NULL,
+  authType NVARCHAR(20) NULL,
+  isEnabled BOOLEAN NULL DEFAULT TRUE,
+  batchSize INTEGER NULL DEFAULT 100,
+  timeoutMs INTEGER NULL DEFAULT 30000,
+  retryAttempts INTEGER NULL DEFAULT 3,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN IntegrationService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

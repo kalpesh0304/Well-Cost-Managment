@@ -1,0 +1,11 @@
+VIEW AdminService_ApprovalMatrixConditions AS SELECT
+  ApprovalMatrixConditions_0.ID,
+  ApprovalMatrixConditions_0.matrix_ID,
+  ApprovalMatrixConditions_0.conditionField,
+  ApprovalMatrixConditions_0.conditionOperator,
+  ApprovalMatrixConditions_0.conditionValue,
+  ApprovalMatrixConditions_0.logicalOperator
+FROM wcm_configuration_ApprovalMatrixConditions AS ApprovalMatrixConditions_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_ApprovalMatrix AS matrix ON (matrix.ID = matrix_ID)
+)

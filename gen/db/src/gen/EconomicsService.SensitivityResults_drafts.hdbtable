@@ -1,0 +1,20 @@
+COLUMN TABLE EconomicsService_SensitivityResults_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  analysis_ID NVARCHAR(36) NULL,
+  variableName NVARCHAR(50) NULL,
+  baseValue DECIMAL(15, 4) NULL,
+  lowValue DECIMAL(15, 4) NULL,
+  highValue DECIMAL(15, 4) NULL,
+  npvLow DECIMAL(15, 2) NULL,
+  npvHigh DECIMAL(15, 2) NULL,
+  impactRange DECIMAL(15, 2) NULL,
+  sortOrder INTEGER NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN EconomicsService_EconomicsAnalyses_drafts AS analysis ON (analysis.ID = analysis_ID),
+  MANY TO ONE JOIN EconomicsService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

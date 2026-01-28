@@ -1,0 +1,15 @@
+COLUMN TABLE wcm_configuration_WorkflowDefinitions (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  workflowCode NVARCHAR(50) NOT NULL,
+  workflowName NVARCHAR(100) NOT NULL,
+  entityType NVARCHAR(50) NOT NULL,
+  description NVARCHAR(500),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO MANY JOIN wcm_configuration_WorkflowSteps AS steps ON (steps.workflow_ID = ID)
+)

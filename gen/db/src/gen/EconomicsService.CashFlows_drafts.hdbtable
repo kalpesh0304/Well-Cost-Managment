@@ -1,0 +1,23 @@
+COLUMN TABLE EconomicsService_CashFlows_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  analysis_ID NVARCHAR(36) NULL,
+  yearNumber INTEGER NULL,
+  capex DECIMAL(15, 2) NULL,
+  opex DECIMAL(15, 2) NULL,
+  revenue DECIMAL(15, 2) NULL,
+  royalty DECIMAL(15, 2) NULL,
+  taxes DECIMAL(15, 2) NULL,
+  netCashFlow DECIMAL(15, 2) NULL,
+  discountedCashFlow DECIMAL(15, 2) NULL,
+  cumulativeCashFlow DECIMAL(15, 2) NULL,
+  oilProduction DECIMAL(15, 2) NULL,
+  gasProduction DECIMAL(15, 2) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN EconomicsService_EconomicsAnalyses_drafts AS analysis ON (analysis.ID = analysis_ID),
+  MANY TO ONE JOIN EconomicsService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

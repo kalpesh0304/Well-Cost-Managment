@@ -1,0 +1,1671 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Validation.V1.xml">
+    <edmx:Include Alias="Validation" Namespace="Org.OData.Validation.V1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="OperationsService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Annotation Term="Core.Links">
+        <Collection>
+          <Record>
+            <PropertyValue Property="rel" String="author"/>
+            <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+          </Record>
+        </Collection>
+      </Annotation>
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="DailyReports" EntityType="OperationsService.DailyReports">
+          <NavigationPropertyBinding Path="well" Target="Wells"/>
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+          <NavigationPropertyBinding Path="activities" Target="DailyActivities"/>
+          <NavigationPropertyBinding Path="costs" Target="DailyCosts"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="DailyReports"/>
+        </EntitySet>
+        <EntitySet Name="DailyActivities" EntityType="OperationsService.DailyActivities">
+          <NavigationPropertyBinding Path="report" Target="DailyReports"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="DailyActivities"/>
+        </EntitySet>
+        <EntitySet Name="DailyCosts" EntityType="OperationsService.DailyCosts">
+          <NavigationPropertyBinding Path="report" Target="DailyReports"/>
+          <NavigationPropertyBinding Path="costElement" Target="CostElements"/>
+          <NavigationPropertyBinding Path="vendor" Target="Vendors"/>
+          <NavigationPropertyBinding Path="uom" Target="UnitsOfMeasure"/>
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="DailyCosts"/>
+        </EntitySet>
+        <EntitySet Name="Alerts" EntityType="OperationsService.Alerts">
+          <NavigationPropertyBinding Path="well" Target="Wells"/>
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="recipients" Target="AlertRecipients"/>
+        </EntitySet>
+        <EntitySet Name="AlertRecipients" EntityType="OperationsService.AlertRecipients">
+          <NavigationPropertyBinding Path="alert" Target="Alerts"/>
+        </EntitySet>
+        <EntitySet Name="CostForecasts" EntityType="OperationsService.CostForecasts">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="well" Target="Wells"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="CostForecasts"/>
+        </EntitySet>
+        <EntitySet Name="KPISnapshots" EntityType="OperationsService.KPISnapshots">
+          <NavigationPropertyBinding Path="well" Target="Wells"/>
+          <NavigationPropertyBinding Path="field" Target="Fields"/>
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+        </EntitySet>
+        <EntitySet Name="Wells" EntityType="OperationsService.Wells">
+          <NavigationPropertyBinding Path="field" Target="Fields"/>
+        </EntitySet>
+        <EntitySet Name="Fields" EntityType="OperationsService.Fields">
+          <NavigationPropertyBinding Path="wells" Target="Wells"/>
+        </EntitySet>
+        <EntitySet Name="AFEs" EntityType="OperationsService.AFEs">
+          <NavigationPropertyBinding Path="well" Target="Wells"/>
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+          <NavigationPropertyBinding Path="parentAFE" Target="AFEs"/>
+          <NavigationPropertyBinding Path="lineItems" Target="AFELineItems"/>
+          <NavigationPropertyBinding Path="wbsElements" Target="WBSElements"/>
+          <NavigationPropertyBinding Path="approvals" Target="Approvals"/>
+          <NavigationPropertyBinding Path="documents" Target="AFEDocuments"/>
+          <NavigationPropertyBinding Path="supplements" Target="AFEs"/>
+        </EntitySet>
+        <EntitySet Name="CostElements" EntityType="OperationsService.CostElements">
+          <NavigationPropertyBinding Path="uom" Target="UnitsOfMeasure"/>
+        </EntitySet>
+        <EntitySet Name="Vendors" EntityType="OperationsService.Vendors">
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+        </EntitySet>
+        <EntitySet Name="Currencies" EntityType="OperationsService.Currencies"/>
+        <EntitySet Name="UnitsOfMeasure" EntityType="OperationsService.UnitsOfMeasure"/>
+        <EntitySet Name="AFELineItems" EntityType="OperationsService.AFELineItems">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="wbsElement" Target="WBSElements"/>
+          <NavigationPropertyBinding Path="costElement" Target="CostElements"/>
+          <NavigationPropertyBinding Path="vendor" Target="Vendors"/>
+          <NavigationPropertyBinding Path="uom" Target="UnitsOfMeasure"/>
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+        </EntitySet>
+        <EntitySet Name="WBSElements" EntityType="OperationsService.WBSElements">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="parent" Target="WBSElements"/>
+          <NavigationPropertyBinding Path="children" Target="WBSElements"/>
+        </EntitySet>
+        <EntitySet Name="Approvals" EntityType="OperationsService.Approvals">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+        </EntitySet>
+        <EntitySet Name="AFEDocuments" EntityType="OperationsService.AFEDocuments">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+        </EntitySet>
+        <FunctionImport Name="getDailyReportsByWell" Function="OperationsService.getDailyReportsByWell" EntitySet="DailyReports"/>
+        <FunctionImport Name="getLatestDailyReport" Function="OperationsService.getLatestDailyReport" EntitySet="DailyReports"/>
+        <FunctionImport Name="getActiveAlerts" Function="OperationsService.getActiveAlerts" EntitySet="Alerts"/>
+        <FunctionImport Name="getMyAlerts" Function="OperationsService.getMyAlerts" EntitySet="Alerts"/>
+        <FunctionImport Name="getAlertsByWell" Function="OperationsService.getAlertsByWell" EntitySet="Alerts"/>
+        <FunctionImport Name="getWellProgress" Function="OperationsService.getWellProgress"/>
+        <FunctionImport Name="getDrillingSummary" Function="OperationsService.getDrillingSummary"/>
+        <FunctionImport Name="getNPTAnalysis" Function="OperationsService.getNPTAnalysis"/>
+        <ActionImport Name="createAlert" Action="OperationsService.createAlert" EntitySet="Alerts"/>
+        <ActionImport Name="generateKPISnapshot" Action="OperationsService.generateKPISnapshot" EntitySet="KPISnapshots"/>
+        <ActionImport Name="generateDrillingReport" Action="OperationsService.generateDrillingReport"/>
+      </EntityContainer>
+      <EntityType Name="DailyReports">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="well" Type="OperationsService.Wells">
+          <ReferentialConstraint Property="well_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="well_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="afe" Type="OperationsService.AFEs">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid"/>
+        <Property Name="reportDate" Type="Edm.Date"/>
+        <Property Name="dayNumber" Type="Edm.Int32"/>
+        <Property Name="depthMD" Type="Edm.Decimal" Precision="10" Scale="2"/>
+        <Property Name="depthTVD" Type="Edm.Decimal" Precision="10" Scale="2"/>
+        <Property Name="footageDrilled" Type="Edm.Decimal" Precision="10" Scale="2"/>
+        <Property Name="productiveHours" Type="Edm.Decimal" Precision="5" Scale="2"/>
+        <Property Name="nptHours" Type="Edm.Decimal" Precision="5" Scale="2"/>
+        <Property Name="nptCategory" Type="Edm.String" MaxLength="50"/>
+        <Property Name="dailyCost" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="cumulativeCost" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <NavigationProperty Name="currency" Type="OperationsService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="operationPhase" Type="Edm.String" MaxLength="20"/>
+        <Property Name="currentActivity" Type="Edm.String" MaxLength="200"/>
+        <Property Name="remarks" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="submittedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="submittedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="approvedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="approvedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20" DefaultValue="Draft"/>
+        <NavigationProperty Name="activities" Type="Collection(OperationsService.DailyActivities)" Partner="report">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="costs" Type="Collection(OperationsService.DailyCosts)" Partner="report">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="OperationsService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="OperationsService.DailyReports"/>
+      </EntityType>
+      <EntityType Name="DailyActivities">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="report" Type="OperationsService.DailyReports" Partner="activities">
+          <ReferentialConstraint Property="report_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="report_ID" Type="Edm.Guid"/>
+        <Property Name="startTime" Type="Edm.TimeOfDay"/>
+        <Property Name="endTime" Type="Edm.TimeOfDay"/>
+        <Property Name="durationHours" Type="Edm.Decimal" Precision="5" Scale="2"/>
+        <Property Name="activityCode" Type="Edm.String" MaxLength="20"/>
+        <Property Name="activityName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="description" Type="Edm.String" MaxLength="500"/>
+        <Property Name="isNPT" Type="Edm.Boolean" DefaultValue="false"/>
+        <Property Name="nptCategory" Type="Edm.String" MaxLength="50"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="OperationsService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="OperationsService.DailyActivities"/>
+      </EntityType>
+      <EntityType Name="DailyCosts">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="report" Type="OperationsService.DailyReports" Partner="costs">
+          <ReferentialConstraint Property="report_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="report_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="costElement" Type="OperationsService.CostElements">
+          <ReferentialConstraint Property="costElement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="costElement_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="vendor" Type="OperationsService.Vendors">
+          <ReferentialConstraint Property="vendor_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="vendor_ID" Type="Edm.Guid"/>
+        <Property Name="description" Type="Edm.String" MaxLength="200"/>
+        <Property Name="quantity" Type="Edm.Decimal" Precision="15" Scale="4"/>
+        <NavigationProperty Name="uom" Type="OperationsService.UnitsOfMeasure">
+          <ReferentialConstraint Property="uom_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="uom_ID" Type="Edm.Guid"/>
+        <Property Name="unitRate" Type="Edm.Decimal" Precision="15" Scale="4"/>
+        <Property Name="amount" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <NavigationProperty Name="currency" Type="OperationsService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="OperationsService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="OperationsService.DailyCosts"/>
+      </EntityType>
+      <EntityType Name="Alerts">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="alertType" Type="Edm.String" MaxLength="50" Nullable="false"/>
+        <Property Name="severity" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="title" Type="Edm.String" MaxLength="200" Nullable="false"/>
+        <Property Name="message" Type="Edm.String" MaxLength="1000"/>
+        <NavigationProperty Name="well" Type="OperationsService.Wells">
+          <ReferentialConstraint Property="well_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="well_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="afe" Type="OperationsService.AFEs">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid"/>
+        <Property Name="triggeredAt" Type="Edm.DateTimeOffset" Precision="7" Nullable="false"/>
+        <Property Name="acknowledgedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="acknowledgedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="resolvedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="resolvedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Active"/>
+        <NavigationProperty Name="recipients" Type="Collection(OperationsService.AlertRecipients)" Partner="alert">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="AlertRecipients">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="alert" Type="OperationsService.Alerts" Nullable="false" Partner="recipients">
+          <ReferentialConstraint Property="alert_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="alert_ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="userId" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="userName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="email" Type="Edm.String" MaxLength="100"/>
+        <Property Name="notifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="readAt" Type="Edm.DateTimeOffset" Precision="7"/>
+      </EntityType>
+      <EntityType Name="CostForecasts">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="afe" Type="OperationsService.AFEs">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="well" Type="OperationsService.Wells">
+          <ReferentialConstraint Property="well_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="well_ID" Type="Edm.Guid"/>
+        <Property Name="forecastDate" Type="Edm.Date"/>
+        <Property Name="forecastType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="estimatedTotal" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="actualToDate" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="forecastToComplete" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="forecastAtCompletion" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="varianceAtCompletion" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="confidenceLevel" Type="Edm.String" MaxLength="20"/>
+        <Property Name="confidencePct" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="assumptions" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="generatedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="OperationsService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="OperationsService.CostForecasts"/>
+      </EntityType>
+      <EntityType Name="KPISnapshots">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="snapshotDate" Type="Edm.Date" Nullable="false"/>
+        <Property Name="snapshotType" Type="Edm.String" MaxLength="20"/>
+        <NavigationProperty Name="well" Type="OperationsService.Wells">
+          <ReferentialConstraint Property="well_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="well_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="field" Type="OperationsService.Fields">
+          <ReferentialConstraint Property="field_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="field_ID" Type="Edm.Guid"/>
+        <Property Name="totalEstimated" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="totalActual" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="totalCommitted" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="variancePct" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="plannedDays" Type="Edm.Int32"/>
+        <Property Name="actualDays" Type="Edm.Int32"/>
+        <Property Name="scheduleVariance" Type="Edm.Int32"/>
+        <Property Name="incidentCount" Type="Edm.Int32" DefaultValue="0"/>
+        <Property Name="nptHours" Type="Edm.Decimal" Precision="10" Scale="2"/>
+        <NavigationProperty Name="currency" Type="OperationsService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+      </EntityType>
+      <EntityType Name="Wells">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="s4SyncStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4LastSyncAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="s4ErrorMessage" Type="Edm.String" MaxLength="500"/>
+        <Property Name="wellNumber" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="wellName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="wellType" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="wellboreType" Type="Edm.String" MaxLength="20"/>
+        <NavigationProperty Name="field" Type="OperationsService.Fields" Partner="wells">
+          <ReferentialConstraint Property="field_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="field_ID" Type="Edm.Guid"/>
+        <Property Name="spudDate" Type="Edm.Date"/>
+        <Property Name="totalDepthMD" Type="Edm.Decimal" Precision="10" Scale="2"/>
+        <Property Name="totalDepthTVD" Type="Edm.Decimal" Precision="10" Scale="2"/>
+        <Property Name="surfaceLatitude" Type="Edm.Decimal" Precision="10" Scale="6"/>
+        <Property Name="surfaceLongitude" Type="Edm.Decimal" Precision="10" Scale="6"/>
+        <Property Name="s4WBSElement" Type="Edm.String" MaxLength="24"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Planned"/>
+      </EntityType>
+      <EntityType Name="Fields">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="fieldCode" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="fieldName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="basin" Type="Edm.String" MaxLength="50"/>
+        <Property Name="country_ID" Type="Edm.Guid"/>
+        <Property Name="region" Type="Edm.String" MaxLength="50"/>
+        <Property Name="operatorName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="s4ProfitCenter" Type="Edm.String" MaxLength="10"/>
+        <Property Name="s4CostCenter" Type="Edm.String" MaxLength="10"/>
+        <NavigationProperty Name="wells" Type="Collection(OperationsService.Wells)" Partner="field"/>
+      </EntityType>
+      <EntityType Name="AFEs">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="s4SyncStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4LastSyncAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="s4ErrorMessage" Type="Edm.String" MaxLength="500"/>
+        <Property Name="afeNumber" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="afeName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="afeType" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Original"/>
+        <NavigationProperty Name="well" Type="OperationsService.Wells" Nullable="false">
+          <ReferentialConstraint Property="well_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="well_ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="estimatedCost" Type="Edm.Decimal" Precision="15" Scale="2" Nullable="false"/>
+        <NavigationProperty Name="currency" Type="OperationsService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="contingencyAmount" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="contingencyPct" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="validFromDate" Type="Edm.Date" Nullable="false"/>
+        <Property Name="validToDate" Type="Edm.Date" Nullable="false"/>
+        <NavigationProperty Name="parentAFE" Type="OperationsService.AFEs" Partner="supplements">
+          <ReferentialConstraint Property="parentAFE_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="parentAFE_ID" Type="Edm.Guid"/>
+        <Property Name="versionNumber" Type="Edm.Int32" DefaultValue="1"/>
+        <Property Name="approvalStatus" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Draft"/>
+        <Property Name="approvedDate" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="approvedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="s4ProjectNo" Type="Edm.String" MaxLength="24"/>
+        <Property Name="s4WBSElement" Type="Edm.String" MaxLength="24"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Active"/>
+        <NavigationProperty Name="lineItems" Type="Collection(OperationsService.AFELineItems)" Partner="afe">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="wbsElements" Type="Collection(OperationsService.WBSElements)" Partner="afe">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="approvals" Type="Collection(OperationsService.Approvals)" Partner="afe">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="documents" Type="Collection(OperationsService.AFEDocuments)" Partner="afe">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="supplements" Type="Collection(OperationsService.AFEs)" Partner="parentAFE"/>
+      </EntityType>
+      <EntityType Name="CostElements">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="s4SyncStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4LastSyncAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="s4ErrorMessage" Type="Edm.String" MaxLength="500"/>
+        <Property Name="elementCode" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="elementName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="category_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="uom" Type="OperationsService.UnitsOfMeasure">
+          <ReferentialConstraint Property="uom_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="uom_ID" Type="Edm.Guid"/>
+        <Property Name="s4GLAccount" Type="Edm.String" MaxLength="10"/>
+        <Property Name="s4CostElement" Type="Edm.String" MaxLength="10"/>
+        <Property Name="taxCode" Type="Edm.String" MaxLength="5"/>
+      </EntityType>
+      <EntityType Name="Vendors">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="s4SyncStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4LastSyncAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="s4ErrorMessage" Type="Edm.String" MaxLength="500"/>
+        <Property Name="vendorCode" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="vendorName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="vendorType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="country_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="currency" Type="OperationsService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="paymentTerms" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4VendorNo" Type="Edm.String" MaxLength="10"/>
+        <Property Name="s4BusinessPartner" Type="Edm.String" MaxLength="10"/>
+        <Property Name="taxId" Type="Edm.String" MaxLength="20"/>
+        <Property Name="contactName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="contactEmail" Type="Edm.String" MaxLength="100"/>
+        <Property Name="contactPhone" Type="Edm.String" MaxLength="20"/>
+      </EntityType>
+      <EntityType Name="Currencies">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="currencyCode" Type="Edm.String" MaxLength="3" Nullable="false"/>
+        <Property Name="currencyName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="decimalPlaces" Type="Edm.Int32" DefaultValue="2"/>
+      </EntityType>
+      <EntityType Name="UnitsOfMeasure">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="uomCode" Type="Edm.String" MaxLength="10" Nullable="false"/>
+        <Property Name="uomName" Type="Edm.String" MaxLength="50" Nullable="false"/>
+        <Property Name="uomType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4UoM" Type="Edm.String" MaxLength="3"/>
+      </EntityType>
+      <EntityType Name="AFELineItems">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="afe" Type="OperationsService.AFEs" Nullable="false" Partner="lineItems">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="wbsElement" Type="OperationsService.WBSElements">
+          <ReferentialConstraint Property="wbsElement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="wbsElement_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="costElement" Type="OperationsService.CostElements">
+          <ReferentialConstraint Property="costElement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="costElement_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="vendor" Type="OperationsService.Vendors">
+          <ReferentialConstraint Property="vendor_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="vendor_ID" Type="Edm.Guid"/>
+        <Property Name="lineNumber" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="description" Type="Edm.String" MaxLength="200" Nullable="false"/>
+        <Property Name="quantity" Type="Edm.Decimal" Precision="15" Scale="4" Nullable="false"/>
+        <NavigationProperty Name="uom" Type="OperationsService.UnitsOfMeasure">
+          <ReferentialConstraint Property="uom_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="uom_ID" Type="Edm.Guid"/>
+        <Property Name="unitRate" Type="Edm.Decimal" Precision="15" Scale="4" Nullable="false"/>
+        <Property Name="estimatedAmount" Type="Edm.Decimal" Precision="15" Scale="2" Nullable="false"/>
+        <NavigationProperty Name="currency" Type="OperationsService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="startDate" Type="Edm.Date"/>
+        <Property Name="endDate" Type="Edm.Date"/>
+        <Property Name="durationDays" Type="Edm.Decimal" Precision="10" Scale="2"/>
+        <Property Name="sourceType" Type="Edm.String" MaxLength="20"/>
+      </EntityType>
+      <EntityType Name="WBSElements">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="afe" Type="OperationsService.AFEs" Nullable="false" Partner="wbsElements">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="elementCode" Type="Edm.String" MaxLength="24" Nullable="false"/>
+        <Property Name="elementName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <NavigationProperty Name="parent" Type="OperationsService.WBSElements" Partner="children">
+          <ReferentialConstraint Property="parent_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="parent_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="children" Type="Collection(OperationsService.WBSElements)" Partner="parent"/>
+        <Property Name="hierarchyLevel" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="sortOrder" Type="Edm.Int32"/>
+        <Property Name="s4WBSElement" Type="Edm.String" MaxLength="24"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+      </EntityType>
+      <EntityType Name="Approvals">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="afe" Type="OperationsService.AFEs" Nullable="false" Partner="approvals">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="approvalLevel" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="approverRole" Type="Edm.String" MaxLength="50" Nullable="false"/>
+        <Property Name="approverUserId" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="approverName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="delegatedFrom" Type="Edm.String" MaxLength="100"/>
+        <Property Name="assignedDate" Type="Edm.DateTimeOffset" Precision="7" Nullable="false"/>
+        <Property Name="dueDate" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="actionDate" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="actionStatus" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Pending"/>
+        <Property Name="comments" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="conditions" Type="Edm.String" MaxLength="500"/>
+      </EntityType>
+      <EntityType Name="AFEDocuments">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="afe" Type="OperationsService.AFEs" Nullable="false" Partner="documents">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="documentName" Type="Edm.String" MaxLength="200" Nullable="false"/>
+        <Property Name="documentType" Type="Edm.String" MaxLength="50"/>
+        <Property Name="documentCategory" Type="Edm.String" MaxLength="50"/>
+        <Property Name="fileSize" Type="Edm.Int32"/>
+        <Property Name="mimeType" Type="Edm.String" MaxLength="100"/>
+        <Property Name="storageUrl" Type="Edm.String" MaxLength="500"/>
+        <Property Name="uploadedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="uploadedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+      </EntityType>
+      <EntityType Name="DraftAdministrativeData">
+        <Key>
+          <PropertyRef Name="DraftUUID"/>
+        </Key>
+        <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+        <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+      </EntityType>
+      <ComplexType Name="return_OperationsService_getWellProgress">
+        <Property Name="currentDepth" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="targetDepth" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="progressPct" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="daysElapsed" Type="Edm.Int32"/>
+        <Property Name="plannedDays" Type="Edm.Int32"/>
+        <Property Name="scheduleVariance" Type="Edm.Int32"/>
+        <Property Name="costToDate" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="estimatedCost" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="costVariancePct" Type="Edm.Decimal" Scale="variable"/>
+      </ComplexType>
+      <ComplexType Name="return_OperationsService_getDrillingSummary">
+        <Property Name="totalDays" Type="Edm.Int32"/>
+        <Property Name="productiveHours" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="nptHours" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="nptPct" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="avgCostPerDay" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="avgFootagePerDay" Type="Edm.Decimal" Scale="variable"/>
+      </ComplexType>
+      <ComplexType Name="return_OperationsService_getNPTAnalysis">
+        <Property Name="category" Type="Edm.String"/>
+        <Property Name="hours" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="pct" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="cost" Type="Edm.Decimal" Scale="variable"/>
+      </ComplexType>
+      <Action Name="submit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="OperationsService.DailyReports"/>
+        <ReturnType Type="OperationsService.DailyReports"/>
+      </Action>
+      <Action Name="approve" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="OperationsService.DailyReports"/>
+        <ReturnType Type="OperationsService.DailyReports"/>
+      </Action>
+      <Action Name="reject" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="OperationsService.DailyReports"/>
+        <Parameter Name="reason" Type="Edm.String"/>
+        <ReturnType Type="OperationsService.DailyReports"/>
+      </Action>
+      <Action Name="copyFromPrevious" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="OperationsService.DailyReports"/>
+        <ReturnType Type="OperationsService.DailyReports"/>
+      </Action>
+      <Action Name="exportToPDF" IsBound="true">
+        <Parameter Name="in" Type="OperationsService.DailyReports"/>
+        <ReturnType Type="Edm.Binary"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="OperationsService.DailyReports"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="OperationsService.DailyReports"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="OperationsService.DailyActivities"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="OperationsService.DailyActivities"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="OperationsService.DailyCosts"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="OperationsService.DailyCosts"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="OperationsService.CostForecasts"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="OperationsService.CostForecasts"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="OperationsService.DailyReports"/>
+        <ReturnType Type="OperationsService.DailyReports"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="OperationsService.CostForecasts"/>
+        <ReturnType Type="OperationsService.CostForecasts"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="OperationsService.DailyReports"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="OperationsService.DailyReports"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="OperationsService.CostForecasts"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="OperationsService.CostForecasts"/>
+      </Action>
+      <Action Name="acknowledge" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="OperationsService.Alerts"/>
+        <ReturnType Type="OperationsService.Alerts"/>
+      </Action>
+      <Action Name="resolve" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="OperationsService.Alerts"/>
+        <Parameter Name="resolution" Type="Edm.String"/>
+        <ReturnType Type="OperationsService.Alerts"/>
+      </Action>
+      <Action Name="snooze" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="OperationsService.Alerts"/>
+        <Parameter Name="untilDate" Type="Edm.DateTimeOffset" Precision="7"/>
+        <ReturnType Type="OperationsService.Alerts"/>
+      </Action>
+      <Action Name="generateAIForecast" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="OperationsService.CostForecasts"/>
+        <ReturnType Type="OperationsService.CostForecasts"/>
+      </Action>
+      <Action Name="recalculate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="OperationsService.CostForecasts"/>
+        <ReturnType Type="OperationsService.CostForecasts"/>
+      </Action>
+      <Function Name="getDailyReportsByWell" IsBound="false" IsComposable="false">
+        <Parameter Name="wellId" Type="Edm.Guid"/>
+        <Parameter Name="fromDate" Type="Edm.Date"/>
+        <Parameter Name="toDate" Type="Edm.Date"/>
+        <ReturnType Type="Collection(OperationsService.DailyReports)"/>
+      </Function>
+      <Function Name="getLatestDailyReport" IsBound="false" IsComposable="false">
+        <Parameter Name="wellId" Type="Edm.Guid"/>
+        <ReturnType Type="OperationsService.DailyReports"/>
+      </Function>
+      <Function Name="getActiveAlerts" IsBound="false" IsComposable="false">
+        <ReturnType Type="Collection(OperationsService.Alerts)"/>
+      </Function>
+      <Function Name="getMyAlerts" IsBound="false" IsComposable="false">
+        <ReturnType Type="Collection(OperationsService.Alerts)"/>
+      </Function>
+      <Function Name="getAlertsByWell" IsBound="false" IsComposable="false">
+        <Parameter Name="wellId" Type="Edm.Guid"/>
+        <ReturnType Type="Collection(OperationsService.Alerts)"/>
+      </Function>
+      <Function Name="getWellProgress" IsBound="false" IsComposable="false">
+        <Parameter Name="wellId" Type="Edm.Guid"/>
+        <ReturnType Type="OperationsService.return_OperationsService_getWellProgress"/>
+      </Function>
+      <Function Name="getDrillingSummary" IsBound="false" IsComposable="false">
+        <Parameter Name="wellId" Type="Edm.Guid"/>
+        <ReturnType Type="OperationsService.return_OperationsService_getDrillingSummary"/>
+      </Function>
+      <Function Name="getNPTAnalysis" IsBound="false" IsComposable="false">
+        <Parameter Name="wellId" Type="Edm.Guid"/>
+        <ReturnType Type="Collection(OperationsService.return_OperationsService_getNPTAnalysis)" Nullable="true"/>
+      </Function>
+      <Action Name="createAlert" IsBound="false">
+        <Parameter Name="alertType" Type="Edm.String"/>
+        <Parameter Name="severity" Type="Edm.String"/>
+        <Parameter Name="title" Type="Edm.String"/>
+        <Parameter Name="message" Type="Edm.String"/>
+        <Parameter Name="wellId" Type="Edm.Guid"/>
+        <Parameter Name="afeId" Type="Edm.Guid"/>
+        <Parameter Name="recipientUserIds" Type="Collection(Edm.String)" Nullable="true"/>
+        <ReturnType Type="OperationsService.Alerts"/>
+      </Action>
+      <Action Name="generateKPISnapshot" IsBound="false">
+        <Parameter Name="snapshotDate" Type="Edm.Date"/>
+        <Parameter Name="snapshotType" Type="Edm.String"/>
+        <ReturnType Type="Collection(OperationsService.KPISnapshots)"/>
+      </Action>
+      <Action Name="generateDrillingReport" IsBound="false">
+        <Parameter Name="wellId" Type="Edm.Guid"/>
+        <Parameter Name="fromDate" Type="Edm.Date"/>
+        <Parameter Name="toDate" Type="Edm.Date"/>
+        <Parameter Name="format" Type="Edm.String"/>
+        <ReturnType Type="Edm.Binary"/>
+      </Action>
+      <Annotations Target="OperationsService.EntityContainer/DailyReports">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="OperationsService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="OperationsService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="OperationsService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyReports/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyReports/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyReports/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyReports/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyReports/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyReports/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyReports/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyReports/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyReports/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.EntityContainer/DailyActivities">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="OperationsService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyActivities/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyActivities/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyActivities/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyActivities/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyActivities/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.EntityContainer/DailyCosts">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="OperationsService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyCosts/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyCosts/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyCosts/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyCosts/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DailyCosts/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Alerts/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Alerts/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Alerts/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Alerts/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Alerts/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Alerts/severity">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Error"/>
+              <PropertyValue Property="Value" String="Error"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Warning"/>
+              <PropertyValue Property="Value" String="Warning"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Info"/>
+              <PropertyValue Property="Value" String="Info"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.EntityContainer/AlertRecipients">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.AlertRecipients/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.EntityContainer/CostForecasts">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="OperationsService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="OperationsService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="OperationsService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.CostForecasts/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.CostForecasts/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.CostForecasts/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.CostForecasts/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.CostForecasts/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.CostForecasts/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.CostForecasts/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.CostForecasts/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.CostForecasts/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.EntityContainer/KPISnapshots">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.KPISnapshots/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.EntityContainer/Wells">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.Wells/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Wells/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Wells/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Wells/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Wells/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Wells/wellNumber">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Wells/wellType">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Exploration"/>
+              <PropertyValue Property="Value" String="Exploration"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Development"/>
+              <PropertyValue Property="Value" String="Development"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Workover"/>
+              <PropertyValue Property="Value" String="Workover"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Sidetrack"/>
+              <PropertyValue Property="Value" String="Sidetrack"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.Wells/wellboreType">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Vertical"/>
+              <PropertyValue Property="Value" String="Vertical"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Horizontal"/>
+              <PropertyValue Property="Value" String="Horizontal"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Directional"/>
+              <PropertyValue Property="Value" String="Directional"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.Wells/status">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Planned"/>
+              <PropertyValue Property="Value" String="Planned"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Drilling"/>
+              <PropertyValue Property="Value" String="Drilling"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Completed"/>
+              <PropertyValue Property="Value" String="Completed"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Suspended"/>
+              <PropertyValue Property="Value" String="Suspended"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="PandA"/>
+              <PropertyValue Property="Value" String="PandA"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.EntityContainer/Fields">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.Fields/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Fields/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Fields/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Fields/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Fields/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Fields/fieldCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="OperationsService.EntityContainer/AFEs">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.AFEs/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.AFEs/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.AFEs/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.AFEs/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.AFEs/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.AFEs/afeNumber">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="OperationsService.AFEs/afeType">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Original"/>
+              <PropertyValue Property="Value" String="Original"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Supplement"/>
+              <PropertyValue Property="Value" String="Supplement"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Revision"/>
+              <PropertyValue Property="Value" String="Revision"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.AFEs/contingencyPct">
+        <Annotation Term="Validation.Minimum" Int="0"/>
+        <Annotation Term="Validation.Maximum" Float="0.5"/>
+      </Annotations>
+      <Annotations Target="OperationsService.AFEs/approvalStatus">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Draft"/>
+              <PropertyValue Property="Value" String="Draft"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Pending"/>
+              <PropertyValue Property="Value" String="Pending"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Approved"/>
+              <PropertyValue Property="Value" String="Approved"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Rejected"/>
+              <PropertyValue Property="Value" String="Rejected"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.AFEs/status">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Active"/>
+              <PropertyValue Property="Value" String="Active"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Closed"/>
+              <PropertyValue Property="Value" String="Closed"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Cancelled"/>
+              <PropertyValue Property="Value" String="Cancelled"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.EntityContainer/CostElements">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.CostElements/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.CostElements/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.CostElements/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.CostElements/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.CostElements/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.CostElements/elementCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="OperationsService.EntityContainer/Vendors">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.Vendors/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Vendors/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Vendors/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Vendors/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Vendors/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Vendors/vendorCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="OperationsService.EntityContainer/Currencies">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.Currencies/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Currencies/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Currencies/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Currencies/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Currencies/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Currencies/currencyCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="OperationsService.EntityContainer/UnitsOfMeasure">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.UnitsOfMeasure/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.UnitsOfMeasure/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.UnitsOfMeasure/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.UnitsOfMeasure/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.UnitsOfMeasure/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.UnitsOfMeasure/uomCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="OperationsService.getDailyReportsByWell(Edm.Guid,Edm.Date,Edm.Date)/wellId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.getDailyReportsByWell(Edm.Guid,Edm.Date,Edm.Date)/fromDate">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.getDailyReportsByWell(Edm.Guid,Edm.Date,Edm.Date)/toDate">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.getLatestDailyReport(Edm.Guid)/wellId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.getAlertsByWell(Edm.Guid)/wellId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.getWellProgress(Edm.Guid)/wellId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.getDrillingSummary(Edm.Guid)/wellId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.getNPTAnalysis(Edm.Guid)/wellId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OperationsService.AFELineItems/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.WBSElements/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Approvals/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Approvals/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Approvals/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Approvals/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.Approvals/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.AFEDocuments/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.AFEDocuments/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.AFEDocuments/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.AFEDocuments/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.AFEDocuments/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DraftAdministrativeData">
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftAdministrativeData}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DraftAdministrativeData/DraftUUID">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftUUID}"/>
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DraftAdministrativeData/CreationDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreationDateTime}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DraftAdministrativeData/CreatedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreatedByUser}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DraftAdministrativeData/DraftIsCreatedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsCreatedByMe}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DraftAdministrativeData/LastChangeDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangeDateTime}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DraftAdministrativeData/LastChangedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangedByUser}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DraftAdministrativeData/InProcessByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_InProcessByUser}"/>
+      </Annotations>
+      <Annotations Target="OperationsService.DraftAdministrativeData/DraftIsProcessedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsProcessedByMe}"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

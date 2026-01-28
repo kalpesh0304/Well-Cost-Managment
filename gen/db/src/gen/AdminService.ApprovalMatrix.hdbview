@@ -1,0 +1,21 @@
+VIEW AdminService_ApprovalMatrix AS SELECT
+  ApprovalMatrix_0.ID,
+  ApprovalMatrix_0.createdAt,
+  ApprovalMatrix_0.createdBy,
+  ApprovalMatrix_0.modifiedAt,
+  ApprovalMatrix_0.modifiedBy,
+  ApprovalMatrix_0.isActive,
+  ApprovalMatrix_0.matrixName,
+  ApprovalMatrix_0.entityType,
+  ApprovalMatrix_0.field_ID,
+  ApprovalMatrix_0.wellType,
+  ApprovalMatrix_0.amountFrom,
+  ApprovalMatrix_0.amountTo,
+  ApprovalMatrix_0.approvalLevel,
+  ApprovalMatrix_0.approverRole,
+  ApprovalMatrix_0.escalationDays
+FROM wcm_configuration_ApprovalMatrix AS ApprovalMatrix_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_Fields AS field ON (field.ID = field_ID),
+  MANY TO MANY JOIN AdminService_ApprovalMatrixConditions AS conditions ON (conditions.matrix_ID = ID)
+)

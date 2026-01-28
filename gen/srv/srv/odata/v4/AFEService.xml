@@ -1,0 +1,1295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Validation.V1.xml">
+    <edmx:Include Alias="Validation" Namespace="Org.OData.Validation.V1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="AFEService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Annotation Term="Core.Links">
+        <Collection>
+          <Record>
+            <PropertyValue Property="rel" String="author"/>
+            <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+          </Record>
+        </Collection>
+      </Annotation>
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="AFEs" EntityType="AFEService.AFEs">
+          <NavigationPropertyBinding Path="well" Target="Wells"/>
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+          <NavigationPropertyBinding Path="parentAFE" Target="AFEs"/>
+          <NavigationPropertyBinding Path="lineItems" Target="AFELineItems"/>
+          <NavigationPropertyBinding Path="wbsElements" Target="WBSElements"/>
+          <NavigationPropertyBinding Path="approvals" Target="Approvals"/>
+          <NavigationPropertyBinding Path="documents" Target="AFEDocuments"/>
+          <NavigationPropertyBinding Path="costEstimates" Target="CostEstimates"/>
+          <NavigationPropertyBinding Path="supplements" Target="AFEs"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="AFEs"/>
+        </EntitySet>
+        <EntitySet Name="AFELineItems" EntityType="AFEService.AFELineItems">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="wbsElement" Target="WBSElements"/>
+          <NavigationPropertyBinding Path="costElement" Target="CostElements"/>
+          <NavigationPropertyBinding Path="vendor" Target="Vendors"/>
+          <NavigationPropertyBinding Path="uom" Target="UnitsOfMeasure"/>
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="AFELineItems"/>
+        </EntitySet>
+        <EntitySet Name="WBSElements" EntityType="AFEService.WBSElements">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="parent" Target="WBSElements"/>
+          <NavigationPropertyBinding Path="children" Target="WBSElements"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="WBSElements"/>
+        </EntitySet>
+        <EntitySet Name="CostEstimates" EntityType="AFEService.CostEstimates">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="wbsElement" Target="WBSElements"/>
+          <NavigationPropertyBinding Path="costElement" Target="CostElements"/>
+          <NavigationPropertyBinding Path="vendor" Target="Vendors"/>
+          <NavigationPropertyBinding Path="uom" Target="UnitsOfMeasure"/>
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="CostEstimates"/>
+        </EntitySet>
+        <EntitySet Name="Approvals" EntityType="AFEService.Approvals">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="Approvals"/>
+        </EntitySet>
+        <EntitySet Name="AFEDocuments" EntityType="AFEService.AFEDocuments">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="AFEDocuments"/>
+        </EntitySet>
+        <EntitySet Name="Wells" EntityType="AFEService.Wells"/>
+        <EntitySet Name="CostElements" EntityType="AFEService.CostElements">
+          <NavigationPropertyBinding Path="uom" Target="UnitsOfMeasure"/>
+        </EntitySet>
+        <EntitySet Name="Vendors" EntityType="AFEService.Vendors">
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+        </EntitySet>
+        <EntitySet Name="Currencies" EntityType="AFEService.Currencies"/>
+        <EntitySet Name="UnitsOfMeasure" EntityType="AFEService.UnitsOfMeasure"/>
+        <FunctionImport Name="getAFEsByWell" Function="AFEService.getAFEsByWell" EntitySet="AFEs"/>
+        <FunctionImport Name="getAFEsByStatus" Function="AFEService.getAFEsByStatus" EntitySet="AFEs"/>
+        <FunctionImport Name="getPendingApprovals" Function="AFEService.getPendingApprovals" EntitySet="Approvals"/>
+        <FunctionImport Name="getMyPendingApprovals" Function="AFEService.getMyPendingApprovals" EntitySet="Approvals"/>
+        <FunctionImport Name="getAFESummary" Function="AFEService.getAFESummary"/>
+        <FunctionImport Name="validateAFE" Function="AFEService.validateAFE"/>
+      </EntityContainer>
+      <EntityType Name="AFEs">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="s4SyncStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4LastSyncAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="s4ErrorMessage" Type="Edm.String" MaxLength="500"/>
+        <Property Name="afeNumber" Type="Edm.String" MaxLength="20"/>
+        <Property Name="afeName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="afeType" Type="Edm.String" MaxLength="20" DefaultValue="Original"/>
+        <NavigationProperty Name="well" Type="AFEService.Wells">
+          <ReferentialConstraint Property="well_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="well_ID" Type="Edm.Guid"/>
+        <Property Name="estimatedCost" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <NavigationProperty Name="currency" Type="AFEService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="contingencyAmount" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="contingencyPct" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="validFromDate" Type="Edm.Date"/>
+        <Property Name="validToDate" Type="Edm.Date"/>
+        <NavigationProperty Name="parentAFE" Type="AFEService.AFEs" Partner="supplements">
+          <ReferentialConstraint Property="parentAFE_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="parentAFE_ID" Type="Edm.Guid"/>
+        <Property Name="versionNumber" Type="Edm.Int32" DefaultValue="1"/>
+        <Property Name="approvalStatus" Type="Edm.String" MaxLength="20" DefaultValue="Draft"/>
+        <Property Name="approvedDate" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="approvedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="s4ProjectNo" Type="Edm.String" MaxLength="24"/>
+        <Property Name="s4WBSElement" Type="Edm.String" MaxLength="24"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20" DefaultValue="Active"/>
+        <NavigationProperty Name="lineItems" Type="Collection(AFEService.AFELineItems)" Partner="afe">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="wbsElements" Type="Collection(AFEService.WBSElements)" Partner="afe">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="approvals" Type="Collection(AFEService.Approvals)" Partner="afe">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="documents" Type="Collection(AFEService.AFEDocuments)" Partner="afe">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="costEstimates" Type="Collection(AFEService.CostEstimates)" Partner="afe"/>
+        <NavigationProperty Name="supplements" Type="Collection(AFEService.AFEs)" Partner="parentAFE"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AFEService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AFEService.AFEs"/>
+      </EntityType>
+      <EntityType Name="AFELineItems">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="afe" Type="AFEService.AFEs" Partner="lineItems">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="wbsElement" Type="AFEService.WBSElements">
+          <ReferentialConstraint Property="wbsElement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="wbsElement_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="costElement" Type="AFEService.CostElements">
+          <ReferentialConstraint Property="costElement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="costElement_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="vendor" Type="AFEService.Vendors">
+          <ReferentialConstraint Property="vendor_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="vendor_ID" Type="Edm.Guid"/>
+        <Property Name="lineNumber" Type="Edm.Int32"/>
+        <Property Name="description" Type="Edm.String" MaxLength="200"/>
+        <Property Name="quantity" Type="Edm.Decimal" Precision="15" Scale="4"/>
+        <NavigationProperty Name="uom" Type="AFEService.UnitsOfMeasure">
+          <ReferentialConstraint Property="uom_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="uom_ID" Type="Edm.Guid"/>
+        <Property Name="unitRate" Type="Edm.Decimal" Precision="15" Scale="4"/>
+        <Property Name="estimatedAmount" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <NavigationProperty Name="currency" Type="AFEService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="startDate" Type="Edm.Date"/>
+        <Property Name="endDate" Type="Edm.Date"/>
+        <Property Name="durationDays" Type="Edm.Decimal" Precision="10" Scale="2"/>
+        <Property Name="sourceType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AFEService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AFEService.AFELineItems"/>
+      </EntityType>
+      <EntityType Name="WBSElements">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="afe" Type="AFEService.AFEs" Partner="wbsElements">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid"/>
+        <Property Name="elementCode" Type="Edm.String" MaxLength="24"/>
+        <Property Name="elementName" Type="Edm.String" MaxLength="100"/>
+        <NavigationProperty Name="parent" Type="AFEService.WBSElements" Partner="children">
+          <ReferentialConstraint Property="parent_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="parent_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="children" Type="Collection(AFEService.WBSElements)" Partner="parent"/>
+        <Property Name="hierarchyLevel" Type="Edm.Int32"/>
+        <Property Name="sortOrder" Type="Edm.Int32"/>
+        <Property Name="s4WBSElement" Type="Edm.String" MaxLength="24"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AFEService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AFEService.WBSElements"/>
+      </EntityType>
+      <EntityType Name="CostEstimates">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="afe" Type="AFEService.AFEs" Partner="costEstimates">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="wbsElement" Type="AFEService.WBSElements">
+          <ReferentialConstraint Property="wbsElement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="wbsElement_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="costElement" Type="AFEService.CostElements">
+          <ReferentialConstraint Property="costElement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="costElement_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="vendor" Type="AFEService.Vendors">
+          <ReferentialConstraint Property="vendor_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="vendor_ID" Type="Edm.Guid"/>
+        <Property Name="description" Type="Edm.String" MaxLength="200"/>
+        <Property Name="quantity" Type="Edm.Decimal" Precision="15" Scale="4"/>
+        <NavigationProperty Name="uom" Type="AFEService.UnitsOfMeasure">
+          <ReferentialConstraint Property="uom_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="uom_ID" Type="Edm.Guid"/>
+        <Property Name="unitRate" Type="Edm.Decimal" Precision="15" Scale="4"/>
+        <Property Name="estimatedAmount" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <NavigationProperty Name="currency" Type="AFEService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="startDate" Type="Edm.Date"/>
+        <Property Name="endDate" Type="Edm.Date"/>
+        <Property Name="durationDays" Type="Edm.Decimal" Precision="10" Scale="2"/>
+        <Property Name="sourceType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="confidenceLevel" Type="Edm.String" MaxLength="20"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AFEService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AFEService.CostEstimates"/>
+      </EntityType>
+      <EntityType Name="Approvals">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="afe" Type="AFEService.AFEs" Partner="approvals">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid"/>
+        <Property Name="approvalLevel" Type="Edm.Int32"/>
+        <Property Name="approverRole" Type="Edm.String" MaxLength="50"/>
+        <Property Name="approverUserId" Type="Edm.String" MaxLength="100"/>
+        <Property Name="approverName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="delegatedFrom" Type="Edm.String" MaxLength="100"/>
+        <Property Name="assignedDate" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="dueDate" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="actionDate" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="actionStatus" Type="Edm.String" MaxLength="20" DefaultValue="Pending"/>
+        <Property Name="comments" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="conditions" Type="Edm.String" MaxLength="500"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AFEService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AFEService.Approvals"/>
+      </EntityType>
+      <EntityType Name="AFEDocuments">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="afe" Type="AFEService.AFEs" Partner="documents">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid"/>
+        <Property Name="documentName" Type="Edm.String" MaxLength="200"/>
+        <Property Name="documentType" Type="Edm.String" MaxLength="50"/>
+        <Property Name="documentCategory" Type="Edm.String" MaxLength="50"/>
+        <Property Name="fileSize" Type="Edm.Int32"/>
+        <Property Name="mimeType" Type="Edm.String" MaxLength="100"/>
+        <Property Name="storageUrl" Type="Edm.String" MaxLength="500"/>
+        <Property Name="uploadedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="uploadedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AFEService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AFEService.AFEDocuments"/>
+      </EntityType>
+      <EntityType Name="Wells">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="s4SyncStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4LastSyncAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="s4ErrorMessage" Type="Edm.String" MaxLength="500"/>
+        <Property Name="wellNumber" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="wellName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="wellType" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="wellboreType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="field_ID" Type="Edm.Guid"/>
+        <Property Name="spudDate" Type="Edm.Date"/>
+        <Property Name="totalDepthMD" Type="Edm.Decimal" Precision="10" Scale="2"/>
+        <Property Name="totalDepthTVD" Type="Edm.Decimal" Precision="10" Scale="2"/>
+        <Property Name="surfaceLatitude" Type="Edm.Decimal" Precision="10" Scale="6"/>
+        <Property Name="surfaceLongitude" Type="Edm.Decimal" Precision="10" Scale="6"/>
+        <Property Name="s4WBSElement" Type="Edm.String" MaxLength="24"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Planned"/>
+      </EntityType>
+      <EntityType Name="CostElements">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="s4SyncStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4LastSyncAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="s4ErrorMessage" Type="Edm.String" MaxLength="500"/>
+        <Property Name="elementCode" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="elementName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="category_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="uom" Type="AFEService.UnitsOfMeasure">
+          <ReferentialConstraint Property="uom_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="uom_ID" Type="Edm.Guid"/>
+        <Property Name="s4GLAccount" Type="Edm.String" MaxLength="10"/>
+        <Property Name="s4CostElement" Type="Edm.String" MaxLength="10"/>
+        <Property Name="taxCode" Type="Edm.String" MaxLength="5"/>
+      </EntityType>
+      <EntityType Name="Vendors">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="s4SyncStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4LastSyncAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="s4ErrorMessage" Type="Edm.String" MaxLength="500"/>
+        <Property Name="vendorCode" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="vendorName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="vendorType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="country_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="currency" Type="AFEService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="paymentTerms" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4VendorNo" Type="Edm.String" MaxLength="10"/>
+        <Property Name="s4BusinessPartner" Type="Edm.String" MaxLength="10"/>
+        <Property Name="taxId" Type="Edm.String" MaxLength="20"/>
+        <Property Name="contactName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="contactEmail" Type="Edm.String" MaxLength="100"/>
+        <Property Name="contactPhone" Type="Edm.String" MaxLength="20"/>
+      </EntityType>
+      <EntityType Name="Currencies">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="currencyCode" Type="Edm.String" MaxLength="3" Nullable="false"/>
+        <Property Name="currencyName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="decimalPlaces" Type="Edm.Int32" DefaultValue="2"/>
+      </EntityType>
+      <EntityType Name="UnitsOfMeasure">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="uomCode" Type="Edm.String" MaxLength="10" Nullable="false"/>
+        <Property Name="uomName" Type="Edm.String" MaxLength="50" Nullable="false"/>
+        <Property Name="uomType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4UoM" Type="Edm.String" MaxLength="3"/>
+      </EntityType>
+      <EntityType Name="DraftAdministrativeData">
+        <Key>
+          <PropertyRef Name="DraftUUID"/>
+        </Key>
+        <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+        <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+      </EntityType>
+      <ComplexType Name="return_AFEService_getAFESummary">
+        <Property Name="estimatedTotal" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="actualTotal" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="committedTotal" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="varianceAmount" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="variancePct" Type="Edm.Decimal" Scale="variable"/>
+      </ComplexType>
+      <ComplexType Name="return_AFEService_validateAFE">
+        <Property Name="ruleCode" Type="Edm.String"/>
+        <Property Name="severity" Type="Edm.String"/>
+        <Property Name="message" Type="Edm.String"/>
+      </ComplexType>
+      <Action Name="submitForApproval" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.AFEs"/>
+        <ReturnType Type="AFEService.AFEs"/>
+      </Action>
+      <Action Name="approve" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.AFEs"/>
+        <Parameter Name="comments" Type="Edm.String"/>
+        <Parameter Name="conditions" Type="Edm.String"/>
+        <ReturnType Type="AFEService.AFEs"/>
+      </Action>
+      <Action Name="reject" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.AFEs"/>
+        <Parameter Name="comments" Type="Edm.String"/>
+        <ReturnType Type="AFEService.AFEs"/>
+      </Action>
+      <Action Name="returnForRevision" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.AFEs"/>
+        <Parameter Name="comments" Type="Edm.String"/>
+        <ReturnType Type="AFEService.AFEs"/>
+      </Action>
+      <Action Name="activate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.AFEs"/>
+        <ReturnType Type="AFEService.AFEs"/>
+      </Action>
+      <Action Name="close" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.AFEs"/>
+        <ReturnType Type="AFEService.AFEs"/>
+      </Action>
+      <Action Name="cancel" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.AFEs"/>
+        <ReturnType Type="AFEService.AFEs"/>
+      </Action>
+      <Action Name="createSupplement" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.AFEs"/>
+        <Parameter Name="estimatedCost" Type="Edm.Decimal" Scale="variable"/>
+        <Parameter Name="justification" Type="Edm.String"/>
+        <ReturnType Type="AFEService.AFEs"/>
+      </Action>
+      <Action Name="createS4Project" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.AFEs"/>
+        <ReturnType Type="AFEService.AFEs"/>
+      </Action>
+      <Action Name="reserveBudget" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.AFEs"/>
+        <ReturnType Type="AFEService.AFEs"/>
+      </Action>
+      <Action Name="copyFromTemplate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.AFEs"/>
+        <Parameter Name="templateId" Type="Edm.Guid"/>
+        <ReturnType Type="AFEService.AFEs"/>
+      </Action>
+      <Action Name="generateReport" IsBound="true">
+        <Parameter Name="in" Type="AFEService.AFEs"/>
+        <Parameter Name="format" Type="Edm.String"/>
+        <ReturnType Type="Edm.Binary"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.AFEs"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AFEService.AFEs"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.AFELineItems"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AFEService.AFELineItems"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.WBSElements"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AFEService.WBSElements"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.CostEstimates"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AFEService.CostEstimates"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.Approvals"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AFEService.Approvals"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.AFEDocuments"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AFEService.AFEDocuments"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.AFEs"/>
+        <ReturnType Type="AFEService.AFEs"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.CostEstimates"/>
+        <ReturnType Type="AFEService.CostEstimates"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.AFEs"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="AFEService.AFEs"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.CostEstimates"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="AFEService.CostEstimates"/>
+      </Action>
+      <Action Name="copyToBenchmark" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.CostEstimates"/>
+        <ReturnType Type="AFEService.CostEstimates"/>
+      </Action>
+      <Action Name="delegate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.Approvals"/>
+        <Parameter Name="toUserId" Type="Edm.String"/>
+        <Parameter Name="toUserName" Type="Edm.String"/>
+        <ReturnType Type="AFEService.Approvals"/>
+      </Action>
+      <Action Name="escalate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AFEService.Approvals"/>
+        <ReturnType Type="AFEService.Approvals"/>
+      </Action>
+      <Function Name="getAFEsByWell" IsBound="false" IsComposable="false">
+        <Parameter Name="wellId" Type="Edm.Guid"/>
+        <ReturnType Type="Collection(AFEService.AFEs)"/>
+      </Function>
+      <Function Name="getAFEsByStatus" IsBound="false" IsComposable="false">
+        <Parameter Name="status" Type="Edm.String"/>
+        <ReturnType Type="Collection(AFEService.AFEs)"/>
+      </Function>
+      <Function Name="getPendingApprovals" IsBound="false" IsComposable="false">
+        <Parameter Name="userId" Type="Edm.String"/>
+        <ReturnType Type="Collection(AFEService.Approvals)"/>
+      </Function>
+      <Function Name="getMyPendingApprovals" IsBound="false" IsComposable="false">
+        <ReturnType Type="Collection(AFEService.Approvals)"/>
+      </Function>
+      <Function Name="getAFESummary" IsBound="false" IsComposable="false">
+        <Parameter Name="afeId" Type="Edm.Guid"/>
+        <ReturnType Type="AFEService.return_AFEService_getAFESummary"/>
+      </Function>
+      <Function Name="validateAFE" IsBound="false" IsComposable="false">
+        <Parameter Name="afeId" Type="Edm.Guid"/>
+        <ReturnType Type="Collection(AFEService.return_AFEService_validateAFE)" Nullable="true"/>
+      </Function>
+      <Annotations Target="AFEService.EntityContainer/AFEs">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="AFEService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="AFEService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="AFEService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.AFEs/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEs/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEs/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEs/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEs/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEs/afeNumber">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEs/afeType">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Original"/>
+              <PropertyValue Property="Value" String="Original"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Supplement"/>
+              <PropertyValue Property="Value" String="Supplement"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Revision"/>
+              <PropertyValue Property="Value" String="Revision"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.AFEs/contingencyPct">
+        <Annotation Term="Validation.Minimum" Int="0"/>
+        <Annotation Term="Validation.Maximum" Float="0.5"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEs/approvalStatus">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Draft"/>
+              <PropertyValue Property="Value" String="Draft"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Pending"/>
+              <PropertyValue Property="Value" String="Pending"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Approved"/>
+              <PropertyValue Property="Value" String="Approved"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Rejected"/>
+              <PropertyValue Property="Value" String="Rejected"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.AFEs/status">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Active"/>
+              <PropertyValue Property="Value" String="Active"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Closed"/>
+              <PropertyValue Property="Value" String="Closed"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Cancelled"/>
+              <PropertyValue Property="Value" String="Cancelled"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.AFEs/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEs/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEs/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEs/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.EntityContainer/AFELineItems">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="AFEService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.AFELineItems/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFELineItems/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFELineItems/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFELineItems/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFELineItems/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.EntityContainer/WBSElements">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="AFEService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.WBSElements/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.WBSElements/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.WBSElements/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.WBSElements/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.WBSElements/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.EntityContainer/CostEstimates">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="AFEService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="AFEService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="AFEService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.CostEstimates/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.CostEstimates/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.CostEstimates/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.CostEstimates/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.CostEstimates/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.CostEstimates/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.CostEstimates/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.CostEstimates/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.CostEstimates/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.EntityContainer/Approvals">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="AFEService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.Approvals/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.Approvals/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.Approvals/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.Approvals/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.Approvals/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.Approvals/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.Approvals/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.Approvals/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.Approvals/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.EntityContainer/AFEDocuments">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="AFEService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.AFEDocuments/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEDocuments/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEDocuments/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEDocuments/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEDocuments/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEDocuments/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEDocuments/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEDocuments/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.AFEDocuments/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.EntityContainer/Wells">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.Wells/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.Wells/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.Wells/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.Wells/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.Wells/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.Wells/wellNumber">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="AFEService.Wells/wellType">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Exploration"/>
+              <PropertyValue Property="Value" String="Exploration"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Development"/>
+              <PropertyValue Property="Value" String="Development"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Workover"/>
+              <PropertyValue Property="Value" String="Workover"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Sidetrack"/>
+              <PropertyValue Property="Value" String="Sidetrack"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.Wells/wellboreType">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Vertical"/>
+              <PropertyValue Property="Value" String="Vertical"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Horizontal"/>
+              <PropertyValue Property="Value" String="Horizontal"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Directional"/>
+              <PropertyValue Property="Value" String="Directional"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.Wells/status">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Planned"/>
+              <PropertyValue Property="Value" String="Planned"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Drilling"/>
+              <PropertyValue Property="Value" String="Drilling"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Completed"/>
+              <PropertyValue Property="Value" String="Completed"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Suspended"/>
+              <PropertyValue Property="Value" String="Suspended"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="PandA"/>
+              <PropertyValue Property="Value" String="PandA"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.EntityContainer/CostElements">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.CostElements/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.CostElements/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.CostElements/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.CostElements/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.CostElements/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.CostElements/elementCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="AFEService.EntityContainer/Vendors">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.Vendors/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.Vendors/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.Vendors/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.Vendors/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.Vendors/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.Vendors/vendorCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="AFEService.EntityContainer/Currencies">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.Currencies/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.Currencies/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.Currencies/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.Currencies/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.Currencies/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.Currencies/currencyCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="AFEService.EntityContainer/UnitsOfMeasure">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.UnitsOfMeasure/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.UnitsOfMeasure/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.UnitsOfMeasure/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.UnitsOfMeasure/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AFEService.UnitsOfMeasure/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AFEService.UnitsOfMeasure/uomCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="AFEService.getAFEsByWell(Edm.Guid)/wellId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.getAFEsByStatus(Edm.String)/status">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.getPendingApprovals(Edm.String)/userId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.getAFESummary(Edm.Guid)/afeId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.validateAFE(Edm.Guid)/afeId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AFEService.DraftAdministrativeData">
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftAdministrativeData}"/>
+      </Annotations>
+      <Annotations Target="AFEService.DraftAdministrativeData/DraftUUID">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftUUID}"/>
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AFEService.DraftAdministrativeData/CreationDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreationDateTime}"/>
+      </Annotations>
+      <Annotations Target="AFEService.DraftAdministrativeData/CreatedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreatedByUser}"/>
+      </Annotations>
+      <Annotations Target="AFEService.DraftAdministrativeData/DraftIsCreatedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsCreatedByMe}"/>
+      </Annotations>
+      <Annotations Target="AFEService.DraftAdministrativeData/LastChangeDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangeDateTime}"/>
+      </Annotations>
+      <Annotations Target="AFEService.DraftAdministrativeData/LastChangedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangedByUser}"/>
+      </Annotations>
+      <Annotations Target="AFEService.DraftAdministrativeData/InProcessByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_InProcessByUser}"/>
+      </Annotations>
+      <Annotations Target="AFEService.DraftAdministrativeData/DraftIsProcessedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsProcessedByMe}"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

@@ -1,0 +1,15 @@
+COLUMN TABLE wcm_integration_IntegrationLogDetails (
+  ID NVARCHAR(36) NOT NULL,
+  log_ID NVARCHAR(36) NOT NULL,
+  recordId NVARCHAR(100),
+  entityType NVARCHAR(50),
+  operation NVARCHAR(20),
+  status NVARCHAR(20),
+  errorCode NVARCHAR(20),
+  errorMessage NVARCHAR(500),
+  sourceData NCLOB,
+  targetData NCLOB,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_integration_IntegrationLogs AS "LOG" ON ("LOG".ID = log_ID)
+)

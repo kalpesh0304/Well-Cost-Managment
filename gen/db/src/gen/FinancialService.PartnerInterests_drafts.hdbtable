@@ -1,0 +1,27 @@
+COLUMN TABLE FinancialService_PartnerInterests_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  well_ID NVARCHAR(36) NULL,
+  afe_ID NVARCHAR(36) NULL,
+  partner_ID NVARCHAR(36) NULL,
+  workingInterest DECIMAL(8, 4) NULL,
+  netRevenueInterest DECIMAL(8, 4) NULL,
+  effectiveFromDate DATE NULL,
+  effectiveToDate DATE NULL,
+  consentStatus NVARCHAR(20) NULL DEFAULT 'Pending',
+  consentDate TIMESTAMP NULL,
+  isOperator BOOLEAN NULL DEFAULT FALSE,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN FinancialService_Wells AS well ON (well.ID = well_ID),
+  MANY TO ONE JOIN FinancialService_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN FinancialService_Partners AS partner ON (partner.ID = partner_ID),
+  MANY TO ONE JOIN FinancialService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

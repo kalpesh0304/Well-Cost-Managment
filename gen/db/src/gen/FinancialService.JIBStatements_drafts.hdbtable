@@ -1,0 +1,33 @@
+COLUMN TABLE FinancialService_JIBStatements_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  statementNumber NVARCHAR(20) NULL,
+  well_ID NVARCHAR(36) NULL,
+  afe_ID NVARCHAR(36) NULL,
+  partner_ID NVARCHAR(36) NULL,
+  billingPeriodFrom DATE NULL,
+  billingPeriodTo DATE NULL,
+  workingInterest DECIMAL(8, 4) NULL,
+  grossAmount DECIMAL(15, 2) NULL,
+  partnerShare DECIMAL(15, 2) NULL,
+  currency_ID NVARCHAR(36) NULL,
+  dueDate DATE NULL,
+  status NVARCHAR(20) NULL DEFAULT 'Draft',
+  sentDate TIMESTAMP NULL,
+  paidDate DATE NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN FinancialService_Wells AS well ON (well.ID = well_ID),
+  MANY TO ONE JOIN FinancialService_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN FinancialService_Partners AS partner ON (partner.ID = partner_ID),
+  MANY TO ONE JOIN FinancialService_Currencies AS currency ON (currency.ID = currency_ID),
+  MANY TO MANY JOIN FinancialService_JIBLineItems_drafts AS lineItems ON (lineItems.statement_ID = ID),
+  MANY TO ONE JOIN FinancialService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

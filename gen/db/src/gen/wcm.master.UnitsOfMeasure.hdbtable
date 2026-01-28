@@ -1,0 +1,13 @@
+COLUMN TABLE wcm_master_UnitsOfMeasure (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  uomCode NVARCHAR(10) NOT NULL,
+  uomName NVARCHAR(50) NOT NULL,
+  uomType NVARCHAR(20),
+  s4UoM NVARCHAR(3),
+  PRIMARY KEY(ID)
+)

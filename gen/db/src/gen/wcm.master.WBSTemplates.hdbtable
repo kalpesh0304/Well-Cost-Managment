@@ -1,0 +1,20 @@
+COLUMN TABLE wcm_master_WBSTemplates (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  templateCode NVARCHAR(20) NOT NULL,
+  templateName NVARCHAR(100) NOT NULL,
+  wellType NVARCHAR(20) NOT NULL,
+  wellboreType NVARCHAR(20),
+  region NVARCHAR(50),
+  hierarchyLevels INTEGER DEFAULT 5,
+  versionNumber INTEGER DEFAULT 1,
+  effectiveFromDate DATE,
+  effectiveToDate DATE,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO MANY JOIN wcm_master_WBSTemplateElements AS elements ON (elements.template_ID = ID)
+)

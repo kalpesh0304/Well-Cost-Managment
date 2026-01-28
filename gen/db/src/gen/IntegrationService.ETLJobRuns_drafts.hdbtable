@@ -1,0 +1,20 @@
+COLUMN TABLE IntegrationService_ETLJobRuns_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  job_ID NVARCHAR(36) NULL,
+  startTime TIMESTAMP NULL,
+  endTime TIMESTAMP NULL,
+  status NVARCHAR(20) NULL,
+  recordsExtracted INTEGER NULL,
+  recordsTransformed INTEGER NULL,
+  recordsLoaded INTEGER NULL,
+  recordsFailed INTEGER NULL,
+  errorMessage NVARCHAR(1000) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN IntegrationService_ETLJobs_drafts AS job ON (job.ID = job_ID),
+  MANY TO ONE JOIN IntegrationService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

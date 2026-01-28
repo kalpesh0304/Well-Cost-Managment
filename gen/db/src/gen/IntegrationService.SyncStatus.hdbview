@@ -1,0 +1,17 @@
+VIEW IntegrationService_SyncStatus AS SELECT
+  SyncStatus_0.ID,
+  SyncStatus_0.createdAt,
+  SyncStatus_0.createdBy,
+  SyncStatus_0.modifiedAt,
+  SyncStatus_0.modifiedBy,
+  SyncStatus_0.entityType,
+  SyncStatus_0.entityId,
+  SyncStatus_0.sourceSystem,
+  SyncStatus_0.targetSystem,
+  SyncStatus_0.lastSyncAt,
+  SyncStatus_0.syncStatus,
+  SyncStatus_0.syncDirection,
+  SyncStatus_0.errorMessage,
+  SyncStatus_0.retryCount,
+  SyncStatus_0.nextRetryAt
+FROM wcm_integration_SyncStatus AS SyncStatus_0

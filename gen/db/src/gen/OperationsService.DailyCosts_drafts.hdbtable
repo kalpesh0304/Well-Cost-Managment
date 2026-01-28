@@ -1,0 +1,24 @@
+COLUMN TABLE OperationsService_DailyCosts_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  report_ID NVARCHAR(36) NULL,
+  costElement_ID NVARCHAR(36) NULL,
+  vendor_ID NVARCHAR(36) NULL,
+  description NVARCHAR(200) NULL,
+  quantity DECIMAL(15, 4) NULL,
+  uom_ID NVARCHAR(36) NULL,
+  unitRate DECIMAL(15, 4) NULL,
+  amount DECIMAL(15, 2) NULL,
+  currency_ID NVARCHAR(36) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN OperationsService_DailyReports_drafts AS report ON (report.ID = report_ID),
+  MANY TO ONE JOIN OperationsService_CostElements AS costElement ON (costElement.ID = costElement_ID),
+  MANY TO ONE JOIN OperationsService_Vendors AS vendor ON (vendor.ID = vendor_ID),
+  MANY TO ONE JOIN OperationsService_UnitsOfMeasure AS uom ON (uom.ID = uom_ID),
+  MANY TO ONE JOIN OperationsService_Currencies AS currency ON (currency.ID = currency_ID),
+  MANY TO ONE JOIN OperationsService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

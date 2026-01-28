@@ -1,0 +1,20 @@
+VIEW IntegrationService_ETLJobs AS SELECT
+  ETLJobs_0.ID,
+  ETLJobs_0.createdAt,
+  ETLJobs_0.createdBy,
+  ETLJobs_0.modifiedAt,
+  ETLJobs_0.modifiedBy,
+  ETLJobs_0.isActive,
+  ETLJobs_0.jobName,
+  ETLJobs_0.jobType,
+  ETLJobs_0.sourceSystem,
+  ETLJobs_0.targetSystem,
+  ETLJobs_0.schedule,
+  ETLJobs_0.isEnabled,
+  ETLJobs_0.lastRunAt,
+  ETLJobs_0.lastRunStatus,
+  ETLJobs_0.nextRunAt
+FROM wcm_integration_ETLJobs AS ETLJobs_0
+WITH ASSOCIATIONS (
+  MANY TO MANY JOIN IntegrationService_ETLJobRuns AS runs ON (runs.job_ID = ID)
+)

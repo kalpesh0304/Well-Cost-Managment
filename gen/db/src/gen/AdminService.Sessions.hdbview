@@ -1,0 +1,14 @@
+VIEW AdminService_Sessions AS SELECT
+  Sessions_0.ID,
+  Sessions_0.user_ID,
+  Sessions_0.sessionToken,
+  Sessions_0.createdAt,
+  Sessions_0.expiresAt,
+  Sessions_0.lastActivityAt,
+  Sessions_0.ipAddress,
+  Sessions_0.userAgent,
+  Sessions_0.isActive
+FROM wcm_security_Sessions AS Sessions_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_Users AS "USER" ON ("USER".ID = user_ID)
+)

@@ -1,0 +1,30 @@
+COLUMN TABLE wcm_economics_EconomicsAnalyses (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  analysisName NVARCHAR(100) NOT NULL,
+  well_ID NVARCHAR(36),
+  afe_ID NVARCHAR(36),
+  analysisType NVARCHAR(20) NOT NULL,
+  discountRate DECIMAL(8, 4) NOT NULL,
+  inflationRate DECIMAL(8, 4),
+  npv DECIMAL(15, 2),
+  irr DECIMAL(8, 4),
+  mirr DECIMAL(8, 4),
+  paybackYears DECIMAL(5, 2),
+  discountedPayback DECIMAL(5, 2),
+  profitabilityIndex DECIMAL(8, 4),
+  recommendation NVARCHAR(20),
+  calculatedAt TIMESTAMP,
+  status NVARCHAR(20) NOT NULL DEFAULT 'Draft',
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_master_Wells AS well ON (well.ID = well_ID),
+  MANY TO ONE JOIN wcm_afe_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO MANY JOIN wcm_economics_CashFlows AS cashFlows ON (cashFlows.analysis_ID = ID),
+  MANY TO MANY JOIN wcm_economics_Scenarios AS scenarios ON (scenarios.analysis_ID = ID),
+  MANY TO MANY JOIN wcm_economics_SensitivityResults AS sensitivities ON (sensitivities.analysis_ID = ID),
+  MANY TO MANY JOIN wcm_economics_EconomicsAssumptions AS assumptions ON (assumptions.analysis_ID = ID)
+)

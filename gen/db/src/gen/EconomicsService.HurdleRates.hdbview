@@ -1,0 +1,19 @@
+VIEW EconomicsService_HurdleRates AS SELECT
+  HurdleRates_0.ID,
+  HurdleRates_0.createdAt,
+  HurdleRates_0.createdBy,
+  HurdleRates_0.modifiedAt,
+  HurdleRates_0.modifiedBy,
+  HurdleRates_0.isActive,
+  HurdleRates_0.rateType,
+  HurdleRates_0.field_ID,
+  HurdleRates_0.rateName,
+  HurdleRates_0.rateValue,
+  HurdleRates_0.riskPremium,
+  HurdleRates_0.effectiveFromDate,
+  HurdleRates_0.effectiveToDate,
+  HurdleRates_0.approvedBy
+FROM wcm_economics_HurdleRates AS HurdleRates_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN EconomicsService_Fields AS field ON (field.ID = field_ID)
+)

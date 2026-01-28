@@ -1,0 +1,13 @@
+VIEW MasterDataService_WBSTemplateElements AS SELECT
+  WBSTemplateElements_0.ID,
+  WBSTemplateElements_0.template_ID,
+  WBSTemplateElements_0.elementCode,
+  WBSTemplateElements_0.elementName,
+  WBSTemplateElements_0.parent_ID,
+  WBSTemplateElements_0.hierarchyLevel,
+  WBSTemplateElements_0.sortOrder
+FROM wcm_master_WBSTemplateElements AS WBSTemplateElements_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN MasterDataService_WBSTemplates AS template ON (template.ID = template_ID),
+  MANY TO ONE JOIN MasterDataService_WBSTemplateElements AS parent ON (parent.ID = parent_ID)
+)

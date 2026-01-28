@@ -1,0 +1,14 @@
+VIEW EconomicsService_EconomicsAssumptions AS SELECT
+  EconomicsAssumptions_0.ID,
+  EconomicsAssumptions_0.analysis_ID,
+  EconomicsAssumptions_0.assumptionType,
+  EconomicsAssumptions_0.assumptionName,
+  EconomicsAssumptions_0.assumptionValue,
+  EconomicsAssumptions_0.numericValue,
+  EconomicsAssumptions_0.unit,
+  EconomicsAssumptions_0.source,
+  EconomicsAssumptions_0.effectiveDate
+FROM wcm_economics_EconomicsAssumptions AS EconomicsAssumptions_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN EconomicsService_EconomicsAnalyses AS analysis ON (analysis.ID = analysis_ID)
+)

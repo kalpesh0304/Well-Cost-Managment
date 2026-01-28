@@ -1,0 +1,15 @@
+COLUMN TABLE wcm_security_Roles (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  roleCode NVARCHAR(50) NOT NULL,
+  roleName NVARCHAR(100) NOT NULL,
+  roleType NVARCHAR(20),
+  description NVARCHAR(500),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO MANY JOIN wcm_security_RoleScopes AS scopes ON (scopes.role_ID = ID)
+)

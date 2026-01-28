@@ -1,0 +1,31 @@
+COLUMN TABLE MasterDataService_Wells_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  isActive BOOLEAN NULL DEFAULT TRUE,
+  s4SyncStatus NVARCHAR(20) NULL,
+  s4LastSyncAt TIMESTAMP NULL,
+  s4ErrorMessage NVARCHAR(500) NULL,
+  wellNumber NVARCHAR(20) NULL,
+  wellName NVARCHAR(100) NULL,
+  wellType NVARCHAR(20) NULL,
+  wellboreType NVARCHAR(20) NULL,
+  field_ID NVARCHAR(36) NULL,
+  spudDate DATE NULL,
+  totalDepthMD DECIMAL(10, 2) NULL,
+  totalDepthTVD DECIMAL(10, 2) NULL,
+  surfaceLatitude DECIMAL(10, 6) NULL,
+  surfaceLongitude DECIMAL(10, 6) NULL,
+  s4WBSElement NVARCHAR(24) NULL,
+  status NVARCHAR(20) NULL DEFAULT 'Planned',
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN MasterDataService_Fields AS field ON (field.ID = field_ID),
+  MANY TO ONE JOIN MasterDataService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

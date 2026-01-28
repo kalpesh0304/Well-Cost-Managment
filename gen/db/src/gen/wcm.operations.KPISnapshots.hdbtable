@@ -1,0 +1,22 @@
+COLUMN TABLE wcm_operations_KPISnapshots (
+  ID NVARCHAR(36) NOT NULL,
+  snapshotDate DATE NOT NULL,
+  snapshotType NVARCHAR(20),
+  well_ID NVARCHAR(36),
+  field_ID NVARCHAR(36),
+  totalEstimated DECIMAL(15, 2),
+  totalActual DECIMAL(15, 2),
+  totalCommitted DECIMAL(15, 2),
+  variancePct DECIMAL(8, 4),
+  plannedDays INTEGER,
+  actualDays INTEGER,
+  scheduleVariance INTEGER,
+  incidentCount INTEGER DEFAULT 0,
+  nptHours DECIMAL(10, 2),
+  currency_ID NVARCHAR(36),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_master_Wells AS well ON (well.ID = well_ID),
+  MANY TO ONE JOIN wcm_master_Fields AS field ON (field.ID = field_ID),
+  MANY TO ONE JOIN wcm_master_Currencies AS currency ON (currency.ID = currency_ID)
+)

@@ -1,0 +1,27 @@
+COLUMN TABLE wcm_master_Vendors (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  s4SyncStatus NVARCHAR(20),
+  s4LastSyncAt TIMESTAMP,
+  s4ErrorMessage NVARCHAR(500),
+  vendorCode NVARCHAR(20) NOT NULL,
+  vendorName NVARCHAR(100) NOT NULL,
+  vendorType NVARCHAR(20),
+  country_ID NVARCHAR(36),
+  currency_ID NVARCHAR(36),
+  paymentTerms NVARCHAR(20),
+  s4VendorNo NVARCHAR(10),
+  s4BusinessPartner NVARCHAR(10),
+  taxId NVARCHAR(20),
+  contactName NVARCHAR(100),
+  contactEmail NVARCHAR(100),
+  contactPhone NVARCHAR(20),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_master_Countries AS country ON (country.ID = country_ID),
+  MANY TO ONE JOIN wcm_master_Currencies AS currency ON (currency.ID = currency_ID)
+)

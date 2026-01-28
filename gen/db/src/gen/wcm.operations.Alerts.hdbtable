@@ -1,0 +1,24 @@
+COLUMN TABLE wcm_operations_Alerts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  alertType NVARCHAR(50) NOT NULL,
+  severity NVARCHAR(20) NOT NULL,
+  title NVARCHAR(200) NOT NULL,
+  message NVARCHAR(1000),
+  well_ID NVARCHAR(36),
+  afe_ID NVARCHAR(36),
+  triggeredAt TIMESTAMP NOT NULL,
+  acknowledgedBy NVARCHAR(100),
+  acknowledgedAt TIMESTAMP,
+  resolvedBy NVARCHAR(100),
+  resolvedAt TIMESTAMP,
+  status NVARCHAR(20) NOT NULL DEFAULT 'Active',
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_master_Wells AS well ON (well.ID = well_ID),
+  MANY TO ONE JOIN wcm_afe_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO MANY JOIN wcm_operations_AlertRecipients AS recipients ON (recipients.alert_ID = ID)
+)

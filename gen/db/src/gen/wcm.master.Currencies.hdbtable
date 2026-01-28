@@ -1,0 +1,12 @@
+COLUMN TABLE wcm_master_Currencies (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  currencyCode NVARCHAR(3) NOT NULL,
+  currencyName NVARCHAR(100) NOT NULL,
+  decimalPlaces INTEGER DEFAULT 2,
+  PRIMARY KEY(ID)
+)

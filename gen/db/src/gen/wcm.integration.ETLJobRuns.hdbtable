@@ -1,0 +1,15 @@
+COLUMN TABLE wcm_integration_ETLJobRuns (
+  ID NVARCHAR(36) NOT NULL,
+  job_ID NVARCHAR(36) NOT NULL,
+  startTime TIMESTAMP NOT NULL,
+  endTime TIMESTAMP,
+  status NVARCHAR(20),
+  recordsExtracted INTEGER,
+  recordsTransformed INTEGER,
+  recordsLoaded INTEGER,
+  recordsFailed INTEGER,
+  errorMessage NVARCHAR(1000),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_integration_ETLJobs AS job ON (job.ID = job_ID)
+)

@@ -1,0 +1,21 @@
+COLUMN TABLE AFEService_WBSElements_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  afe_ID NVARCHAR(36) NULL,
+  elementCode NVARCHAR(24) NULL,
+  elementName NVARCHAR(100) NULL,
+  parent_ID NVARCHAR(36) NULL,
+  hierarchyLevel INTEGER NULL,
+  sortOrder INTEGER NULL,
+  s4WBSElement NVARCHAR(24) NULL,
+  isActive BOOLEAN NULL DEFAULT TRUE,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AFEService_AFEs_drafts AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN AFEService_WBSElements_drafts AS parent ON (parent.ID = parent_ID),
+  MANY TO MANY JOIN AFEService_WBSElements_drafts AS children ON (children.parent_ID = ID),
+  MANY TO ONE JOIN AFEService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

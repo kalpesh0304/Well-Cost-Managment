@@ -1,0 +1,17 @@
+VIEW AdminService_ValidationRules AS SELECT
+  ValidationRules_0.ID,
+  ValidationRules_0.createdAt,
+  ValidationRules_0.createdBy,
+  ValidationRules_0.modifiedAt,
+  ValidationRules_0.modifiedBy,
+  ValidationRules_0.isActive,
+  ValidationRules_0.ruleName,
+  ValidationRules_0.ruleCode,
+  ValidationRules_0.entityType,
+  ValidationRules_0.fieldName,
+  ValidationRules_0.ruleType,
+  ValidationRules_0.ruleExpression,
+  ValidationRules_0.errorMessage,
+  ValidationRules_0.severity,
+  ValidationRules_0.isBlocker
+FROM wcm_configuration_ValidationRules AS ValidationRules_0

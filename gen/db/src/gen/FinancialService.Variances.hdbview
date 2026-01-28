@@ -1,0 +1,28 @@
+VIEW FinancialService_Variances AS SELECT
+  Variances_0.ID,
+  Variances_0.createdAt,
+  Variances_0.createdBy,
+  Variances_0.modifiedAt,
+  Variances_0.modifiedBy,
+  Variances_0.afe_ID,
+  Variances_0.well_ID,
+  Variances_0.wbsElement_ID,
+  Variances_0.costElement_ID,
+  Variances_0.analysisDate,
+  Variances_0.estimatedAmount,
+  Variances_0.actualAmount,
+  Variances_0.varianceAmount,
+  Variances_0.variancePct,
+  Variances_0.varianceCategory_ID,
+  Variances_0.explanation,
+  Variances_0.approvalRequired,
+  Variances_0.approvedBy,
+  Variances_0.approvedAt
+FROM wcm_financial_Variances AS Variances_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN FinancialService_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN FinancialService_Wells AS well ON (well.ID = well_ID),
+  MANY TO ONE JOIN FinancialService_WBSElements AS wbsElement ON (wbsElement.ID = wbsElement_ID),
+  MANY TO ONE JOIN FinancialService_CostElements AS costElement ON (costElement.ID = costElement_ID),
+  MANY TO ONE JOIN FinancialService_VarianceCategories AS varianceCategory ON (varianceCategory.ID = varianceCategory_ID)
+)

@@ -1,0 +1,18 @@
+COLUMN TABLE MasterDataService_WBSTemplateElements_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  template_ID NVARCHAR(36) NULL,
+  elementCode NVARCHAR(24) NULL,
+  elementName NVARCHAR(100) NULL,
+  parent_ID NVARCHAR(36) NULL,
+  hierarchyLevel INTEGER NULL,
+  sortOrder INTEGER NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN MasterDataService_WBSTemplates_drafts AS template ON (template.ID = template_ID),
+  MANY TO ONE JOIN MasterDataService_WBSTemplateElements_drafts AS parent ON (parent.ID = parent_ID),
+  MANY TO ONE JOIN MasterDataService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

@@ -1,0 +1,22 @@
+VIEW FinancialService_PartnerInterests AS SELECT
+  PartnerInterests_0.ID,
+  PartnerInterests_0.createdAt,
+  PartnerInterests_0.createdBy,
+  PartnerInterests_0.modifiedAt,
+  PartnerInterests_0.modifiedBy,
+  PartnerInterests_0.well_ID,
+  PartnerInterests_0.afe_ID,
+  PartnerInterests_0.partner_ID,
+  PartnerInterests_0.workingInterest,
+  PartnerInterests_0.netRevenueInterest,
+  PartnerInterests_0.effectiveFromDate,
+  PartnerInterests_0.effectiveToDate,
+  PartnerInterests_0.consentStatus,
+  PartnerInterests_0.consentDate,
+  PartnerInterests_0.isOperator
+FROM wcm_financial_PartnerInterests AS PartnerInterests_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN FinancialService_Wells AS well ON (well.ID = well_ID),
+  MANY TO ONE JOIN FinancialService_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN FinancialService_Partners AS partner ON (partner.ID = partner_ID)
+)

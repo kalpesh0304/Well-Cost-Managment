@@ -1,0 +1,15 @@
+VIEW IntegrationService_DataQualityRules AS SELECT
+  DataQualityRules_0.ID,
+  DataQualityRules_0.createdAt,
+  DataQualityRules_0.createdBy,
+  DataQualityRules_0.modifiedAt,
+  DataQualityRules_0.modifiedBy,
+  DataQualityRules_0.isActive,
+  DataQualityRules_0.ruleName,
+  DataQualityRules_0.entityName,
+  DataQualityRules_0.fieldName,
+  DataQualityRules_0.ruleType,
+  DataQualityRules_0.ruleExpression,
+  DataQualityRules_0.errorMessage,
+  DataQualityRules_0.severity
+FROM wcm_integration_DataQualityRules AS DataQualityRules_0

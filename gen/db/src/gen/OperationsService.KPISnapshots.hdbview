@@ -1,0 +1,22 @@
+VIEW OperationsService_KPISnapshots AS SELECT
+  KPISnapshots_0.ID,
+  KPISnapshots_0.snapshotDate,
+  KPISnapshots_0.snapshotType,
+  KPISnapshots_0.well_ID,
+  KPISnapshots_0.field_ID,
+  KPISnapshots_0.totalEstimated,
+  KPISnapshots_0.totalActual,
+  KPISnapshots_0.totalCommitted,
+  KPISnapshots_0.variancePct,
+  KPISnapshots_0.plannedDays,
+  KPISnapshots_0.actualDays,
+  KPISnapshots_0.scheduleVariance,
+  KPISnapshots_0.incidentCount,
+  KPISnapshots_0.nptHours,
+  KPISnapshots_0.currency_ID
+FROM wcm_operations_KPISnapshots AS KPISnapshots_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN OperationsService_Wells AS well ON (well.ID = well_ID),
+  MANY TO ONE JOIN OperationsService_Fields AS field ON (field.ID = field_ID),
+  MANY TO ONE JOIN OperationsService_Currencies AS currency ON (currency.ID = currency_ID)
+)

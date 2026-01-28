@@ -1,0 +1,22 @@
+VIEW EconomicsService_Approvals AS SELECT
+  Approvals_0.ID,
+  Approvals_0.createdAt,
+  Approvals_0.createdBy,
+  Approvals_0.modifiedAt,
+  Approvals_0.modifiedBy,
+  Approvals_0.afe_ID,
+  Approvals_0.approvalLevel,
+  Approvals_0.approverRole,
+  Approvals_0.approverUserId,
+  Approvals_0.approverName,
+  Approvals_0.delegatedFrom,
+  Approvals_0.assignedDate,
+  Approvals_0.dueDate,
+  Approvals_0.actionDate,
+  Approvals_0.actionStatus,
+  Approvals_0.comments,
+  Approvals_0.conditions
+FROM wcm_afe_Approvals AS Approvals_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN EconomicsService_AFEs AS afe ON (afe.ID = afe_ID)
+)

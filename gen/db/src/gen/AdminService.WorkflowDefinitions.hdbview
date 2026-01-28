@@ -1,0 +1,15 @@
+VIEW AdminService_WorkflowDefinitions AS SELECT
+  WorkflowDefinitions_0.ID,
+  WorkflowDefinitions_0.createdAt,
+  WorkflowDefinitions_0.createdBy,
+  WorkflowDefinitions_0.modifiedAt,
+  WorkflowDefinitions_0.modifiedBy,
+  WorkflowDefinitions_0.isActive,
+  WorkflowDefinitions_0.workflowCode,
+  WorkflowDefinitions_0.workflowName,
+  WorkflowDefinitions_0.entityType,
+  WorkflowDefinitions_0.description
+FROM wcm_configuration_WorkflowDefinitions AS WorkflowDefinitions_0
+WITH ASSOCIATIONS (
+  MANY TO MANY JOIN AdminService_WorkflowSteps AS steps ON (steps.workflow_ID = ID)
+)

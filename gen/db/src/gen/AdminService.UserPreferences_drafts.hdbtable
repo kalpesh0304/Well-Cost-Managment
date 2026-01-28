@@ -1,0 +1,15 @@
+COLUMN TABLE AdminService_UserPreferences_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  user_ID NVARCHAR(36) NULL,
+  preferenceKey NVARCHAR(100) NULL,
+  preferenceValue NVARCHAR(1000) NULL,
+  modifiedAt TIMESTAMP NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_Users_drafts AS "USER" ON ("USER".ID = user_ID),
+  MANY TO ONE JOIN AdminService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

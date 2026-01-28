@@ -1,0 +1,26 @@
+COLUMN TABLE wcm_afe_AFELineItems (
+  ID NVARCHAR(36) NOT NULL,
+  afe_ID NVARCHAR(36) NOT NULL,
+  wbsElement_ID NVARCHAR(36),
+  costElement_ID NVARCHAR(36),
+  vendor_ID NVARCHAR(36),
+  lineNumber INTEGER NOT NULL,
+  description NVARCHAR(200) NOT NULL,
+  quantity DECIMAL(15, 4) NOT NULL,
+  uom_ID NVARCHAR(36),
+  unitRate DECIMAL(15, 4) NOT NULL,
+  estimatedAmount DECIMAL(15, 2) NOT NULL,
+  currency_ID NVARCHAR(36),
+  startDate DATE,
+  endDate DATE,
+  durationDays DECIMAL(10, 2),
+  sourceType NVARCHAR(20),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_afe_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN wcm_afe_WBSElements AS wbsElement ON (wbsElement.ID = wbsElement_ID),
+  MANY TO ONE JOIN wcm_master_CostElements AS costElement ON (costElement.ID = costElement_ID),
+  MANY TO ONE JOIN wcm_master_Vendors AS vendor ON (vendor.ID = vendor_ID),
+  MANY TO ONE JOIN wcm_master_UnitsOfMeasure AS uom ON (uom.ID = uom_ID),
+  MANY TO ONE JOIN wcm_master_Currencies AS currency ON (currency.ID = currency_ID)
+)

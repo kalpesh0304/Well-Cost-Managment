@@ -1,0 +1,13 @@
+VIEW IntegrationService_FieldMappings AS SELECT
+  FieldMappings_0.ID,
+  FieldMappings_0.config_ID,
+  FieldMappings_0.sourceField,
+  FieldMappings_0.targetField,
+  FieldMappings_0.transformationType,
+  FieldMappings_0.transformationExpr,
+  FieldMappings_0.defaultValue,
+  FieldMappings_0.isRequired
+FROM wcm_integration_FieldMappings AS FieldMappings_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN IntegrationService_MappingConfigs AS config ON (config.ID = config_ID)
+)

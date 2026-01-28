@@ -1,0 +1,26 @@
+VIEW FinancialService_AFELineItems AS SELECT
+  AFELineItems_0.ID,
+  AFELineItems_0.afe_ID,
+  AFELineItems_0.wbsElement_ID,
+  AFELineItems_0.costElement_ID,
+  AFELineItems_0.vendor_ID,
+  AFELineItems_0.lineNumber,
+  AFELineItems_0.description,
+  AFELineItems_0.quantity,
+  AFELineItems_0.uom_ID,
+  AFELineItems_0.unitRate,
+  AFELineItems_0.estimatedAmount,
+  AFELineItems_0.currency_ID,
+  AFELineItems_0.startDate,
+  AFELineItems_0.endDate,
+  AFELineItems_0.durationDays,
+  AFELineItems_0.sourceType
+FROM wcm_afe_AFELineItems AS AFELineItems_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN FinancialService_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN FinancialService_WBSElements AS wbsElement ON (wbsElement.ID = wbsElement_ID),
+  MANY TO ONE JOIN FinancialService_CostElements AS costElement ON (costElement.ID = costElement_ID),
+  MANY TO ONE JOIN FinancialService_Vendors AS vendor ON (vendor.ID = vendor_ID),
+  MANY TO ONE JOIN FinancialService_UnitsOfMeasure AS uom ON (uom.ID = uom_ID),
+  MANY TO ONE JOIN FinancialService_Currencies AS currency ON (currency.ID = currency_ID)
+)

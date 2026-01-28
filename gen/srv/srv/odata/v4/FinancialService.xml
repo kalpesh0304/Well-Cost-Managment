@@ -1,0 +1,1952 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Validation.V1.xml">
+    <edmx:Include Alias="Validation" Namespace="Org.OData.Validation.V1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="FinancialService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Annotation Term="Core.Links">
+        <Collection>
+          <Record>
+            <PropertyValue Property="rel" String="author"/>
+            <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+          </Record>
+        </Collection>
+      </Annotation>
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="CostActuals" EntityType="FinancialService.CostActuals">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="wbsElement" Target="WBSElements"/>
+          <NavigationPropertyBinding Path="costElement" Target="CostElements"/>
+          <NavigationPropertyBinding Path="vendor" Target="Vendors"/>
+          <NavigationPropertyBinding Path="uom" Target="UnitsOfMeasure"/>
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="CostActuals"/>
+        </EntitySet>
+        <EntitySet Name="Commitments" EntityType="FinancialService.Commitments">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="wbsElement" Target="WBSElements"/>
+          <NavigationPropertyBinding Path="costElement" Target="CostElements"/>
+          <NavigationPropertyBinding Path="vendor" Target="Vendors"/>
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+        </EntitySet>
+        <EntitySet Name="PartnerInterests" EntityType="FinancialService.PartnerInterests">
+          <NavigationPropertyBinding Path="well" Target="Wells"/>
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="partner" Target="Partners"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="PartnerInterests"/>
+        </EntitySet>
+        <EntitySet Name="JIBStatements" EntityType="FinancialService.JIBStatements">
+          <NavigationPropertyBinding Path="well" Target="Wells"/>
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="partner" Target="Partners"/>
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+          <NavigationPropertyBinding Path="lineItems" Target="JIBLineItems"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="JIBStatements"/>
+        </EntitySet>
+        <EntitySet Name="JIBLineItems" EntityType="FinancialService.JIBLineItems">
+          <NavigationPropertyBinding Path="statement" Target="JIBStatements"/>
+          <NavigationPropertyBinding Path="costElement" Target="CostElements"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="JIBLineItems"/>
+        </EntitySet>
+        <EntitySet Name="Variances" EntityType="FinancialService.Variances">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="well" Target="Wells"/>
+          <NavigationPropertyBinding Path="wbsElement" Target="WBSElements"/>
+          <NavigationPropertyBinding Path="costElement" Target="CostElements"/>
+          <NavigationPropertyBinding Path="varianceCategory" Target="VarianceCategories"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="Variances"/>
+        </EntitySet>
+        <EntitySet Name="VarianceCategories" EntityType="FinancialService.VarianceCategories"/>
+        <EntitySet Name="CostAllocations" EntityType="FinancialService.CostAllocations">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="costActual" Target="CostActuals"/>
+          <NavigationPropertyBinding Path="partner" Target="Partners"/>
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+        </EntitySet>
+        <EntitySet Name="AFEs" EntityType="FinancialService.AFEs">
+          <NavigationPropertyBinding Path="well" Target="Wells"/>
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+          <NavigationPropertyBinding Path="parentAFE" Target="AFEs"/>
+          <NavigationPropertyBinding Path="lineItems" Target="AFELineItems"/>
+          <NavigationPropertyBinding Path="wbsElements" Target="WBSElements"/>
+          <NavigationPropertyBinding Path="approvals" Target="Approvals"/>
+          <NavigationPropertyBinding Path="documents" Target="AFEDocuments"/>
+          <NavigationPropertyBinding Path="supplements" Target="AFEs"/>
+        </EntitySet>
+        <EntitySet Name="WBSElements" EntityType="FinancialService.WBSElements">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="parent" Target="WBSElements"/>
+          <NavigationPropertyBinding Path="children" Target="WBSElements"/>
+        </EntitySet>
+        <EntitySet Name="Wells" EntityType="FinancialService.Wells"/>
+        <EntitySet Name="CostElements" EntityType="FinancialService.CostElements">
+          <NavigationPropertyBinding Path="uom" Target="UnitsOfMeasure"/>
+        </EntitySet>
+        <EntitySet Name="Vendors" EntityType="FinancialService.Vendors">
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+        </EntitySet>
+        <EntitySet Name="Partners" EntityType="FinancialService.Partners"/>
+        <EntitySet Name="Currencies" EntityType="FinancialService.Currencies"/>
+        <EntitySet Name="UnitsOfMeasure" EntityType="FinancialService.UnitsOfMeasure"/>
+        <EntitySet Name="AFELineItems" EntityType="FinancialService.AFELineItems">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="wbsElement" Target="WBSElements"/>
+          <NavigationPropertyBinding Path="costElement" Target="CostElements"/>
+          <NavigationPropertyBinding Path="vendor" Target="Vendors"/>
+          <NavigationPropertyBinding Path="uom" Target="UnitsOfMeasure"/>
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+        </EntitySet>
+        <EntitySet Name="Approvals" EntityType="FinancialService.Approvals">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+        </EntitySet>
+        <EntitySet Name="AFEDocuments" EntityType="FinancialService.AFEDocuments">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+        </EntitySet>
+        <FunctionImport Name="getCostActualsByAFE" Function="FinancialService.getCostActualsByAFE" EntitySet="CostActuals"/>
+        <FunctionImport Name="getCommitmentsByAFE" Function="FinancialService.getCommitmentsByAFE" EntitySet="Commitments"/>
+        <FunctionImport Name="getPartnerInterestsByWell" Function="FinancialService.getPartnerInterestsByWell" EntitySet="PartnerInterests"/>
+        <FunctionImport Name="validatePartnerInterests" Function="FinancialService.validatePartnerInterests"/>
+        <FunctionImport Name="getJIBStatementsByPartner" Function="FinancialService.getJIBStatementsByPartner" EntitySet="JIBStatements"/>
+        <FunctionImport Name="getVarianceAnalysis" Function="FinancialService.getVarianceAnalysis"/>
+        <ActionImport Name="generateJIBStatements" Action="FinancialService.generateJIBStatements" EntitySet="JIBStatements"/>
+        <ActionImport Name="runVarianceAnalysis" Action="FinancialService.runVarianceAnalysis" EntitySet="Variances"/>
+        <ActionImport Name="allocateCosts" Action="FinancialService.allocateCosts" EntitySet="CostAllocations"/>
+      </EntityContainer>
+      <EntityType Name="CostActuals">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="s4SyncStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4LastSyncAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="s4ErrorMessage" Type="Edm.String" MaxLength="500"/>
+        <NavigationProperty Name="afe" Type="FinancialService.AFEs">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="wbsElement" Type="FinancialService.WBSElements">
+          <ReferentialConstraint Property="wbsElement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="wbsElement_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="costElement" Type="FinancialService.CostElements">
+          <ReferentialConstraint Property="costElement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="costElement_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="vendor" Type="FinancialService.Vendors">
+          <ReferentialConstraint Property="vendor_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="vendor_ID" Type="Edm.Guid"/>
+        <Property Name="postingDate" Type="Edm.Date"/>
+        <Property Name="documentDate" Type="Edm.Date"/>
+        <Property Name="quantity" Type="Edm.Decimal" Precision="15" Scale="4"/>
+        <NavigationProperty Name="uom" Type="FinancialService.UnitsOfMeasure">
+          <ReferentialConstraint Property="uom_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="uom_ID" Type="Edm.Guid"/>
+        <Property Name="actualAmount" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <NavigationProperty Name="currency" Type="FinancialService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="s4DocumentNo" Type="Edm.String" MaxLength="10"/>
+        <Property Name="s4PONumber" Type="Edm.String" MaxLength="10"/>
+        <Property Name="referenceText" Type="Edm.String" MaxLength="100"/>
+        <Property Name="costType" Type="Edm.String" MaxLength="20" DefaultValue="Actual"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="FinancialService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="FinancialService.CostActuals"/>
+      </EntityType>
+      <EntityType Name="Commitments">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="s4SyncStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4LastSyncAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="s4ErrorMessage" Type="Edm.String" MaxLength="500"/>
+        <NavigationProperty Name="afe" Type="FinancialService.AFEs" Nullable="false">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="wbsElement" Type="FinancialService.WBSElements">
+          <ReferentialConstraint Property="wbsElement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="wbsElement_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="costElement" Type="FinancialService.CostElements">
+          <ReferentialConstraint Property="costElement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="costElement_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="vendor" Type="FinancialService.Vendors">
+          <ReferentialConstraint Property="vendor_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="vendor_ID" Type="Edm.Guid"/>
+        <Property Name="s4PONumber" Type="Edm.String" MaxLength="10" Nullable="false"/>
+        <Property Name="s4POItem" Type="Edm.String" MaxLength="5" Nullable="false"/>
+        <Property Name="commitmentDate" Type="Edm.Date" Nullable="false"/>
+        <Property Name="commitmentAmount" Type="Edm.Decimal" Precision="15" Scale="2" Nullable="false"/>
+        <Property Name="consumedAmount" Type="Edm.Decimal" Precision="15" Scale="2" DefaultValue="0"/>
+        <Property Name="remainingAmount" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <NavigationProperty Name="currency" Type="FinancialService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Open"/>
+      </EntityType>
+      <EntityType Name="PartnerInterests">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="well" Type="FinancialService.Wells">
+          <ReferentialConstraint Property="well_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="well_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="afe" Type="FinancialService.AFEs">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="partner" Type="FinancialService.Partners">
+          <ReferentialConstraint Property="partner_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="partner_ID" Type="Edm.Guid"/>
+        <Property Name="workingInterest" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="netRevenueInterest" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="effectiveFromDate" Type="Edm.Date"/>
+        <Property Name="effectiveToDate" Type="Edm.Date"/>
+        <Property Name="consentStatus" Type="Edm.String" MaxLength="20" DefaultValue="Pending"/>
+        <Property Name="consentDate" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="isOperator" Type="Edm.Boolean" DefaultValue="false"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="FinancialService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="FinancialService.PartnerInterests"/>
+      </EntityType>
+      <EntityType Name="JIBStatements">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="statementNumber" Type="Edm.String" MaxLength="20"/>
+        <NavigationProperty Name="well" Type="FinancialService.Wells">
+          <ReferentialConstraint Property="well_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="well_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="afe" Type="FinancialService.AFEs">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="partner" Type="FinancialService.Partners">
+          <ReferentialConstraint Property="partner_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="partner_ID" Type="Edm.Guid"/>
+        <Property Name="billingPeriodFrom" Type="Edm.Date"/>
+        <Property Name="billingPeriodTo" Type="Edm.Date"/>
+        <Property Name="workingInterest" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="grossAmount" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="partnerShare" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <NavigationProperty Name="currency" Type="FinancialService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="dueDate" Type="Edm.Date"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20" DefaultValue="Draft"/>
+        <Property Name="sentDate" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="paidDate" Type="Edm.Date"/>
+        <NavigationProperty Name="lineItems" Type="Collection(FinancialService.JIBLineItems)" Partner="statement">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="FinancialService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="FinancialService.JIBStatements"/>
+      </EntityType>
+      <EntityType Name="JIBLineItems">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="statement" Type="FinancialService.JIBStatements" Partner="lineItems">
+          <ReferentialConstraint Property="statement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="statement_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="costElement" Type="FinancialService.CostElements">
+          <ReferentialConstraint Property="costElement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="costElement_ID" Type="Edm.Guid"/>
+        <Property Name="description" Type="Edm.String" MaxLength="200"/>
+        <Property Name="grossAmount" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="partnerShare" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="FinancialService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="FinancialService.JIBLineItems"/>
+      </EntityType>
+      <EntityType Name="Variances">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="afe" Type="FinancialService.AFEs">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="well" Type="FinancialService.Wells">
+          <ReferentialConstraint Property="well_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="well_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="wbsElement" Type="FinancialService.WBSElements">
+          <ReferentialConstraint Property="wbsElement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="wbsElement_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="costElement" Type="FinancialService.CostElements">
+          <ReferentialConstraint Property="costElement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="costElement_ID" Type="Edm.Guid"/>
+        <Property Name="analysisDate" Type="Edm.Date"/>
+        <Property Name="estimatedAmount" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="actualAmount" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="varianceAmount" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="variancePct" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <NavigationProperty Name="varianceCategory" Type="FinancialService.VarianceCategories">
+          <ReferentialConstraint Property="varianceCategory_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="varianceCategory_ID" Type="Edm.Guid"/>
+        <Property Name="explanation" Type="Edm.String" MaxLength="500"/>
+        <Property Name="approvalRequired" Type="Edm.Boolean" DefaultValue="false"/>
+        <Property Name="approvedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="approvedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="FinancialService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="FinancialService.Variances"/>
+      </EntityType>
+      <EntityType Name="VarianceCategories">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="categoryCode" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="categoryName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="categoryType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="description" Type="Edm.String" MaxLength="500"/>
+      </EntityType>
+      <EntityType Name="CostAllocations">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="afe" Type="FinancialService.AFEs" Nullable="false">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="costActual" Type="FinancialService.CostActuals">
+          <ReferentialConstraint Property="costActual_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="costActual_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="partner" Type="FinancialService.Partners" Nullable="false">
+          <ReferentialConstraint Property="partner_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="partner_ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="allocationDate" Type="Edm.Date" Nullable="false"/>
+        <Property Name="grossAmount" Type="Edm.Decimal" Precision="15" Scale="2" Nullable="false"/>
+        <Property Name="workingInterest" Type="Edm.Decimal" Precision="8" Scale="4" Nullable="false"/>
+        <Property Name="allocatedAmount" Type="Edm.Decimal" Precision="15" Scale="2" Nullable="false"/>
+        <NavigationProperty Name="currency" Type="FinancialService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+      </EntityType>
+      <EntityType Name="AFEs">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="s4SyncStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4LastSyncAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="s4ErrorMessage" Type="Edm.String" MaxLength="500"/>
+        <Property Name="afeNumber" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="afeName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="afeType" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Original"/>
+        <NavigationProperty Name="well" Type="FinancialService.Wells" Nullable="false">
+          <ReferentialConstraint Property="well_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="well_ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="estimatedCost" Type="Edm.Decimal" Precision="15" Scale="2" Nullable="false"/>
+        <NavigationProperty Name="currency" Type="FinancialService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="contingencyAmount" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="contingencyPct" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="validFromDate" Type="Edm.Date" Nullable="false"/>
+        <Property Name="validToDate" Type="Edm.Date" Nullable="false"/>
+        <NavigationProperty Name="parentAFE" Type="FinancialService.AFEs" Partner="supplements">
+          <ReferentialConstraint Property="parentAFE_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="parentAFE_ID" Type="Edm.Guid"/>
+        <Property Name="versionNumber" Type="Edm.Int32" DefaultValue="1"/>
+        <Property Name="approvalStatus" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Draft"/>
+        <Property Name="approvedDate" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="approvedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="s4ProjectNo" Type="Edm.String" MaxLength="24"/>
+        <Property Name="s4WBSElement" Type="Edm.String" MaxLength="24"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Active"/>
+        <NavigationProperty Name="lineItems" Type="Collection(FinancialService.AFELineItems)" Partner="afe">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="wbsElements" Type="Collection(FinancialService.WBSElements)" Partner="afe">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="approvals" Type="Collection(FinancialService.Approvals)" Partner="afe">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="documents" Type="Collection(FinancialService.AFEDocuments)" Partner="afe">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="supplements" Type="Collection(FinancialService.AFEs)" Partner="parentAFE"/>
+      </EntityType>
+      <EntityType Name="WBSElements">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="afe" Type="FinancialService.AFEs" Nullable="false" Partner="wbsElements">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="elementCode" Type="Edm.String" MaxLength="24" Nullable="false"/>
+        <Property Name="elementName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <NavigationProperty Name="parent" Type="FinancialService.WBSElements" Partner="children">
+          <ReferentialConstraint Property="parent_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="parent_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="children" Type="Collection(FinancialService.WBSElements)" Partner="parent"/>
+        <Property Name="hierarchyLevel" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="sortOrder" Type="Edm.Int32"/>
+        <Property Name="s4WBSElement" Type="Edm.String" MaxLength="24"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+      </EntityType>
+      <EntityType Name="Wells">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="s4SyncStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4LastSyncAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="s4ErrorMessage" Type="Edm.String" MaxLength="500"/>
+        <Property Name="wellNumber" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="wellName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="wellType" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="wellboreType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="field_ID" Type="Edm.Guid"/>
+        <Property Name="spudDate" Type="Edm.Date"/>
+        <Property Name="totalDepthMD" Type="Edm.Decimal" Precision="10" Scale="2"/>
+        <Property Name="totalDepthTVD" Type="Edm.Decimal" Precision="10" Scale="2"/>
+        <Property Name="surfaceLatitude" Type="Edm.Decimal" Precision="10" Scale="6"/>
+        <Property Name="surfaceLongitude" Type="Edm.Decimal" Precision="10" Scale="6"/>
+        <Property Name="s4WBSElement" Type="Edm.String" MaxLength="24"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Planned"/>
+      </EntityType>
+      <EntityType Name="CostElements">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="s4SyncStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4LastSyncAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="s4ErrorMessage" Type="Edm.String" MaxLength="500"/>
+        <Property Name="elementCode" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="elementName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="category_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="uom" Type="FinancialService.UnitsOfMeasure">
+          <ReferentialConstraint Property="uom_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="uom_ID" Type="Edm.Guid"/>
+        <Property Name="s4GLAccount" Type="Edm.String" MaxLength="10"/>
+        <Property Name="s4CostElement" Type="Edm.String" MaxLength="10"/>
+        <Property Name="taxCode" Type="Edm.String" MaxLength="5"/>
+      </EntityType>
+      <EntityType Name="Vendors">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="s4SyncStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4LastSyncAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="s4ErrorMessage" Type="Edm.String" MaxLength="500"/>
+        <Property Name="vendorCode" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="vendorName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="vendorType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="country_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="currency" Type="FinancialService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="paymentTerms" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4VendorNo" Type="Edm.String" MaxLength="10"/>
+        <Property Name="s4BusinessPartner" Type="Edm.String" MaxLength="10"/>
+        <Property Name="taxId" Type="Edm.String" MaxLength="20"/>
+        <Property Name="contactName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="contactEmail" Type="Edm.String" MaxLength="100"/>
+        <Property Name="contactPhone" Type="Edm.String" MaxLength="20"/>
+      </EntityType>
+      <EntityType Name="Partners">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="partnerCode" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="partnerName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="partnerType" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="country_ID" Type="Edm.Guid"/>
+        <Property Name="workingInterestDefault" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="s4BusinessPartner" Type="Edm.String" MaxLength="10"/>
+        <Property Name="billingAddress" Type="Edm.String" MaxLength="500"/>
+        <Property Name="contactName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="contactEmail" Type="Edm.String" MaxLength="100"/>
+      </EntityType>
+      <EntityType Name="Currencies">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="currencyCode" Type="Edm.String" MaxLength="3" Nullable="false"/>
+        <Property Name="currencyName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="decimalPlaces" Type="Edm.Int32" DefaultValue="2"/>
+      </EntityType>
+      <EntityType Name="UnitsOfMeasure">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="uomCode" Type="Edm.String" MaxLength="10" Nullable="false"/>
+        <Property Name="uomName" Type="Edm.String" MaxLength="50" Nullable="false"/>
+        <Property Name="uomType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4UoM" Type="Edm.String" MaxLength="3"/>
+      </EntityType>
+      <EntityType Name="AFELineItems">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="afe" Type="FinancialService.AFEs" Nullable="false" Partner="lineItems">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="wbsElement" Type="FinancialService.WBSElements">
+          <ReferentialConstraint Property="wbsElement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="wbsElement_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="costElement" Type="FinancialService.CostElements">
+          <ReferentialConstraint Property="costElement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="costElement_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="vendor" Type="FinancialService.Vendors">
+          <ReferentialConstraint Property="vendor_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="vendor_ID" Type="Edm.Guid"/>
+        <Property Name="lineNumber" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="description" Type="Edm.String" MaxLength="200" Nullable="false"/>
+        <Property Name="quantity" Type="Edm.Decimal" Precision="15" Scale="4" Nullable="false"/>
+        <NavigationProperty Name="uom" Type="FinancialService.UnitsOfMeasure">
+          <ReferentialConstraint Property="uom_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="uom_ID" Type="Edm.Guid"/>
+        <Property Name="unitRate" Type="Edm.Decimal" Precision="15" Scale="4" Nullable="false"/>
+        <Property Name="estimatedAmount" Type="Edm.Decimal" Precision="15" Scale="2" Nullable="false"/>
+        <NavigationProperty Name="currency" Type="FinancialService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="startDate" Type="Edm.Date"/>
+        <Property Name="endDate" Type="Edm.Date"/>
+        <Property Name="durationDays" Type="Edm.Decimal" Precision="10" Scale="2"/>
+        <Property Name="sourceType" Type="Edm.String" MaxLength="20"/>
+      </EntityType>
+      <EntityType Name="Approvals">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="afe" Type="FinancialService.AFEs" Nullable="false" Partner="approvals">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="approvalLevel" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="approverRole" Type="Edm.String" MaxLength="50" Nullable="false"/>
+        <Property Name="approverUserId" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="approverName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="delegatedFrom" Type="Edm.String" MaxLength="100"/>
+        <Property Name="assignedDate" Type="Edm.DateTimeOffset" Precision="7" Nullable="false"/>
+        <Property Name="dueDate" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="actionDate" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="actionStatus" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Pending"/>
+        <Property Name="comments" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="conditions" Type="Edm.String" MaxLength="500"/>
+      </EntityType>
+      <EntityType Name="AFEDocuments">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="afe" Type="FinancialService.AFEs" Nullable="false" Partner="documents">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="documentName" Type="Edm.String" MaxLength="200" Nullable="false"/>
+        <Property Name="documentType" Type="Edm.String" MaxLength="50"/>
+        <Property Name="documentCategory" Type="Edm.String" MaxLength="50"/>
+        <Property Name="fileSize" Type="Edm.Int32"/>
+        <Property Name="mimeType" Type="Edm.String" MaxLength="100"/>
+        <Property Name="storageUrl" Type="Edm.String" MaxLength="500"/>
+        <Property Name="uploadedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="uploadedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+      </EntityType>
+      <EntityType Name="DraftAdministrativeData">
+        <Key>
+          <PropertyRef Name="DraftUUID"/>
+        </Key>
+        <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+        <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+      </EntityType>
+      <ComplexType Name="return_FinancialService_validatePartnerInterests">
+        <Property Name="isValid" Type="Edm.Boolean"/>
+        <Property Name="totalWI" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="message" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="return_FinancialService_getVarianceAnalysis">
+        <Property Name="costElementId" Type="Edm.Guid"/>
+        <Property Name="costElementName" Type="Edm.String"/>
+        <Property Name="estimated" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="actual" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="variance" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="variancePct" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="category" Type="Edm.String"/>
+      </ComplexType>
+      <Action Name="reversePosting" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.CostActuals"/>
+        <Parameter Name="reason" Type="Edm.String"/>
+        <ReturnType Type="FinancialService.CostActuals"/>
+      </Action>
+      <Action Name="reallocate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.CostActuals"/>
+        <Parameter Name="newAfeId" Type="Edm.Guid"/>
+        <Parameter Name="newWbsElementId" Type="Edm.Guid"/>
+        <ReturnType Type="FinancialService.CostActuals"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.CostActuals"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="FinancialService.CostActuals"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.PartnerInterests"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="FinancialService.PartnerInterests"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.JIBStatements"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="FinancialService.JIBStatements"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.JIBLineItems"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="FinancialService.JIBLineItems"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.Variances"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="FinancialService.Variances"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.CostActuals"/>
+        <ReturnType Type="FinancialService.CostActuals"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.PartnerInterests"/>
+        <ReturnType Type="FinancialService.PartnerInterests"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.JIBStatements"/>
+        <ReturnType Type="FinancialService.JIBStatements"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.Variances"/>
+        <ReturnType Type="FinancialService.Variances"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.CostActuals"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="FinancialService.CostActuals"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.PartnerInterests"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="FinancialService.PartnerInterests"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.JIBStatements"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="FinancialService.JIBStatements"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.Variances"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="FinancialService.Variances"/>
+      </Action>
+      <Action Name="refreshFromS4HANA" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.Commitments"/>
+        <ReturnType Type="FinancialService.Commitments"/>
+      </Action>
+      <Action Name="closeCommitment" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.Commitments"/>
+        <ReturnType Type="FinancialService.Commitments"/>
+      </Action>
+      <Action Name="grantConsent" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.PartnerInterests"/>
+        <ReturnType Type="FinancialService.PartnerInterests"/>
+      </Action>
+      <Action Name="markNonConsent" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.PartnerInterests"/>
+        <Parameter Name="reason" Type="Edm.String"/>
+        <ReturnType Type="FinancialService.PartnerInterests"/>
+      </Action>
+      <Action Name="calculate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.JIBStatements"/>
+        <ReturnType Type="FinancialService.JIBStatements"/>
+      </Action>
+      <Action Name="sendToPartner" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.JIBStatements"/>
+        <ReturnType Type="FinancialService.JIBStatements"/>
+      </Action>
+      <Action Name="markPaid" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.JIBStatements"/>
+        <Parameter Name="paidDate" Type="Edm.Date"/>
+        <Parameter Name="paymentReference" Type="Edm.String"/>
+        <ReturnType Type="FinancialService.JIBStatements"/>
+      </Action>
+      <Action Name="markDisputed" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.JIBStatements"/>
+        <Parameter Name="reason" Type="Edm.String"/>
+        <ReturnType Type="FinancialService.JIBStatements"/>
+      </Action>
+      <Action Name="postToS4HANA" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.JIBStatements"/>
+        <ReturnType Type="FinancialService.JIBStatements"/>
+      </Action>
+      <Action Name="generatePDF" IsBound="true">
+        <Parameter Name="in" Type="FinancialService.JIBStatements"/>
+        <ReturnType Type="Edm.Binary"/>
+      </Action>
+      <Action Name="approve" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.Variances"/>
+        <Parameter Name="comments" Type="Edm.String"/>
+        <ReturnType Type="FinancialService.Variances"/>
+      </Action>
+      <Action Name="requestExplanation" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="FinancialService.Variances"/>
+        <Parameter Name="userId" Type="Edm.String"/>
+        <ReturnType Type="FinancialService.Variances"/>
+      </Action>
+      <Function Name="getCostActualsByAFE" IsBound="false" IsComposable="false">
+        <Parameter Name="afeId" Type="Edm.Guid"/>
+        <ReturnType Type="Collection(FinancialService.CostActuals)"/>
+      </Function>
+      <Function Name="getCommitmentsByAFE" IsBound="false" IsComposable="false">
+        <Parameter Name="afeId" Type="Edm.Guid"/>
+        <ReturnType Type="Collection(FinancialService.Commitments)"/>
+      </Function>
+      <Function Name="getPartnerInterestsByWell" IsBound="false" IsComposable="false">
+        <Parameter Name="wellId" Type="Edm.Guid"/>
+        <ReturnType Type="Collection(FinancialService.PartnerInterests)"/>
+      </Function>
+      <Function Name="validatePartnerInterests" IsBound="false" IsComposable="false">
+        <Parameter Name="wellId" Type="Edm.Guid"/>
+        <ReturnType Type="FinancialService.return_FinancialService_validatePartnerInterests"/>
+      </Function>
+      <Function Name="getJIBStatementsByPartner" IsBound="false" IsComposable="false">
+        <Parameter Name="partnerId" Type="Edm.Guid"/>
+        <Parameter Name="year" Type="Edm.Int32"/>
+        <ReturnType Type="Collection(FinancialService.JIBStatements)"/>
+      </Function>
+      <Function Name="getVarianceAnalysis" IsBound="false" IsComposable="false">
+        <Parameter Name="afeId" Type="Edm.Guid"/>
+        <ReturnType Type="Collection(FinancialService.return_FinancialService_getVarianceAnalysis)" Nullable="true"/>
+      </Function>
+      <Action Name="generateJIBStatements" IsBound="false">
+        <Parameter Name="wellId" Type="Edm.Guid"/>
+        <Parameter Name="periodFrom" Type="Edm.Date"/>
+        <Parameter Name="periodTo" Type="Edm.Date"/>
+        <ReturnType Type="Collection(FinancialService.JIBStatements)"/>
+      </Action>
+      <Action Name="runVarianceAnalysis" IsBound="false">
+        <Parameter Name="afeId" Type="Edm.Guid"/>
+        <ReturnType Type="Collection(FinancialService.Variances)"/>
+      </Action>
+      <Action Name="allocateCosts" IsBound="false">
+        <Parameter Name="afeId" Type="Edm.Guid"/>
+        <Parameter Name="postingDate" Type="Edm.Date"/>
+        <ReturnType Type="Collection(FinancialService.CostAllocations)"/>
+      </Action>
+      <Annotations Target="FinancialService.EntityContainer/CostActuals">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="FinancialService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="FinancialService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="FinancialService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.CostActuals/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.CostActuals/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.CostActuals/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.CostActuals/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.CostActuals/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.CostActuals/costType">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Actual"/>
+              <PropertyValue Property="Value" String="Actual"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Commitment"/>
+              <PropertyValue Property="Value" String="Commitment"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Accrual"/>
+              <PropertyValue Property="Value" String="Accrual"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.CostActuals/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.CostActuals/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.CostActuals/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.CostActuals/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Commitments/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Commitments/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Commitments/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Commitments/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Commitments/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.EntityContainer/PartnerInterests">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="FinancialService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="FinancialService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="FinancialService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.PartnerInterests/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.PartnerInterests/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.PartnerInterests/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.PartnerInterests/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.PartnerInterests/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.PartnerInterests/consentStatus">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Consent"/>
+              <PropertyValue Property="Value" String="Consent"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="NonConsent"/>
+              <PropertyValue Property="Value" String="NonConsent"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Pending"/>
+              <PropertyValue Property="Value" String="Pending"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.PartnerInterests/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.PartnerInterests/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.PartnerInterests/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.PartnerInterests/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.EntityContainer/JIBStatements">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="FinancialService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="FinancialService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="FinancialService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.JIBStatements/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.JIBStatements/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.JIBStatements/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.JIBStatements/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.JIBStatements/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.JIBStatements/statementNumber">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="FinancialService.JIBStatements/status">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Draft"/>
+              <PropertyValue Property="Value" String="Draft"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Sent"/>
+              <PropertyValue Property="Value" String="Sent"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Paid"/>
+              <PropertyValue Property="Value" String="Paid"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Disputed"/>
+              <PropertyValue Property="Value" String="Disputed"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.JIBStatements/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.JIBStatements/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.JIBStatements/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.JIBStatements/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.EntityContainer/JIBLineItems">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="FinancialService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.JIBLineItems/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.JIBLineItems/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.JIBLineItems/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.JIBLineItems/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.JIBLineItems/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.EntityContainer/Variances">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="FinancialService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="FinancialService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="FinancialService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.Variances/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Variances/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Variances/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Variances/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Variances/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Variances/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Variances/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Variances/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Variances/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.EntityContainer/VarianceCategories">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.VarianceCategories/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.VarianceCategories/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.VarianceCategories/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.VarianceCategories/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.VarianceCategories/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.VarianceCategories/categoryCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="FinancialService.EntityContainer/CostAllocations">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.CostAllocations/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.CostAllocations/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.CostAllocations/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.CostAllocations/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.CostAllocations/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.EntityContainer/AFEs">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.AFEs/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.AFEs/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.AFEs/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.AFEs/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.AFEs/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.AFEs/afeNumber">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="FinancialService.AFEs/afeType">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Original"/>
+              <PropertyValue Property="Value" String="Original"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Supplement"/>
+              <PropertyValue Property="Value" String="Supplement"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Revision"/>
+              <PropertyValue Property="Value" String="Revision"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.AFEs/contingencyPct">
+        <Annotation Term="Validation.Minimum" Int="0"/>
+        <Annotation Term="Validation.Maximum" Float="0.5"/>
+      </Annotations>
+      <Annotations Target="FinancialService.AFEs/approvalStatus">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Draft"/>
+              <PropertyValue Property="Value" String="Draft"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Pending"/>
+              <PropertyValue Property="Value" String="Pending"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Approved"/>
+              <PropertyValue Property="Value" String="Approved"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Rejected"/>
+              <PropertyValue Property="Value" String="Rejected"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.AFEs/status">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Active"/>
+              <PropertyValue Property="Value" String="Active"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Closed"/>
+              <PropertyValue Property="Value" String="Closed"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Cancelled"/>
+              <PropertyValue Property="Value" String="Cancelled"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.EntityContainer/WBSElements">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.WBSElements/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.EntityContainer/Wells">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.Wells/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Wells/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Wells/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Wells/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Wells/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Wells/wellNumber">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Wells/wellType">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Exploration"/>
+              <PropertyValue Property="Value" String="Exploration"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Development"/>
+              <PropertyValue Property="Value" String="Development"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Workover"/>
+              <PropertyValue Property="Value" String="Workover"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Sidetrack"/>
+              <PropertyValue Property="Value" String="Sidetrack"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.Wells/wellboreType">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Vertical"/>
+              <PropertyValue Property="Value" String="Vertical"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Horizontal"/>
+              <PropertyValue Property="Value" String="Horizontal"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Directional"/>
+              <PropertyValue Property="Value" String="Directional"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.Wells/status">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Planned"/>
+              <PropertyValue Property="Value" String="Planned"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Drilling"/>
+              <PropertyValue Property="Value" String="Drilling"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Completed"/>
+              <PropertyValue Property="Value" String="Completed"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Suspended"/>
+              <PropertyValue Property="Value" String="Suspended"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="PandA"/>
+              <PropertyValue Property="Value" String="PandA"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.EntityContainer/CostElements">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.CostElements/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.CostElements/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.CostElements/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.CostElements/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.CostElements/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.CostElements/elementCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="FinancialService.EntityContainer/Vendors">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.Vendors/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Vendors/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Vendors/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Vendors/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Vendors/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Vendors/vendorCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="FinancialService.EntityContainer/Partners">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.Partners/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Partners/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Partners/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Partners/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Partners/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Partners/partnerCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="FinancialService.EntityContainer/Currencies">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.Currencies/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Currencies/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Currencies/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Currencies/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Currencies/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Currencies/currencyCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="FinancialService.EntityContainer/UnitsOfMeasure">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.UnitsOfMeasure/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.UnitsOfMeasure/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.UnitsOfMeasure/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.UnitsOfMeasure/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.UnitsOfMeasure/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.UnitsOfMeasure/uomCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="FinancialService.getCostActualsByAFE(Edm.Guid)/afeId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.getCommitmentsByAFE(Edm.Guid)/afeId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.getPartnerInterestsByWell(Edm.Guid)/wellId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.validatePartnerInterests(Edm.Guid)/wellId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.getJIBStatementsByPartner(Edm.Guid,Edm.Int32)/partnerId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.getJIBStatementsByPartner(Edm.Guid,Edm.Int32)/year">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.getVarianceAnalysis(Edm.Guid)/afeId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="FinancialService.AFELineItems/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Approvals/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Approvals/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Approvals/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Approvals/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.Approvals/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.AFEDocuments/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.AFEDocuments/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.AFEDocuments/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.AFEDocuments/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.AFEDocuments/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.DraftAdministrativeData">
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftAdministrativeData}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.DraftAdministrativeData/DraftUUID">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftUUID}"/>
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="FinancialService.DraftAdministrativeData/CreationDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreationDateTime}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.DraftAdministrativeData/CreatedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreatedByUser}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.DraftAdministrativeData/DraftIsCreatedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsCreatedByMe}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.DraftAdministrativeData/LastChangeDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangeDateTime}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.DraftAdministrativeData/LastChangedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangedByUser}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.DraftAdministrativeData/InProcessByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_InProcessByUser}"/>
+      </Annotations>
+      <Annotations Target="FinancialService.DraftAdministrativeData/DraftIsProcessedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsProcessedByMe}"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

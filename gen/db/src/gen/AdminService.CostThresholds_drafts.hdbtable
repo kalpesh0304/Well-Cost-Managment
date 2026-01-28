@@ -1,0 +1,23 @@
+COLUMN TABLE AdminService_CostThresholds_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  isActive BOOLEAN NULL DEFAULT TRUE,
+  thresholdName NVARCHAR(100) NULL,
+  thresholdType NVARCHAR(20) NULL,
+  field_ID NVARCHAR(36) NULL,
+  wellType NVARCHAR(20) NULL,
+  warningThreshold DECIMAL(8, 4) NULL,
+  criticalThreshold DECIMAL(8, 4) NULL,
+  notifyRoles NVARCHAR(500) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_Fields AS field ON (field.ID = field_ID),
+  MANY TO ONE JOIN AdminService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

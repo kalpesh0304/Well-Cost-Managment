@@ -1,0 +1,12 @@
+VIEW AFEService_UnitsOfMeasure AS SELECT
+  UnitsOfMeasure_0.ID,
+  UnitsOfMeasure_0.createdAt,
+  UnitsOfMeasure_0.createdBy,
+  UnitsOfMeasure_0.modifiedAt,
+  UnitsOfMeasure_0.modifiedBy,
+  UnitsOfMeasure_0.isActive,
+  UnitsOfMeasure_0.uomCode,
+  UnitsOfMeasure_0.uomName,
+  UnitsOfMeasure_0.uomType,
+  UnitsOfMeasure_0.s4UoM
+FROM wcm_master_UnitsOfMeasure AS UnitsOfMeasure_0

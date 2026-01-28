@@ -1,0 +1,17 @@
+VIEW EconomicsService_PriceDecks AS SELECT
+  PriceDecks_0.ID,
+  PriceDecks_0.createdAt,
+  PriceDecks_0.createdBy,
+  PriceDecks_0.modifiedAt,
+  PriceDecks_0.modifiedBy,
+  PriceDecks_0.isActive,
+  PriceDecks_0.deckName,
+  PriceDecks_0.deckType,
+  PriceDecks_0.effectiveFromDate,
+  PriceDecks_0.effectiveToDate,
+  PriceDecks_0.approvedBy,
+  PriceDecks_0.approvedAt
+FROM wcm_economics_PriceDecks AS PriceDecks_0
+WITH ASSOCIATIONS (
+  MANY TO MANY JOIN EconomicsService_PriceDeckItems AS prices ON (prices.deck_ID = ID)
+)

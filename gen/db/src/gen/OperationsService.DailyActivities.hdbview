@@ -1,0 +1,15 @@
+VIEW OperationsService_DailyActivities AS SELECT
+  DailyActivities_0.ID,
+  DailyActivities_0.report_ID,
+  DailyActivities_0.startTime,
+  DailyActivities_0.endTime,
+  DailyActivities_0.durationHours,
+  DailyActivities_0.activityCode,
+  DailyActivities_0.activityName,
+  DailyActivities_0.description,
+  DailyActivities_0.isNPT,
+  DailyActivities_0.nptCategory
+FROM wcm_operations_DailyActivities AS DailyActivities_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN OperationsService_DailyReports AS report ON (report.ID = report_ID)
+)

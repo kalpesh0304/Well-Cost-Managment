@@ -1,0 +1,22 @@
+COLUMN TABLE wcm_master_CostElements (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  s4SyncStatus NVARCHAR(20),
+  s4LastSyncAt TIMESTAMP,
+  s4ErrorMessage NVARCHAR(500),
+  elementCode NVARCHAR(20) NOT NULL,
+  elementName NVARCHAR(100) NOT NULL,
+  category_ID NVARCHAR(36),
+  uom_ID NVARCHAR(36),
+  s4GLAccount NVARCHAR(10),
+  s4CostElement NVARCHAR(10),
+  taxCode NVARCHAR(5),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_master_CostCategories AS category ON (category.ID = category_ID),
+  MANY TO ONE JOIN wcm_master_UnitsOfMeasure AS uom ON (uom.ID = uom_ID)
+)

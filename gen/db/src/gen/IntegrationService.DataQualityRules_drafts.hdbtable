@@ -1,0 +1,22 @@
+COLUMN TABLE IntegrationService_DataQualityRules_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  isActive BOOLEAN NULL DEFAULT TRUE,
+  ruleName NVARCHAR(100) NULL,
+  entityName NVARCHAR(50) NULL,
+  fieldName NVARCHAR(50) NULL,
+  ruleType NVARCHAR(20) NULL,
+  ruleExpression NVARCHAR(500) NULL,
+  errorMessage NVARCHAR(200) NULL,
+  severity NVARCHAR(20) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN IntegrationService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

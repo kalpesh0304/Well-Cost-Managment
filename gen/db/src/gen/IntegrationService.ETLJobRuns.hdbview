@@ -1,0 +1,15 @@
+VIEW IntegrationService_ETLJobRuns AS SELECT
+  ETLJobRuns_0.ID,
+  ETLJobRuns_0.job_ID,
+  ETLJobRuns_0.startTime,
+  ETLJobRuns_0.endTime,
+  ETLJobRuns_0.status,
+  ETLJobRuns_0.recordsExtracted,
+  ETLJobRuns_0.recordsTransformed,
+  ETLJobRuns_0.recordsLoaded,
+  ETLJobRuns_0.recordsFailed,
+  ETLJobRuns_0.errorMessage
+FROM wcm_integration_ETLJobRuns AS ETLJobRuns_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN IntegrationService_ETLJobs AS job ON (job.ID = job_ID)
+)

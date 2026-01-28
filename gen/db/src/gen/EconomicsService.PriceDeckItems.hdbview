@@ -1,0 +1,13 @@
+VIEW EconomicsService_PriceDeckItems AS SELECT
+  PriceDeckItems_0.ID,
+  PriceDeckItems_0.deck_ID,
+  PriceDeckItems_0.yearNumber,
+  PriceDeckItems_0.oilPrice,
+  PriceDeckItems_0.gasPrice,
+  PriceDeckItems_0.nglPrice,
+  PriceDeckItems_0.currency_ID
+FROM wcm_economics_PriceDeckItems AS PriceDeckItems_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN EconomicsService_PriceDecks AS deck ON (deck.ID = deck_ID),
+  MANY TO ONE JOIN EconomicsService_Currencies AS currency ON (currency.ID = currency_ID)
+)

@@ -1,0 +1,21 @@
+COLUMN TABLE wcm_security_Users (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  userId NVARCHAR(100) NOT NULL,
+  userName NVARCHAR(100) NOT NULL,
+  email NVARCHAR(100) NOT NULL,
+  department NVARCHAR(50),
+  title NVARCHAR(50),
+  manager_ID NVARCHAR(36),
+  status NVARCHAR(20) NOT NULL DEFAULT 'Active',
+  lastLoginAt TIMESTAMP,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_security_Users AS manager ON (manager.ID = manager_ID),
+  MANY TO MANY JOIN wcm_security_UserRoles AS roles ON (roles.user_ID = ID),
+  MANY TO MANY JOIN wcm_security_UserPreferences AS preferences ON (preferences.user_ID = ID)
+)

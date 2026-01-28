@@ -1,0 +1,17 @@
+VIEW AdminService_WorkflowSteps AS SELECT
+  WorkflowSteps_0.ID,
+  WorkflowSteps_0.workflow_ID,
+  WorkflowSteps_0.stepNumber,
+  WorkflowSteps_0.stepName,
+  WorkflowSteps_0.stepType,
+  WorkflowSteps_0.assigneeType,
+  WorkflowSteps_0.assigneeValue,
+  WorkflowSteps_0.timeoutDays,
+  WorkflowSteps_0.escalateTo,
+  WorkflowSteps_0.onApprove,
+  WorkflowSteps_0.onReject,
+  WorkflowSteps_0.onReturn
+FROM wcm_configuration_WorkflowSteps AS WorkflowSteps_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_WorkflowDefinitions AS workflow ON (workflow.ID = workflow_ID)
+)

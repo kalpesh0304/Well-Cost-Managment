@@ -1,0 +1,18 @@
+COLUMN TABLE wcm_economics_CashFlows (
+  ID NVARCHAR(36) NOT NULL,
+  analysis_ID NVARCHAR(36) NOT NULL,
+  yearNumber INTEGER NOT NULL,
+  capex DECIMAL(15, 2),
+  opex DECIMAL(15, 2),
+  revenue DECIMAL(15, 2),
+  royalty DECIMAL(15, 2),
+  taxes DECIMAL(15, 2),
+  netCashFlow DECIMAL(15, 2),
+  discountedCashFlow DECIMAL(15, 2),
+  cumulativeCashFlow DECIMAL(15, 2),
+  oilProduction DECIMAL(15, 2),
+  gasProduction DECIMAL(15, 2),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_economics_EconomicsAnalyses AS analysis ON (analysis.ID = analysis_ID)
+)

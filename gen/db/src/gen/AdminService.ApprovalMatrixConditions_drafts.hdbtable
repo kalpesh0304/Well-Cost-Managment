@@ -1,0 +1,16 @@
+COLUMN TABLE AdminService_ApprovalMatrixConditions_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  matrix_ID NVARCHAR(36) NULL,
+  conditionField NVARCHAR(50) NULL,
+  conditionOperator NVARCHAR(20) NULL,
+  conditionValue NVARCHAR(200) NULL,
+  logicalOperator NVARCHAR(10) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_ApprovalMatrix_drafts AS matrix ON (matrix.ID = matrix_ID),
+  MANY TO ONE JOIN AdminService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

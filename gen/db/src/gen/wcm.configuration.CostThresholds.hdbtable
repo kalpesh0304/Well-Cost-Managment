@@ -1,0 +1,18 @@
+COLUMN TABLE wcm_configuration_CostThresholds (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  thresholdName NVARCHAR(100) NOT NULL,
+  thresholdType NVARCHAR(20) NOT NULL,
+  field_ID NVARCHAR(36),
+  wellType NVARCHAR(20),
+  warningThreshold DECIMAL(8, 4),
+  criticalThreshold DECIMAL(8, 4),
+  notifyRoles NVARCHAR(500),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_master_Fields AS field ON (field.ID = field_ID)
+)

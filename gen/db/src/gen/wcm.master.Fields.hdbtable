@@ -1,0 +1,20 @@
+COLUMN TABLE wcm_master_Fields (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  fieldCode NVARCHAR(20) NOT NULL,
+  fieldName NVARCHAR(100) NOT NULL,
+  basin NVARCHAR(50),
+  country_ID NVARCHAR(36),
+  region NVARCHAR(50),
+  operatorName NVARCHAR(100),
+  s4ProfitCenter NVARCHAR(10),
+  s4CostCenter NVARCHAR(10),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_master_Countries AS country ON (country.ID = country_ID),
+  MANY TO MANY JOIN wcm_master_Wells AS wells ON (wells.field_ID = ID)
+)

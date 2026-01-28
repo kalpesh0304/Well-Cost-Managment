@@ -1,0 +1,22 @@
+COLUMN TABLE AdminService_ReportDefinitions_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  isActive BOOLEAN NULL DEFAULT TRUE,
+  reportCode NVARCHAR(50) NULL,
+  reportName NVARCHAR(100) NULL,
+  reportCategory NVARCHAR(50) NULL,
+  description NVARCHAR(500) NULL,
+  baseEntity NVARCHAR(50) NULL,
+  defaultParameters NCLOB NULL,
+  outputFormats NVARCHAR(100) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

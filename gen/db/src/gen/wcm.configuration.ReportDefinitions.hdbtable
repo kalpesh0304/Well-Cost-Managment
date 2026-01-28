@@ -1,0 +1,16 @@
+COLUMN TABLE wcm_configuration_ReportDefinitions (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  reportCode NVARCHAR(50) NOT NULL,
+  reportName NVARCHAR(100) NOT NULL,
+  reportCategory NVARCHAR(50),
+  description NVARCHAR(500),
+  baseEntity NVARCHAR(50),
+  defaultParameters NCLOB,
+  outputFormats NVARCHAR(100),
+  PRIMARY KEY(ID)
+)

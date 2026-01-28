@@ -1,0 +1,20 @@
+VIEW MasterDataService_WBSTemplates AS SELECT
+  WBSTemplates_0.ID,
+  WBSTemplates_0.createdAt,
+  WBSTemplates_0.createdBy,
+  WBSTemplates_0.modifiedAt,
+  WBSTemplates_0.modifiedBy,
+  WBSTemplates_0.isActive,
+  WBSTemplates_0.templateCode,
+  WBSTemplates_0.templateName,
+  WBSTemplates_0.wellType,
+  WBSTemplates_0.wellboreType,
+  WBSTemplates_0.region,
+  WBSTemplates_0.hierarchyLevels,
+  WBSTemplates_0.versionNumber,
+  WBSTemplates_0.effectiveFromDate,
+  WBSTemplates_0.effectiveToDate
+FROM wcm_master_WBSTemplates AS WBSTemplates_0
+WITH ASSOCIATIONS (
+  MANY TO MANY JOIN MasterDataService_WBSTemplateElements AS elements ON (elements.template_ID = ID)
+)

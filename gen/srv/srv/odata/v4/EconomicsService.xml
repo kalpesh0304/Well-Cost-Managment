@@ -1,0 +1,1561 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Validation.V1.xml">
+    <edmx:Include Alias="Validation" Namespace="Org.OData.Validation.V1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="EconomicsService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Annotation Term="Core.Links">
+        <Collection>
+          <Record>
+            <PropertyValue Property="rel" String="author"/>
+            <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+          </Record>
+        </Collection>
+      </Annotation>
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="EconomicsAnalyses" EntityType="EconomicsService.EconomicsAnalyses">
+          <NavigationPropertyBinding Path="well" Target="Wells"/>
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="cashFlows" Target="CashFlows"/>
+          <NavigationPropertyBinding Path="scenarios" Target="Scenarios"/>
+          <NavigationPropertyBinding Path="sensitivities" Target="SensitivityResults"/>
+          <NavigationPropertyBinding Path="assumptions" Target="EconomicsAssumptions"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="EconomicsAnalyses"/>
+        </EntitySet>
+        <EntitySet Name="CashFlows" EntityType="EconomicsService.CashFlows">
+          <NavigationPropertyBinding Path="analysis" Target="EconomicsAnalyses"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="CashFlows"/>
+        </EntitySet>
+        <EntitySet Name="HurdleRates" EntityType="EconomicsService.HurdleRates">
+          <NavigationPropertyBinding Path="field" Target="Fields"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="HurdleRates"/>
+        </EntitySet>
+        <EntitySet Name="Scenarios" EntityType="EconomicsService.Scenarios">
+          <NavigationPropertyBinding Path="analysis" Target="EconomicsAnalyses"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="Scenarios"/>
+        </EntitySet>
+        <EntitySet Name="SensitivityResults" EntityType="EconomicsService.SensitivityResults">
+          <NavigationPropertyBinding Path="analysis" Target="EconomicsAnalyses"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="SensitivityResults"/>
+        </EntitySet>
+        <EntitySet Name="EconomicsAssumptions" EntityType="EconomicsService.EconomicsAssumptions">
+          <NavigationPropertyBinding Path="analysis" Target="EconomicsAnalyses"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="EconomicsAssumptions"/>
+        </EntitySet>
+        <EntitySet Name="PriceDecks" EntityType="EconomicsService.PriceDecks">
+          <NavigationPropertyBinding Path="prices" Target="PriceDeckItems"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="PriceDecks"/>
+        </EntitySet>
+        <EntitySet Name="PriceDeckItems" EntityType="EconomicsService.PriceDeckItems">
+          <NavigationPropertyBinding Path="deck" Target="PriceDecks"/>
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="PriceDeckItems"/>
+        </EntitySet>
+        <EntitySet Name="Wells" EntityType="EconomicsService.Wells">
+          <NavigationPropertyBinding Path="field" Target="Fields"/>
+        </EntitySet>
+        <EntitySet Name="Fields" EntityType="EconomicsService.Fields">
+          <NavigationPropertyBinding Path="wells" Target="Wells"/>
+        </EntitySet>
+        <EntitySet Name="AFEs" EntityType="EconomicsService.AFEs">
+          <NavigationPropertyBinding Path="well" Target="Wells"/>
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+          <NavigationPropertyBinding Path="parentAFE" Target="AFEs"/>
+          <NavigationPropertyBinding Path="lineItems" Target="AFELineItems"/>
+          <NavigationPropertyBinding Path="wbsElements" Target="WBSElements"/>
+          <NavigationPropertyBinding Path="approvals" Target="Approvals"/>
+          <NavigationPropertyBinding Path="documents" Target="AFEDocuments"/>
+          <NavigationPropertyBinding Path="supplements" Target="AFEs"/>
+        </EntitySet>
+        <EntitySet Name="Currencies" EntityType="EconomicsService.Currencies"/>
+        <EntitySet Name="AFELineItems" EntityType="EconomicsService.AFELineItems">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="wbsElement" Target="WBSElements"/>
+          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
+        </EntitySet>
+        <EntitySet Name="WBSElements" EntityType="EconomicsService.WBSElements">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+          <NavigationPropertyBinding Path="parent" Target="WBSElements"/>
+          <NavigationPropertyBinding Path="children" Target="WBSElements"/>
+        </EntitySet>
+        <EntitySet Name="Approvals" EntityType="EconomicsService.Approvals">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+        </EntitySet>
+        <EntitySet Name="AFEDocuments" EntityType="EconomicsService.AFEDocuments">
+          <NavigationPropertyBinding Path="afe" Target="AFEs"/>
+        </EntitySet>
+        <FunctionImport Name="getAnalysesByWell" Function="EconomicsService.getAnalysesByWell" EntitySet="EconomicsAnalyses"/>
+        <FunctionImport Name="getActiveHurdleRate" Function="EconomicsService.getActiveHurdleRate" EntitySet="HurdleRates"/>
+        <FunctionImport Name="getActivePriceDeck" Function="EconomicsService.getActivePriceDeck" EntitySet="PriceDecks"/>
+        <FunctionImport Name="calculateNPVPreview" Function="EconomicsService.calculateNPVPreview"/>
+        <FunctionImport Name="calculateIRRPreview" Function="EconomicsService.calculateIRRPreview"/>
+        <FunctionImport Name="getTornadoChartData" Function="EconomicsService.getTornadoChartData"/>
+        <FunctionImport Name="getMonteCarloDistribution" Function="EconomicsService.getMonteCarloDistribution"/>
+        <ActionImport Name="createAnalysisFromAFE" Action="EconomicsService.createAnalysisFromAFE" EntitySet="EconomicsAnalyses"/>
+        <ActionImport Name="compareScenarios" Action="EconomicsService.compareScenarios"/>
+      </EntityContainer>
+      <EntityType Name="EconomicsAnalyses">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="analysisName" Type="Edm.String" MaxLength="100"/>
+        <NavigationProperty Name="well" Type="EconomicsService.Wells">
+          <ReferentialConstraint Property="well_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="well_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="afe" Type="EconomicsService.AFEs">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid"/>
+        <Property Name="analysisType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="discountRate" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="inflationRate" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="npv" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="irr" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="mirr" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="paybackYears" Type="Edm.Decimal" Precision="5" Scale="2"/>
+        <Property Name="discountedPayback" Type="Edm.Decimal" Precision="5" Scale="2"/>
+        <Property Name="profitabilityIndex" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="recommendation" Type="Edm.String" MaxLength="20"/>
+        <Property Name="calculatedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20" DefaultValue="Draft"/>
+        <NavigationProperty Name="cashFlows" Type="Collection(EconomicsService.CashFlows)" Partner="analysis">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="scenarios" Type="Collection(EconomicsService.Scenarios)" Partner="analysis">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="sensitivities" Type="Collection(EconomicsService.SensitivityResults)" Partner="analysis">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="assumptions" Type="Collection(EconomicsService.EconomicsAssumptions)" Partner="analysis">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="EconomicsService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="EconomicsService.EconomicsAnalyses"/>
+      </EntityType>
+      <EntityType Name="CashFlows">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="analysis" Type="EconomicsService.EconomicsAnalyses" Partner="cashFlows">
+          <ReferentialConstraint Property="analysis_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="analysis_ID" Type="Edm.Guid"/>
+        <Property Name="yearNumber" Type="Edm.Int32"/>
+        <Property Name="capex" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="opex" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="revenue" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="royalty" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="taxes" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="netCashFlow" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="discountedCashFlow" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="cumulativeCashFlow" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="oilProduction" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="gasProduction" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="EconomicsService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="EconomicsService.CashFlows"/>
+      </EntityType>
+      <EntityType Name="HurdleRates">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="rateType" Type="Edm.String" MaxLength="20"/>
+        <NavigationProperty Name="field" Type="EconomicsService.Fields">
+          <ReferentialConstraint Property="field_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="field_ID" Type="Edm.Guid"/>
+        <Property Name="rateName" Type="Edm.String" MaxLength="50"/>
+        <Property Name="rateValue" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="riskPremium" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="effectiveFromDate" Type="Edm.Date"/>
+        <Property Name="effectiveToDate" Type="Edm.Date"/>
+        <Property Name="approvedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="EconomicsService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="EconomicsService.HurdleRates"/>
+      </EntityType>
+      <EntityType Name="Scenarios">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="analysis" Type="EconomicsService.EconomicsAnalyses" Partner="scenarios">
+          <ReferentialConstraint Property="analysis_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="analysis_ID" Type="Edm.Guid"/>
+        <Property Name="scenarioType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="scenarioName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="npv" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="irr" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="probability" Type="Edm.Decimal" Precision="5" Scale="4"/>
+        <Property Name="oilPrice" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="gasPrice" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="capexMultiplier" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="opexMultiplier" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="productionMultiplier" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="EconomicsService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="EconomicsService.Scenarios"/>
+      </EntityType>
+      <EntityType Name="SensitivityResults">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="analysis" Type="EconomicsService.EconomicsAnalyses" Partner="sensitivities">
+          <ReferentialConstraint Property="analysis_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="analysis_ID" Type="Edm.Guid"/>
+        <Property Name="variableName" Type="Edm.String" MaxLength="50"/>
+        <Property Name="baseValue" Type="Edm.Decimal" Precision="15" Scale="4"/>
+        <Property Name="lowValue" Type="Edm.Decimal" Precision="15" Scale="4"/>
+        <Property Name="highValue" Type="Edm.Decimal" Precision="15" Scale="4"/>
+        <Property Name="npvLow" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="npvHigh" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="impactRange" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="sortOrder" Type="Edm.Int32"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="EconomicsService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="EconomicsService.SensitivityResults"/>
+      </EntityType>
+      <EntityType Name="EconomicsAssumptions">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="analysis" Type="EconomicsService.EconomicsAnalyses" Partner="assumptions">
+          <ReferentialConstraint Property="analysis_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="analysis_ID" Type="Edm.Guid"/>
+        <Property Name="assumptionType" Type="Edm.String" MaxLength="50"/>
+        <Property Name="assumptionName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="assumptionValue" Type="Edm.String" MaxLength="200"/>
+        <Property Name="numericValue" Type="Edm.Decimal" Precision="15" Scale="4"/>
+        <Property Name="unit" Type="Edm.String" MaxLength="20"/>
+        <Property Name="source" Type="Edm.String" MaxLength="100"/>
+        <Property Name="effectiveDate" Type="Edm.Date"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="EconomicsService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="EconomicsService.EconomicsAssumptions"/>
+      </EntityType>
+      <EntityType Name="PriceDecks">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="deckName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="deckType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="effectiveFromDate" Type="Edm.Date"/>
+        <Property Name="effectiveToDate" Type="Edm.Date"/>
+        <Property Name="approvedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="approvedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <NavigationProperty Name="prices" Type="Collection(EconomicsService.PriceDeckItems)" Partner="deck">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="EconomicsService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="EconomicsService.PriceDecks"/>
+      </EntityType>
+      <EntityType Name="PriceDeckItems">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="deck" Type="EconomicsService.PriceDecks" Partner="prices">
+          <ReferentialConstraint Property="deck_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="deck_ID" Type="Edm.Guid"/>
+        <Property Name="yearNumber" Type="Edm.Int32"/>
+        <Property Name="oilPrice" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="gasPrice" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="nglPrice" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <NavigationProperty Name="currency" Type="EconomicsService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="EconomicsService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="EconomicsService.PriceDeckItems"/>
+      </EntityType>
+      <EntityType Name="Wells">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="s4SyncStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4LastSyncAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="s4ErrorMessage" Type="Edm.String" MaxLength="500"/>
+        <Property Name="wellNumber" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="wellName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="wellType" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="wellboreType" Type="Edm.String" MaxLength="20"/>
+        <NavigationProperty Name="field" Type="EconomicsService.Fields" Partner="wells">
+          <ReferentialConstraint Property="field_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="field_ID" Type="Edm.Guid"/>
+        <Property Name="spudDate" Type="Edm.Date"/>
+        <Property Name="totalDepthMD" Type="Edm.Decimal" Precision="10" Scale="2"/>
+        <Property Name="totalDepthTVD" Type="Edm.Decimal" Precision="10" Scale="2"/>
+        <Property Name="surfaceLatitude" Type="Edm.Decimal" Precision="10" Scale="6"/>
+        <Property Name="surfaceLongitude" Type="Edm.Decimal" Precision="10" Scale="6"/>
+        <Property Name="s4WBSElement" Type="Edm.String" MaxLength="24"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Planned"/>
+      </EntityType>
+      <EntityType Name="Fields">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="fieldCode" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="fieldName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="basin" Type="Edm.String" MaxLength="50"/>
+        <Property Name="country_ID" Type="Edm.Guid"/>
+        <Property Name="region" Type="Edm.String" MaxLength="50"/>
+        <Property Name="operatorName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="s4ProfitCenter" Type="Edm.String" MaxLength="10"/>
+        <Property Name="s4CostCenter" Type="Edm.String" MaxLength="10"/>
+        <NavigationProperty Name="wells" Type="Collection(EconomicsService.Wells)" Partner="field"/>
+      </EntityType>
+      <EntityType Name="AFEs">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="s4SyncStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="s4LastSyncAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="s4ErrorMessage" Type="Edm.String" MaxLength="500"/>
+        <Property Name="afeNumber" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="afeName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="afeType" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Original"/>
+        <NavigationProperty Name="well" Type="EconomicsService.Wells" Nullable="false">
+          <ReferentialConstraint Property="well_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="well_ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="estimatedCost" Type="Edm.Decimal" Precision="15" Scale="2" Nullable="false"/>
+        <NavigationProperty Name="currency" Type="EconomicsService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="contingencyAmount" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="contingencyPct" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="validFromDate" Type="Edm.Date" Nullable="false"/>
+        <Property Name="validToDate" Type="Edm.Date" Nullable="false"/>
+        <NavigationProperty Name="parentAFE" Type="EconomicsService.AFEs" Partner="supplements">
+          <ReferentialConstraint Property="parentAFE_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="parentAFE_ID" Type="Edm.Guid"/>
+        <Property Name="versionNumber" Type="Edm.Int32" DefaultValue="1"/>
+        <Property Name="approvalStatus" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Draft"/>
+        <Property Name="approvedDate" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="approvedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="s4ProjectNo" Type="Edm.String" MaxLength="24"/>
+        <Property Name="s4WBSElement" Type="Edm.String" MaxLength="24"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Active"/>
+        <NavigationProperty Name="lineItems" Type="Collection(EconomicsService.AFELineItems)" Partner="afe">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="wbsElements" Type="Collection(EconomicsService.WBSElements)" Partner="afe">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="approvals" Type="Collection(EconomicsService.Approvals)" Partner="afe">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="documents" Type="Collection(EconomicsService.AFEDocuments)" Partner="afe">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="supplements" Type="Collection(EconomicsService.AFEs)" Partner="parentAFE"/>
+      </EntityType>
+      <EntityType Name="Currencies">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="currencyCode" Type="Edm.String" MaxLength="3" Nullable="false"/>
+        <Property Name="currencyName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="decimalPlaces" Type="Edm.Int32" DefaultValue="2"/>
+      </EntityType>
+      <EntityType Name="AFELineItems">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="afe" Type="EconomicsService.AFEs" Nullable="false" Partner="lineItems">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="wbsElement" Type="EconomicsService.WBSElements">
+          <ReferentialConstraint Property="wbsElement_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="wbsElement_ID" Type="Edm.Guid"/>
+        <Property Name="costElement_ID" Type="Edm.Guid"/>
+        <Property Name="vendor_ID" Type="Edm.Guid"/>
+        <Property Name="lineNumber" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="description" Type="Edm.String" MaxLength="200" Nullable="false"/>
+        <Property Name="quantity" Type="Edm.Decimal" Precision="15" Scale="4" Nullable="false"/>
+        <Property Name="uom_ID" Type="Edm.Guid"/>
+        <Property Name="unitRate" Type="Edm.Decimal" Precision="15" Scale="4" Nullable="false"/>
+        <Property Name="estimatedAmount" Type="Edm.Decimal" Precision="15" Scale="2" Nullable="false"/>
+        <NavigationProperty Name="currency" Type="EconomicsService.Currencies">
+          <ReferentialConstraint Property="currency_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="currency_ID" Type="Edm.Guid"/>
+        <Property Name="startDate" Type="Edm.Date"/>
+        <Property Name="endDate" Type="Edm.Date"/>
+        <Property Name="durationDays" Type="Edm.Decimal" Precision="10" Scale="2"/>
+        <Property Name="sourceType" Type="Edm.String" MaxLength="20"/>
+      </EntityType>
+      <EntityType Name="WBSElements">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="afe" Type="EconomicsService.AFEs" Nullable="false" Partner="wbsElements">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="elementCode" Type="Edm.String" MaxLength="24" Nullable="false"/>
+        <Property Name="elementName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <NavigationProperty Name="parent" Type="EconomicsService.WBSElements" Partner="children">
+          <ReferentialConstraint Property="parent_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="parent_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="children" Type="Collection(EconomicsService.WBSElements)" Partner="parent"/>
+        <Property Name="hierarchyLevel" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="sortOrder" Type="Edm.Int32"/>
+        <Property Name="s4WBSElement" Type="Edm.String" MaxLength="24"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+      </EntityType>
+      <EntityType Name="Approvals">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="afe" Type="EconomicsService.AFEs" Nullable="false" Partner="approvals">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="approvalLevel" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="approverRole" Type="Edm.String" MaxLength="50" Nullable="false"/>
+        <Property Name="approverUserId" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="approverName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="delegatedFrom" Type="Edm.String" MaxLength="100"/>
+        <Property Name="assignedDate" Type="Edm.DateTimeOffset" Precision="7" Nullable="false"/>
+        <Property Name="dueDate" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="actionDate" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="actionStatus" Type="Edm.String" MaxLength="20" Nullable="false" DefaultValue="Pending"/>
+        <Property Name="comments" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="conditions" Type="Edm.String" MaxLength="500"/>
+      </EntityType>
+      <EntityType Name="AFEDocuments">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="afe" Type="EconomicsService.AFEs" Nullable="false" Partner="documents">
+          <ReferentialConstraint Property="afe_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="afe_ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="documentName" Type="Edm.String" MaxLength="200" Nullable="false"/>
+        <Property Name="documentType" Type="Edm.String" MaxLength="50"/>
+        <Property Name="documentCategory" Type="Edm.String" MaxLength="50"/>
+        <Property Name="fileSize" Type="Edm.Int32"/>
+        <Property Name="mimeType" Type="Edm.String" MaxLength="100"/>
+        <Property Name="storageUrl" Type="Edm.String" MaxLength="500"/>
+        <Property Name="uploadedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="uploadedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+      </EntityType>
+      <EntityType Name="DraftAdministrativeData">
+        <Key>
+          <PropertyRef Name="DraftUUID"/>
+        </Key>
+        <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+        <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+      </EntityType>
+      <ComplexType Name="ap_EconomicsService_calculateNPVPreview_cashFlows">
+        <Property Name="year" Type="Edm.Int32"/>
+        <Property Name="netCashFlow" Type="Edm.Decimal" Scale="variable"/>
+      </ComplexType>
+      <ComplexType Name="ap_EconomicsService_calculateIRRPreview_cashFlows">
+        <Property Name="year" Type="Edm.Int32"/>
+        <Property Name="netCashFlow" Type="Edm.Decimal" Scale="variable"/>
+      </ComplexType>
+      <ComplexType Name="return_EconomicsService_getTornadoChartData">
+        <Property Name="variable" Type="Edm.String"/>
+        <Property Name="baseNPV" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="lowNPV" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="highNPV" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="impact" Type="Edm.Decimal" Scale="variable"/>
+      </ComplexType>
+      <ComplexType Name="return_EconomicsService_getMonteCarloDistribution">
+        <Property Name="p10" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="p50" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="p90" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="mean" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="stdDev" Type="Edm.Decimal" Scale="variable"/>
+      </ComplexType>
+      <ComplexType Name="return_EconomicsService_compareScenarios">
+        <Property Name="analysisId" Type="Edm.Guid"/>
+        <Property Name="analysisName" Type="Edm.String"/>
+        <Property Name="npv" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="irr" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="payback" Type="Edm.Decimal" Scale="variable"/>
+        <Property Name="recommendation" Type="Edm.String"/>
+      </ComplexType>
+      <Action Name="calculateNPV" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.EconomicsAnalyses"/>
+        <ReturnType Type="EconomicsService.EconomicsAnalyses"/>
+      </Action>
+      <Action Name="calculateIRR" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.EconomicsAnalyses"/>
+        <ReturnType Type="EconomicsService.EconomicsAnalyses"/>
+      </Action>
+      <Action Name="calculateAll" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.EconomicsAnalyses"/>
+        <ReturnType Type="EconomicsService.EconomicsAnalyses"/>
+      </Action>
+      <Action Name="runMonteCarlo" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.EconomicsAnalyses"/>
+        <Parameter Name="iterations" Type="Edm.Int32"/>
+        <ReturnType Type="EconomicsService.EconomicsAnalyses"/>
+      </Action>
+      <Action Name="runSensitivityAnalysis" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.EconomicsAnalyses"/>
+        <ReturnType Type="EconomicsService.EconomicsAnalyses"/>
+      </Action>
+      <Action Name="submitForApproval" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.EconomicsAnalyses"/>
+        <ReturnType Type="EconomicsService.EconomicsAnalyses"/>
+      </Action>
+      <Action Name="approve" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.EconomicsAnalyses"/>
+        <Parameter Name="comments" Type="Edm.String"/>
+        <ReturnType Type="EconomicsService.EconomicsAnalyses"/>
+      </Action>
+      <Action Name="approve" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.PriceDecks"/>
+        <ReturnType Type="EconomicsService.PriceDecks"/>
+      </Action>
+      <Action Name="reject" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.EconomicsAnalyses"/>
+        <Parameter Name="comments" Type="Edm.String"/>
+        <ReturnType Type="EconomicsService.EconomicsAnalyses"/>
+      </Action>
+      <Action Name="exportToExcel" IsBound="true">
+        <Parameter Name="in" Type="EconomicsService.EconomicsAnalyses"/>
+        <ReturnType Type="Edm.Binary"/>
+      </Action>
+      <Action Name="generateReport" IsBound="true">
+        <Parameter Name="in" Type="EconomicsService.EconomicsAnalyses"/>
+        <ReturnType Type="Edm.Binary"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.EconomicsAnalyses"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="EconomicsService.EconomicsAnalyses"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.CashFlows"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="EconomicsService.CashFlows"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.HurdleRates"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="EconomicsService.HurdleRates"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.Scenarios"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="EconomicsService.Scenarios"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.SensitivityResults"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="EconomicsService.SensitivityResults"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.EconomicsAssumptions"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="EconomicsService.EconomicsAssumptions"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.PriceDecks"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="EconomicsService.PriceDecks"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.PriceDeckItems"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="EconomicsService.PriceDeckItems"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.EconomicsAnalyses"/>
+        <ReturnType Type="EconomicsService.EconomicsAnalyses"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.HurdleRates"/>
+        <ReturnType Type="EconomicsService.HurdleRates"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.PriceDecks"/>
+        <ReturnType Type="EconomicsService.PriceDecks"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.EconomicsAnalyses"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="EconomicsService.EconomicsAnalyses"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.HurdleRates"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="EconomicsService.HurdleRates"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.PriceDecks"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="EconomicsService.PriceDecks"/>
+      </Action>
+      <Action Name="activate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.HurdleRates"/>
+        <ReturnType Type="EconomicsService.HurdleRates"/>
+      </Action>
+      <Action Name="deactivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.HurdleRates"/>
+        <ReturnType Type="EconomicsService.HurdleRates"/>
+      </Action>
+      <Action Name="calculate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.Scenarios"/>
+        <ReturnType Type="EconomicsService.Scenarios"/>
+      </Action>
+      <Action Name="copyDeck" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="EconomicsService.PriceDecks"/>
+        <Parameter Name="newName" Type="Edm.String"/>
+        <ReturnType Type="EconomicsService.PriceDecks"/>
+      </Action>
+      <Function Name="getAnalysesByWell" IsBound="false" IsComposable="false">
+        <Parameter Name="wellId" Type="Edm.Guid"/>
+        <ReturnType Type="Collection(EconomicsService.EconomicsAnalyses)"/>
+      </Function>
+      <Function Name="getActiveHurdleRate" IsBound="false" IsComposable="false">
+        <Parameter Name="rateType" Type="Edm.String"/>
+        <Parameter Name="fieldId" Type="Edm.Guid"/>
+        <ReturnType Type="EconomicsService.HurdleRates"/>
+      </Function>
+      <Function Name="getActivePriceDeck" IsBound="false" IsComposable="false">
+        <ReturnType Type="EconomicsService.PriceDecks"/>
+      </Function>
+      <Function Name="calculateNPVPreview" IsBound="false" IsComposable="false">
+        <Parameter Name="cashFlows" Type="Collection(EconomicsService.ap_EconomicsService_calculateNPVPreview_cashFlows)" Nullable="true"/>
+        <Parameter Name="discountRate" Type="Edm.Decimal" Scale="variable"/>
+        <ReturnType Type="Edm.Decimal" Scale="variable"/>
+      </Function>
+      <Function Name="calculateIRRPreview" IsBound="false" IsComposable="false">
+        <Parameter Name="cashFlows" Type="Collection(EconomicsService.ap_EconomicsService_calculateIRRPreview_cashFlows)" Nullable="true"/>
+        <ReturnType Type="Edm.Decimal" Scale="variable"/>
+      </Function>
+      <Function Name="getTornadoChartData" IsBound="false" IsComposable="false">
+        <Parameter Name="analysisId" Type="Edm.Guid"/>
+        <ReturnType Type="Collection(EconomicsService.return_EconomicsService_getTornadoChartData)" Nullable="true"/>
+      </Function>
+      <Function Name="getMonteCarloDistribution" IsBound="false" IsComposable="false">
+        <Parameter Name="analysisId" Type="Edm.Guid"/>
+        <ReturnType Type="EconomicsService.return_EconomicsService_getMonteCarloDistribution"/>
+      </Function>
+      <Action Name="createAnalysisFromAFE" IsBound="false">
+        <Parameter Name="afeId" Type="Edm.Guid"/>
+        <Parameter Name="analysisName" Type="Edm.String"/>
+        <ReturnType Type="EconomicsService.EconomicsAnalyses"/>
+      </Action>
+      <Action Name="compareScenarios" IsBound="false">
+        <Parameter Name="analysisIds" Type="Collection(Edm.Guid)" Nullable="true"/>
+        <ReturnType Type="Collection(EconomicsService.return_EconomicsService_compareScenarios)" Nullable="true"/>
+      </Action>
+      <Annotations Target="EconomicsService.EntityContainer/EconomicsAnalyses">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="EconomicsService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="EconomicsService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="EconomicsService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.EconomicsAnalyses/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EconomicsAnalyses/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EconomicsAnalyses/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EconomicsAnalyses/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EconomicsAnalyses/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EconomicsAnalyses/discountRate">
+        <Annotation Term="Validation.Minimum" Int="0"/>
+        <Annotation Term="Validation.Maximum" Float="0.5"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EconomicsAnalyses/recommendation">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Recommend"/>
+              <PropertyValue Property="Value" String="Recommend"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Marginal"/>
+              <PropertyValue Property="Value" String="Marginal"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="DoNotRecommend"/>
+              <PropertyValue Property="Value" String="DoNotRecommend"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.EconomicsAnalyses/status">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Draft"/>
+              <PropertyValue Property="Value" String="Draft"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Pending"/>
+              <PropertyValue Property="Value" String="Pending"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Approved"/>
+              <PropertyValue Property="Value" String="Approved"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.EconomicsAnalyses/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EconomicsAnalyses/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EconomicsAnalyses/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EconomicsAnalyses/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EntityContainer/CashFlows">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="EconomicsService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.CashFlows/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.CashFlows/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.CashFlows/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.CashFlows/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.CashFlows/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EntityContainer/HurdleRates">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="EconomicsService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="EconomicsService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="EconomicsService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.HurdleRates/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.HurdleRates/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.HurdleRates/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.HurdleRates/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.HurdleRates/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.HurdleRates/rateValue">
+        <Annotation Term="Validation.Minimum" Int="0"/>
+        <Annotation Term="Validation.Maximum" Float="0.5"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.HurdleRates/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.HurdleRates/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.HurdleRates/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.HurdleRates/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EntityContainer/Scenarios">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="EconomicsService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.Scenarios/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Scenarios/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Scenarios/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Scenarios/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Scenarios/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EntityContainer/SensitivityResults">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="EconomicsService.draftPrepare"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.SensitivityResults/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.SensitivityResults/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.SensitivityResults/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.SensitivityResults/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.SensitivityResults/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EntityContainer/EconomicsAssumptions">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="EconomicsService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.EconomicsAssumptions/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EconomicsAssumptions/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EconomicsAssumptions/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EconomicsAssumptions/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EconomicsAssumptions/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EntityContainer/PriceDecks">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="EconomicsService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="EconomicsService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="EconomicsService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.PriceDecks/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.PriceDecks/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.PriceDecks/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.PriceDecks/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.PriceDecks/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.PriceDecks/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.PriceDecks/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.PriceDecks/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.PriceDecks/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EntityContainer/PriceDeckItems">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="EconomicsService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.PriceDeckItems/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.PriceDeckItems/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.PriceDeckItems/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.PriceDeckItems/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.PriceDeckItems/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EntityContainer/Wells">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.Wells/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Wells/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Wells/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Wells/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Wells/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Wells/wellNumber">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Wells/wellType">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Exploration"/>
+              <PropertyValue Property="Value" String="Exploration"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Development"/>
+              <PropertyValue Property="Value" String="Development"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Workover"/>
+              <PropertyValue Property="Value" String="Workover"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Sidetrack"/>
+              <PropertyValue Property="Value" String="Sidetrack"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.Wells/wellboreType">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Vertical"/>
+              <PropertyValue Property="Value" String="Vertical"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Horizontal"/>
+              <PropertyValue Property="Value" String="Horizontal"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Directional"/>
+              <PropertyValue Property="Value" String="Directional"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.Wells/status">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Planned"/>
+              <PropertyValue Property="Value" String="Planned"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Drilling"/>
+              <PropertyValue Property="Value" String="Drilling"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Completed"/>
+              <PropertyValue Property="Value" String="Completed"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Suspended"/>
+              <PropertyValue Property="Value" String="Suspended"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="PandA"/>
+              <PropertyValue Property="Value" String="PandA"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.EntityContainer/Fields">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.Fields/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Fields/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Fields/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Fields/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Fields/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Fields/fieldCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.EntityContainer/AFEs">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.AFEs/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.AFEs/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.AFEs/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.AFEs/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.AFEs/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.AFEs/afeNumber">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.AFEs/afeType">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Original"/>
+              <PropertyValue Property="Value" String="Original"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Supplement"/>
+              <PropertyValue Property="Value" String="Supplement"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Revision"/>
+              <PropertyValue Property="Value" String="Revision"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.AFEs/contingencyPct">
+        <Annotation Term="Validation.Minimum" Int="0"/>
+        <Annotation Term="Validation.Maximum" Float="0.5"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.AFEs/approvalStatus">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Draft"/>
+              <PropertyValue Property="Value" String="Draft"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Pending"/>
+              <PropertyValue Property="Value" String="Pending"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Approved"/>
+              <PropertyValue Property="Value" String="Approved"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Rejected"/>
+              <PropertyValue Property="Value" String="Rejected"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.AFEs/status">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Active"/>
+              <PropertyValue Property="Value" String="Active"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Closed"/>
+              <PropertyValue Property="Value" String="Closed"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Cancelled"/>
+              <PropertyValue Property="Value" String="Cancelled"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.EntityContainer/Currencies">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.Currencies/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Currencies/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Currencies/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Currencies/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Currencies/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Currencies/currencyCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.getAnalysesByWell(Edm.Guid)/wellId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.getActiveHurdleRate(Edm.String,Edm.Guid)/rateType">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.getActiveHurdleRate(Edm.String,Edm.Guid)/fieldId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.calculateNPVPreview(Collection(EconomicsService.ap_EconomicsService_calculateNPVPreview_cashFlows),Edm.Decimal)/cashFlows">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.calculateNPVPreview(Collection(EconomicsService.ap_EconomicsService_calculateNPVPreview_cashFlows),Edm.Decimal)/discountRate">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.calculateIRRPreview(Collection(EconomicsService.ap_EconomicsService_calculateIRRPreview_cashFlows))/cashFlows">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.getTornadoChartData(Edm.Guid)/analysisId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.getMonteCarloDistribution(Edm.Guid)/analysisId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="EconomicsService.AFELineItems/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.WBSElements/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Approvals/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Approvals/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Approvals/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Approvals/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.Approvals/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.AFEDocuments/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.AFEDocuments/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.AFEDocuments/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.AFEDocuments/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.AFEDocuments/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.DraftAdministrativeData">
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftAdministrativeData}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.DraftAdministrativeData/DraftUUID">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftUUID}"/>
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.DraftAdministrativeData/CreationDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreationDateTime}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.DraftAdministrativeData/CreatedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreatedByUser}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.DraftAdministrativeData/DraftIsCreatedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsCreatedByMe}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.DraftAdministrativeData/LastChangeDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangeDateTime}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.DraftAdministrativeData/LastChangedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangedByUser}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.DraftAdministrativeData/InProcessByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_InProcessByUser}"/>
+      </Annotations>
+      <Annotations Target="EconomicsService.DraftAdministrativeData/DraftIsProcessedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsProcessedByMe}"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

@@ -1,0 +1,14 @@
+VIEW AdminService_LoginHistory AS SELECT
+  LoginHistory_0.ID,
+  LoginHistory_0.user_ID,
+  LoginHistory_0.userId,
+  LoginHistory_0.loginAt,
+  LoginHistory_0.logoutAt,
+  LoginHistory_0.ipAddress,
+  LoginHistory_0.userAgent,
+  LoginHistory_0.loginStatus,
+  LoginHistory_0.failureReason
+FROM wcm_security_LoginHistory AS LoginHistory_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_Users AS "USER" ON ("USER".ID = user_ID)
+)

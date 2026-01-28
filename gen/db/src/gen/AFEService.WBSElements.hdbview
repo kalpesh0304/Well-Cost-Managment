@@ -1,0 +1,16 @@
+VIEW AFEService_WBSElements AS SELECT
+  WBSElements_0.ID,
+  WBSElements_0.afe_ID,
+  WBSElements_0.elementCode,
+  WBSElements_0.elementName,
+  WBSElements_0.parent_ID,
+  WBSElements_0.hierarchyLevel,
+  WBSElements_0.sortOrder,
+  WBSElements_0.s4WBSElement,
+  WBSElements_0.isActive
+FROM wcm_afe_WBSElements AS WBSElements_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AFEService_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN AFEService_WBSElements AS parent ON (parent.ID = parent_ID),
+  MANY TO MANY JOIN AFEService_WBSElements AS children ON (children.parent_ID = ID)
+)

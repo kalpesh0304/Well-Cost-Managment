@@ -1,0 +1,27 @@
+VIEW AFEService_Vendors AS SELECT
+  Vendors_0.ID,
+  Vendors_0.createdAt,
+  Vendors_0.createdBy,
+  Vendors_0.modifiedAt,
+  Vendors_0.modifiedBy,
+  Vendors_0.isActive,
+  Vendors_0.s4SyncStatus,
+  Vendors_0.s4LastSyncAt,
+  Vendors_0.s4ErrorMessage,
+  Vendors_0.vendorCode,
+  Vendors_0.vendorName,
+  Vendors_0.vendorType,
+  Vendors_0.country_ID,
+  Vendors_0.currency_ID,
+  Vendors_0.paymentTerms,
+  Vendors_0.s4VendorNo,
+  Vendors_0.s4BusinessPartner,
+  Vendors_0.taxId,
+  Vendors_0.contactName,
+  Vendors_0.contactEmail,
+  Vendors_0.contactPhone
+FROM wcm_master_Vendors AS Vendors_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_master_Countries AS country ON (country.ID = country_ID),
+  MANY TO ONE JOIN AFEService_Currencies AS currency ON (currency.ID = currency_ID)
+)

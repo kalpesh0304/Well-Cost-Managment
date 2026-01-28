@@ -1,0 +1,13 @@
+COLUMN TABLE wcm_master_Countries (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  countryCode NVARCHAR(3) NOT NULL,
+  countryCode2 NVARCHAR(2) NOT NULL,
+  countryName NVARCHAR(100) NOT NULL,
+  region NVARCHAR(50),
+  PRIMARY KEY(ID)
+)

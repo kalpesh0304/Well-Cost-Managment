@@ -1,0 +1,13 @@
+COLUMN TABLE wcm_master_WBSTemplateElements (
+  ID NVARCHAR(36) NOT NULL,
+  template_ID NVARCHAR(36),
+  elementCode NVARCHAR(24) NOT NULL,
+  elementName NVARCHAR(100) NOT NULL,
+  parent_ID NVARCHAR(36),
+  hierarchyLevel INTEGER NOT NULL,
+  sortOrder INTEGER,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_master_WBSTemplates AS template ON (template.ID = template_ID),
+  MANY TO ONE JOIN wcm_master_WBSTemplateElements AS parent ON (parent.ID = parent_ID)
+)

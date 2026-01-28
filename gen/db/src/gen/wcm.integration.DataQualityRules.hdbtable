@@ -1,0 +1,16 @@
+COLUMN TABLE wcm_integration_DataQualityRules (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  ruleName NVARCHAR(100) NOT NULL,
+  entityName NVARCHAR(50) NOT NULL,
+  fieldName NVARCHAR(50),
+  ruleType NVARCHAR(20),
+  ruleExpression NVARCHAR(500),
+  errorMessage NVARCHAR(200),
+  severity NVARCHAR(20),
+  PRIMARY KEY(ID)
+)

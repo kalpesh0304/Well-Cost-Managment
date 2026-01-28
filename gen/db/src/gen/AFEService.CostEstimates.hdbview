@@ -1,0 +1,30 @@
+VIEW AFEService_CostEstimates AS SELECT
+  CostEstimates_0.ID,
+  CostEstimates_0.createdAt,
+  CostEstimates_0.createdBy,
+  CostEstimates_0.modifiedAt,
+  CostEstimates_0.modifiedBy,
+  CostEstimates_0.afe_ID,
+  CostEstimates_0.wbsElement_ID,
+  CostEstimates_0.costElement_ID,
+  CostEstimates_0.vendor_ID,
+  CostEstimates_0.description,
+  CostEstimates_0.quantity,
+  CostEstimates_0.uom_ID,
+  CostEstimates_0.unitRate,
+  CostEstimates_0.estimatedAmount,
+  CostEstimates_0.currency_ID,
+  CostEstimates_0.startDate,
+  CostEstimates_0.endDate,
+  CostEstimates_0.durationDays,
+  CostEstimates_0.sourceType,
+  CostEstimates_0.confidenceLevel
+FROM wcm_afe_CostEstimates AS CostEstimates_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AFEService_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN AFEService_WBSElements AS wbsElement ON (wbsElement.ID = wbsElement_ID),
+  MANY TO ONE JOIN AFEService_CostElements AS costElement ON (costElement.ID = costElement_ID),
+  MANY TO ONE JOIN AFEService_Vendors AS vendor ON (vendor.ID = vendor_ID),
+  MANY TO ONE JOIN AFEService_UnitsOfMeasure AS uom ON (uom.ID = uom_ID),
+  MANY TO ONE JOIN AFEService_Currencies AS currency ON (currency.ID = currency_ID)
+)

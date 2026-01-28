@@ -1,0 +1,24 @@
+COLUMN TABLE wcm_operations_CostForecasts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  afe_ID NVARCHAR(36) NOT NULL,
+  well_ID NVARCHAR(36),
+  forecastDate DATE NOT NULL,
+  forecastType NVARCHAR(20),
+  estimatedTotal DECIMAL(15, 2),
+  actualToDate DECIMAL(15, 2),
+  forecastToComplete DECIMAL(15, 2),
+  forecastAtCompletion DECIMAL(15, 2),
+  varianceAtCompletion DECIMAL(15, 2),
+  confidenceLevel NVARCHAR(20),
+  confidencePct DECIMAL(8, 4),
+  assumptions NVARCHAR(1000),
+  generatedBy NVARCHAR(100),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_afe_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN wcm_master_Wells AS well ON (well.ID = well_ID)
+)

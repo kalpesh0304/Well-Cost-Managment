@@ -1,0 +1,21 @@
+VIEW AdminService_NumberingSeries AS SELECT
+  NumberingSeries_0.ID,
+  NumberingSeries_0.createdAt,
+  NumberingSeries_0.createdBy,
+  NumberingSeries_0.modifiedAt,
+  NumberingSeries_0.modifiedBy,
+  NumberingSeries_0.isActive,
+  NumberingSeries_0.seriesCode,
+  NumberingSeries_0.seriesName,
+  NumberingSeries_0.entityType,
+  NumberingSeries_0.prefix,
+  NumberingSeries_0.suffix,
+  NumberingSeries_0.currentNumber,
+  NumberingSeries_0.numberLength,
+  NumberingSeries_0.resetPeriod,
+  NumberingSeries_0.lastResetDate,
+  NumberingSeries_0.field_ID
+FROM wcm_configuration_NumberingSeries AS NumberingSeries_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_Fields AS field ON (field.ID = field_ID)
+)

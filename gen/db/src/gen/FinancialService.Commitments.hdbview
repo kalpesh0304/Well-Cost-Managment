@@ -1,0 +1,29 @@
+VIEW FinancialService_Commitments AS SELECT
+  Commitments_0.ID,
+  Commitments_0.createdAt,
+  Commitments_0.createdBy,
+  Commitments_0.modifiedAt,
+  Commitments_0.modifiedBy,
+  Commitments_0.s4SyncStatus,
+  Commitments_0.s4LastSyncAt,
+  Commitments_0.s4ErrorMessage,
+  Commitments_0.afe_ID,
+  Commitments_0.wbsElement_ID,
+  Commitments_0.costElement_ID,
+  Commitments_0.vendor_ID,
+  Commitments_0.s4PONumber,
+  Commitments_0.s4POItem,
+  Commitments_0.commitmentDate,
+  Commitments_0.commitmentAmount,
+  Commitments_0.consumedAmount,
+  Commitments_0.remainingAmount,
+  Commitments_0.currency_ID,
+  Commitments_0.status
+FROM wcm_financial_Commitments AS Commitments_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN FinancialService_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN FinancialService_WBSElements AS wbsElement ON (wbsElement.ID = wbsElement_ID),
+  MANY TO ONE JOIN FinancialService_CostElements AS costElement ON (costElement.ID = costElement_ID),
+  MANY TO ONE JOIN FinancialService_Vendors AS vendor ON (vendor.ID = vendor_ID),
+  MANY TO ONE JOIN FinancialService_Currencies AS currency ON (currency.ID = currency_ID)
+)

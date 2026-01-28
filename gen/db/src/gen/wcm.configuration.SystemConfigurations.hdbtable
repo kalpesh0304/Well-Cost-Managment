@@ -1,0 +1,14 @@
+COLUMN TABLE wcm_configuration_SystemConfigurations (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  configKey NVARCHAR(100) NOT NULL,
+  configValue NVARCHAR(1000),
+  configType NVARCHAR(20),
+  description NVARCHAR(500),
+  category NVARCHAR(50),
+  isEncrypted BOOLEAN DEFAULT FALSE,
+  PRIMARY KEY(ID)
+)

@@ -1,0 +1,19 @@
+COLUMN TABLE wcm_master_CostCategories (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  categoryCode NVARCHAR(10) NOT NULL,
+  categoryName NVARCHAR(100) NOT NULL,
+  categoryType NVARCHAR(20) NOT NULL,
+  parent_ID NVARCHAR(36),
+  s4CostElement NVARCHAR(10),
+  accountingTreatment NVARCHAR(20),
+  hierarchyLevel INTEGER DEFAULT 1,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_master_CostCategories AS parent ON (parent.ID = parent_ID),
+  MANY TO MANY JOIN wcm_master_CostCategories AS children ON (children.parent_ID = ID)
+)

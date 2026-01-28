@@ -1,0 +1,19 @@
+COLUMN TABLE wcm_operations_DailyCosts (
+  ID NVARCHAR(36) NOT NULL,
+  report_ID NVARCHAR(36) NOT NULL,
+  costElement_ID NVARCHAR(36),
+  vendor_ID NVARCHAR(36),
+  description NVARCHAR(200),
+  quantity DECIMAL(15, 4),
+  uom_ID NVARCHAR(36),
+  unitRate DECIMAL(15, 4),
+  amount DECIMAL(15, 2) NOT NULL,
+  currency_ID NVARCHAR(36),
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_operations_DailyReports AS report ON (report.ID = report_ID),
+  MANY TO ONE JOIN wcm_master_CostElements AS costElement ON (costElement.ID = costElement_ID),
+  MANY TO ONE JOIN wcm_master_Vendors AS vendor ON (vendor.ID = vendor_ID),
+  MANY TO ONE JOIN wcm_master_UnitsOfMeasure AS uom ON (uom.ID = uom_ID),
+  MANY TO ONE JOIN wcm_master_Currencies AS currency ON (currency.ID = currency_ID)
+)

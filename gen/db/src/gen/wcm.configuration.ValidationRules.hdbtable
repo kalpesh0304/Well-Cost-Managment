@@ -1,0 +1,18 @@
+COLUMN TABLE wcm_configuration_ValidationRules (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  isActive BOOLEAN DEFAULT TRUE,
+  ruleName NVARCHAR(100) NOT NULL,
+  ruleCode NVARCHAR(50) NOT NULL,
+  entityType NVARCHAR(50) NOT NULL,
+  fieldName NVARCHAR(50),
+  ruleType NVARCHAR(20) NOT NULL,
+  ruleExpression NVARCHAR(500),
+  errorMessage NVARCHAR(200) NOT NULL,
+  severity NVARCHAR(20) NOT NULL DEFAULT 'Error',
+  isBlocker BOOLEAN DEFAULT TRUE,
+  PRIMARY KEY(ID)
+)

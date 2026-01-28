@@ -1,0 +1,18 @@
+COLUMN TABLE EconomicsService_PriceDeckItems_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  deck_ID NVARCHAR(36) NULL,
+  yearNumber INTEGER NULL,
+  oilPrice DECIMAL(15, 2) NULL,
+  gasPrice DECIMAL(15, 2) NULL,
+  nglPrice DECIMAL(15, 2) NULL,
+  currency_ID NVARCHAR(36) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN EconomicsService_PriceDecks_drafts AS deck ON (deck.ID = deck_ID),
+  MANY TO ONE JOIN EconomicsService_Currencies AS currency ON (currency.ID = currency_ID),
+  MANY TO ONE JOIN EconomicsService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

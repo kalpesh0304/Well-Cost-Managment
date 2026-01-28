@@ -1,0 +1,1866 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Validation.V1.xml">
+    <edmx:Include Alias="Validation" Namespace="Org.OData.Validation.V1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="AdminService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Annotation Term="Core.Links">
+        <Collection>
+          <Record>
+            <PropertyValue Property="rel" String="author"/>
+            <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+          </Record>
+        </Collection>
+      </Annotation>
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="AuditLogs" EntityType="AdminService.AuditLogs"/>
+        <EntitySet Name="Users" EntityType="AdminService.Users">
+          <NavigationPropertyBinding Path="manager" Target="Users"/>
+          <NavigationPropertyBinding Path="roles" Target="UserRoles"/>
+          <NavigationPropertyBinding Path="preferences" Target="UserPreferences"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="Users"/>
+        </EntitySet>
+        <EntitySet Name="Roles" EntityType="AdminService.Roles">
+          <NavigationPropertyBinding Path="scopes" Target="RoleScopes"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="Roles"/>
+        </EntitySet>
+        <EntitySet Name="RoleScopes" EntityType="AdminService.RoleScopes">
+          <NavigationPropertyBinding Path="role" Target="Roles"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="RoleScopes"/>
+        </EntitySet>
+        <EntitySet Name="UserRoles" EntityType="AdminService.UserRoles">
+          <NavigationPropertyBinding Path="user" Target="Users"/>
+          <NavigationPropertyBinding Path="role" Target="Roles"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="UserRoles"/>
+        </EntitySet>
+        <EntitySet Name="UserPreferences" EntityType="AdminService.UserPreferences">
+          <NavigationPropertyBinding Path="user" Target="Users"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="UserPreferences"/>
+        </EntitySet>
+        <EntitySet Name="Sessions" EntityType="AdminService.Sessions">
+          <NavigationPropertyBinding Path="user" Target="Users"/>
+        </EntitySet>
+        <EntitySet Name="LoginHistory" EntityType="AdminService.LoginHistory">
+          <NavigationPropertyBinding Path="user" Target="Users"/>
+        </EntitySet>
+        <EntitySet Name="ApprovalMatrix" EntityType="AdminService.ApprovalMatrix">
+          <NavigationPropertyBinding Path="field" Target="Fields"/>
+          <NavigationPropertyBinding Path="conditions" Target="ApprovalMatrixConditions"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="ApprovalMatrix"/>
+        </EntitySet>
+        <EntitySet Name="ApprovalMatrixConditions" EntityType="AdminService.ApprovalMatrixConditions">
+          <NavigationPropertyBinding Path="matrix" Target="ApprovalMatrix"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="ApprovalMatrixConditions"/>
+        </EntitySet>
+        <EntitySet Name="SystemConfigurations" EntityType="AdminService.SystemConfigurations">
+          <NavigationPropertyBinding Path="SiblingEntity" Target="SystemConfigurations"/>
+        </EntitySet>
+        <EntitySet Name="NotificationTemplates" EntityType="AdminService.NotificationTemplates">
+          <NavigationPropertyBinding Path="placeholders" Target="TemplatePlaceholders"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="NotificationTemplates"/>
+        </EntitySet>
+        <EntitySet Name="TemplatePlaceholders" EntityType="AdminService.TemplatePlaceholders">
+          <NavigationPropertyBinding Path="template" Target="NotificationTemplates"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="TemplatePlaceholders"/>
+        </EntitySet>
+        <EntitySet Name="NumberingSeries" EntityType="AdminService.NumberingSeries">
+          <NavigationPropertyBinding Path="field" Target="Fields"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="NumberingSeries"/>
+        </EntitySet>
+        <EntitySet Name="ValidationRules" EntityType="AdminService.ValidationRules">
+          <NavigationPropertyBinding Path="SiblingEntity" Target="ValidationRules"/>
+        </EntitySet>
+        <EntitySet Name="CostThresholds" EntityType="AdminService.CostThresholds">
+          <NavigationPropertyBinding Path="field" Target="Fields"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="CostThresholds"/>
+        </EntitySet>
+        <EntitySet Name="WorkflowDefinitions" EntityType="AdminService.WorkflowDefinitions">
+          <NavigationPropertyBinding Path="steps" Target="WorkflowSteps"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="WorkflowDefinitions"/>
+        </EntitySet>
+        <EntitySet Name="WorkflowSteps" EntityType="AdminService.WorkflowSteps">
+          <NavigationPropertyBinding Path="workflow" Target="WorkflowDefinitions"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="WorkflowSteps"/>
+        </EntitySet>
+        <EntitySet Name="ReportDefinitions" EntityType="AdminService.ReportDefinitions">
+          <NavigationPropertyBinding Path="SiblingEntity" Target="ReportDefinitions"/>
+        </EntitySet>
+        <EntitySet Name="Fields" EntityType="AdminService.Fields"/>
+        <FunctionImport Name="getAuditLogsByEntity" Function="AdminService.getAuditLogsByEntity" EntitySet="AuditLogs"/>
+        <FunctionImport Name="getAuditLogsByUser" Function="AdminService.getAuditLogsByUser" EntitySet="AuditLogs"/>
+        <FunctionImport Name="getActiveSessions" Function="AdminService.getActiveSessions" EntitySet="Sessions"/>
+        <FunctionImport Name="getUsersByRole" Function="AdminService.getUsersByRole" EntitySet="Users"/>
+        <FunctionImport Name="getApprovalMatrixForAFE" Function="AdminService.getApprovalMatrixForAFE" EntitySet="ApprovalMatrix"/>
+        <FunctionImport Name="getSystemConfig" Function="AdminService.getSystemConfig" EntitySet="SystemConfigurations"/>
+        <ActionImport Name="terminateAllSessions" Action="AdminService.terminateAllSessions"/>
+        <ActionImport Name="exportAuditLogs" Action="AdminService.exportAuditLogs"/>
+        <ActionImport Name="importUsers" Action="AdminService.importUsers"/>
+        <ActionImport Name="bulkAssignRole" Action="AdminService.bulkAssignRole"/>
+      </EntityContainer>
+      <EntityType Name="AuditLogs">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="eventCategory" Type="Edm.String" MaxLength="50" Nullable="false"/>
+        <Property Name="eventType" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="entityType" Type="Edm.String" MaxLength="50"/>
+        <Property Name="entityId" Type="Edm.Guid"/>
+        <Property Name="userId" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="userName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="action" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="beforeValue" Type="Edm.String"/>
+        <Property Name="afterValue" Type="Edm.String"/>
+        <Property Name="timestamp" Type="Edm.DateTimeOffset" Precision="7" Nullable="false"/>
+        <Property Name="ipAddress" Type="Edm.String" MaxLength="45"/>
+        <Property Name="sessionId" Type="Edm.Guid"/>
+        <Property Name="correlationId" Type="Edm.Guid"/>
+        <Property Name="userAgent" Type="Edm.String" MaxLength="500"/>
+      </EntityType>
+      <EntityType Name="Users">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="userId" Type="Edm.String" MaxLength="100"/>
+        <Property Name="userName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="email" Type="Edm.String" MaxLength="100"/>
+        <Property Name="department" Type="Edm.String" MaxLength="50"/>
+        <Property Name="title" Type="Edm.String" MaxLength="50"/>
+        <NavigationProperty Name="manager" Type="AdminService.Users">
+          <ReferentialConstraint Property="manager_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="manager_ID" Type="Edm.Guid"/>
+        <Property Name="status" Type="Edm.String" MaxLength="20" DefaultValue="Active"/>
+        <Property Name="lastLoginAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <NavigationProperty Name="roles" Type="Collection(AdminService.UserRoles)" Partner="user">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="preferences" Type="Collection(AdminService.UserPreferences)" Partner="user">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AdminService.Users"/>
+      </EntityType>
+      <EntityType Name="Roles">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="roleCode" Type="Edm.String" MaxLength="50"/>
+        <Property Name="roleName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="roleType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="description" Type="Edm.String" MaxLength="500"/>
+        <NavigationProperty Name="scopes" Type="Collection(AdminService.RoleScopes)" Partner="role">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AdminService.Roles"/>
+      </EntityType>
+      <EntityType Name="RoleScopes">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="role" Type="AdminService.Roles" Partner="scopes">
+          <ReferentialConstraint Property="role_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="role_ID" Type="Edm.Guid"/>
+        <Property Name="scopeCode" Type="Edm.String" MaxLength="50"/>
+        <Property Name="scopeName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="scopeType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AdminService.RoleScopes"/>
+      </EntityType>
+      <EntityType Name="UserRoles">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="user" Type="AdminService.Users" Partner="roles">
+          <ReferentialConstraint Property="user_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="user_ID" Type="Edm.Guid"/>
+        <NavigationProperty Name="role" Type="AdminService.Roles">
+          <ReferentialConstraint Property="role_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="role_ID" Type="Edm.Guid"/>
+        <Property Name="scopeType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="scopeValue" Type="Edm.String" MaxLength="50"/>
+        <Property Name="effectiveFromDate" Type="Edm.Date"/>
+        <Property Name="effectiveToDate" Type="Edm.Date"/>
+        <Property Name="assignedBy" Type="Edm.String" MaxLength="100"/>
+        <Property Name="assignedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AdminService.UserRoles"/>
+      </EntityType>
+      <EntityType Name="UserPreferences">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="user" Type="AdminService.Users" Partner="preferences">
+          <ReferentialConstraint Property="user_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="user_ID" Type="Edm.Guid"/>
+        <Property Name="preferenceKey" Type="Edm.String" MaxLength="100"/>
+        <Property Name="preferenceValue" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AdminService.UserPreferences"/>
+      </EntityType>
+      <EntityType Name="Sessions">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="user" Type="AdminService.Users" Nullable="false">
+          <ReferentialConstraint Property="user_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="user_ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="sessionToken" Type="Edm.String" MaxLength="500" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7" Nullable="false"/>
+        <Property Name="expiresAt" Type="Edm.DateTimeOffset" Precision="7" Nullable="false"/>
+        <Property Name="lastActivityAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="ipAddress" Type="Edm.String" MaxLength="45"/>
+        <Property Name="userAgent" Type="Edm.String" MaxLength="500"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+      </EntityType>
+      <EntityType Name="LoginHistory">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="user" Type="AdminService.Users">
+          <ReferentialConstraint Property="user_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="user_ID" Type="Edm.Guid"/>
+        <Property Name="userId" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="loginAt" Type="Edm.DateTimeOffset" Precision="7" Nullable="false"/>
+        <Property Name="logoutAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="ipAddress" Type="Edm.String" MaxLength="45"/>
+        <Property Name="userAgent" Type="Edm.String" MaxLength="500"/>
+        <Property Name="loginStatus" Type="Edm.String" MaxLength="20"/>
+        <Property Name="failureReason" Type="Edm.String" MaxLength="200"/>
+      </EntityType>
+      <EntityType Name="ApprovalMatrix">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="matrixName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="entityType" Type="Edm.String" MaxLength="50"/>
+        <NavigationProperty Name="field" Type="AdminService.Fields">
+          <ReferentialConstraint Property="field_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="field_ID" Type="Edm.Guid"/>
+        <Property Name="wellType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="amountFrom" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="amountTo" Type="Edm.Decimal" Precision="15" Scale="2"/>
+        <Property Name="approvalLevel" Type="Edm.Int32"/>
+        <Property Name="approverRole" Type="Edm.String" MaxLength="50"/>
+        <Property Name="escalationDays" Type="Edm.Int32"/>
+        <NavigationProperty Name="conditions" Type="Collection(AdminService.ApprovalMatrixConditions)" Partner="matrix">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AdminService.ApprovalMatrix"/>
+      </EntityType>
+      <EntityType Name="ApprovalMatrixConditions">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="matrix" Type="AdminService.ApprovalMatrix" Partner="conditions">
+          <ReferentialConstraint Property="matrix_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="matrix_ID" Type="Edm.Guid"/>
+        <Property Name="conditionField" Type="Edm.String" MaxLength="50"/>
+        <Property Name="conditionOperator" Type="Edm.String" MaxLength="20"/>
+        <Property Name="conditionValue" Type="Edm.String" MaxLength="200"/>
+        <Property Name="logicalOperator" Type="Edm.String" MaxLength="10"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AdminService.ApprovalMatrixConditions"/>
+      </EntityType>
+      <EntityType Name="SystemConfigurations">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="configKey" Type="Edm.String" MaxLength="100"/>
+        <Property Name="configValue" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="configType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="description" Type="Edm.String" MaxLength="500"/>
+        <Property Name="category" Type="Edm.String" MaxLength="50"/>
+        <Property Name="isEncrypted" Type="Edm.Boolean" DefaultValue="false"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AdminService.SystemConfigurations"/>
+      </EntityType>
+      <EntityType Name="NotificationTemplates">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="templateCode" Type="Edm.String" MaxLength="50"/>
+        <Property Name="templateName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="templateType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="eventType" Type="Edm.String" MaxLength="50"/>
+        <Property Name="subject" Type="Edm.String" MaxLength="200"/>
+        <Property Name="body" Type="Edm.String"/>
+        <Property Name="isHtml" Type="Edm.Boolean" DefaultValue="true"/>
+        <NavigationProperty Name="placeholders" Type="Collection(AdminService.TemplatePlaceholders)" Partner="template">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AdminService.NotificationTemplates"/>
+      </EntityType>
+      <EntityType Name="TemplatePlaceholders">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="template" Type="AdminService.NotificationTemplates" Partner="placeholders">
+          <ReferentialConstraint Property="template_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="template_ID" Type="Edm.Guid"/>
+        <Property Name="placeholderKey" Type="Edm.String" MaxLength="50"/>
+        <Property Name="placeholderName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="dataSource" Type="Edm.String" MaxLength="100"/>
+        <Property Name="defaultValue" Type="Edm.String" MaxLength="200"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AdminService.TemplatePlaceholders"/>
+      </EntityType>
+      <EntityType Name="NumberingSeries">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="seriesCode" Type="Edm.String" MaxLength="20"/>
+        <Property Name="seriesName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="entityType" Type="Edm.String" MaxLength="50"/>
+        <Property Name="prefix" Type="Edm.String" MaxLength="20"/>
+        <Property Name="suffix" Type="Edm.String" MaxLength="20"/>
+        <Property Name="currentNumber" Type="Edm.Int32" DefaultValue="0"/>
+        <Property Name="numberLength" Type="Edm.Int32" DefaultValue="6"/>
+        <Property Name="resetPeriod" Type="Edm.String" MaxLength="20"/>
+        <Property Name="lastResetDate" Type="Edm.Date"/>
+        <NavigationProperty Name="field" Type="AdminService.Fields">
+          <ReferentialConstraint Property="field_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="field_ID" Type="Edm.Guid"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AdminService.NumberingSeries"/>
+      </EntityType>
+      <EntityType Name="ValidationRules">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="ruleName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="ruleCode" Type="Edm.String" MaxLength="50"/>
+        <Property Name="entityType" Type="Edm.String" MaxLength="50"/>
+        <Property Name="fieldName" Type="Edm.String" MaxLength="50"/>
+        <Property Name="ruleType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="ruleExpression" Type="Edm.String" MaxLength="500"/>
+        <Property Name="errorMessage" Type="Edm.String" MaxLength="200"/>
+        <Property Name="severity" Type="Edm.String" MaxLength="20" DefaultValue="Error"/>
+        <Property Name="isBlocker" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AdminService.ValidationRules"/>
+      </EntityType>
+      <EntityType Name="CostThresholds">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="thresholdName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="thresholdType" Type="Edm.String" MaxLength="20"/>
+        <NavigationProperty Name="field" Type="AdminService.Fields">
+          <ReferentialConstraint Property="field_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="field_ID" Type="Edm.Guid"/>
+        <Property Name="wellType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="warningThreshold" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="criticalThreshold" Type="Edm.Decimal" Precision="8" Scale="4"/>
+        <Property Name="notifyRoles" Type="Edm.String" MaxLength="500"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AdminService.CostThresholds"/>
+      </EntityType>
+      <EntityType Name="WorkflowDefinitions">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="workflowCode" Type="Edm.String" MaxLength="50"/>
+        <Property Name="workflowName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="entityType" Type="Edm.String" MaxLength="50"/>
+        <Property Name="description" Type="Edm.String" MaxLength="500"/>
+        <NavigationProperty Name="steps" Type="Collection(AdminService.WorkflowSteps)" Partner="workflow">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AdminService.WorkflowDefinitions"/>
+      </EntityType>
+      <EntityType Name="WorkflowSteps">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="workflow" Type="AdminService.WorkflowDefinitions" Partner="steps">
+          <ReferentialConstraint Property="workflow_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="workflow_ID" Type="Edm.Guid"/>
+        <Property Name="stepNumber" Type="Edm.Int32"/>
+        <Property Name="stepName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="stepType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="assigneeType" Type="Edm.String" MaxLength="20"/>
+        <Property Name="assigneeValue" Type="Edm.String" MaxLength="100"/>
+        <Property Name="timeoutDays" Type="Edm.Int32"/>
+        <Property Name="escalateTo" Type="Edm.String" MaxLength="100"/>
+        <Property Name="onApprove" Type="Edm.Int32"/>
+        <Property Name="onReject" Type="Edm.Int32"/>
+        <Property Name="onReturn" Type="Edm.Int32"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AdminService.WorkflowSteps"/>
+      </EntityType>
+      <EntityType Name="ReportDefinitions">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="reportCode" Type="Edm.String" MaxLength="50"/>
+        <Property Name="reportName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="reportCategory" Type="Edm.String" MaxLength="50"/>
+        <Property Name="description" Type="Edm.String" MaxLength="500"/>
+        <Property Name="baseEntity" Type="Edm.String" MaxLength="50"/>
+        <Property Name="defaultParameters" Type="Edm.String"/>
+        <Property Name="outputFormats" Type="Edm.String" MaxLength="100"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="AdminService.ReportDefinitions"/>
+      </EntityType>
+      <EntityType Name="Fields">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="isActive" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="fieldCode" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="fieldName" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="basin" Type="Edm.String" MaxLength="50"/>
+        <Property Name="country_ID" Type="Edm.Guid"/>
+        <Property Name="region" Type="Edm.String" MaxLength="50"/>
+        <Property Name="operatorName" Type="Edm.String" MaxLength="100"/>
+        <Property Name="s4ProfitCenter" Type="Edm.String" MaxLength="10"/>
+        <Property Name="s4CostCenter" Type="Edm.String" MaxLength="10"/>
+      </EntityType>
+      <EntityType Name="DraftAdministrativeData">
+        <Key>
+          <PropertyRef Name="DraftUUID"/>
+        </Key>
+        <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+        <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+      </EntityType>
+      <ComplexType Name="return_AdminService_NotificationTemplates_preview">
+        <Property Name="subject" Type="Edm.String"/>
+        <Property Name="body" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="return_AdminService_NotificationTemplates_sendTest">
+        <Property Name="success" Type="Edm.Boolean"/>
+        <Property Name="message" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="return_AdminService_ValidationRules_test">
+        <Property Name="isValid" Type="Edm.Boolean"/>
+        <Property Name="message" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="return_AdminService_WorkflowDefinitions_validate">
+        <Property Name="isValid" Type="Edm.Boolean"/>
+        <Property Name="errors" Type="Collection(Edm.String)" Nullable="true"/>
+      </ComplexType>
+      <ComplexType Name="return_AdminService_importUsers">
+        <Property Name="imported" Type="Edm.Int32"/>
+        <Property Name="failed" Type="Edm.Int32"/>
+        <Property Name="errors" Type="Collection(Edm.String)" Nullable="true"/>
+      </ComplexType>
+      <Action Name="activate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.Users"/>
+        <ReturnType Type="AdminService.Users"/>
+      </Action>
+      <Action Name="activate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.ValidationRules"/>
+        <ReturnType Type="AdminService.ValidationRules"/>
+      </Action>
+      <Action Name="activate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.WorkflowDefinitions"/>
+        <ReturnType Type="AdminService.WorkflowDefinitions"/>
+      </Action>
+      <Action Name="deactivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.Users"/>
+        <ReturnType Type="AdminService.Users"/>
+      </Action>
+      <Action Name="deactivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.ValidationRules"/>
+        <ReturnType Type="AdminService.ValidationRules"/>
+      </Action>
+      <Action Name="deactivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.WorkflowDefinitions"/>
+        <ReturnType Type="AdminService.WorkflowDefinitions"/>
+      </Action>
+      <Action Name="suspend" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.Users"/>
+        <ReturnType Type="AdminService.Users"/>
+      </Action>
+      <Action Name="resetPassword" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.Users"/>
+        <ReturnType Type="AdminService.Users"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.Users"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AdminService.Users"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.Roles"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AdminService.Roles"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.RoleScopes"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AdminService.RoleScopes"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.UserRoles"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AdminService.UserRoles"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.UserPreferences"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AdminService.UserPreferences"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.ApprovalMatrix"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AdminService.ApprovalMatrix"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.ApprovalMatrixConditions"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AdminService.ApprovalMatrixConditions"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.SystemConfigurations"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AdminService.SystemConfigurations"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.NotificationTemplates"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AdminService.NotificationTemplates"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.TemplatePlaceholders"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AdminService.TemplatePlaceholders"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.NumberingSeries"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AdminService.NumberingSeries"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.ValidationRules"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AdminService.ValidationRules"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.CostThresholds"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AdminService.CostThresholds"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.WorkflowDefinitions"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AdminService.WorkflowDefinitions"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.WorkflowSteps"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AdminService.WorkflowSteps"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.ReportDefinitions"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="AdminService.ReportDefinitions"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.Users"/>
+        <ReturnType Type="AdminService.Users"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.Roles"/>
+        <ReturnType Type="AdminService.Roles"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.ApprovalMatrix"/>
+        <ReturnType Type="AdminService.ApprovalMatrix"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.SystemConfigurations"/>
+        <ReturnType Type="AdminService.SystemConfigurations"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.NotificationTemplates"/>
+        <ReturnType Type="AdminService.NotificationTemplates"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.NumberingSeries"/>
+        <ReturnType Type="AdminService.NumberingSeries"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.ValidationRules"/>
+        <ReturnType Type="AdminService.ValidationRules"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.CostThresholds"/>
+        <ReturnType Type="AdminService.CostThresholds"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.WorkflowDefinitions"/>
+        <ReturnType Type="AdminService.WorkflowDefinitions"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.ReportDefinitions"/>
+        <ReturnType Type="AdminService.ReportDefinitions"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.Users"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="AdminService.Users"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.Roles"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="AdminService.Roles"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.ApprovalMatrix"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="AdminService.ApprovalMatrix"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.SystemConfigurations"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="AdminService.SystemConfigurations"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.NotificationTemplates"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="AdminService.NotificationTemplates"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.NumberingSeries"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="AdminService.NumberingSeries"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.ValidationRules"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="AdminService.ValidationRules"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.CostThresholds"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="AdminService.CostThresholds"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.WorkflowDefinitions"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="AdminService.WorkflowDefinitions"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.ReportDefinitions"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="AdminService.ReportDefinitions"/>
+      </Action>
+      <Action Name="terminate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.Sessions"/>
+        <ReturnType Type="AdminService.Sessions"/>
+      </Action>
+      <Action Name="preview" IsBound="true">
+        <Parameter Name="in" Type="AdminService.NotificationTemplates"/>
+        <Parameter Name="testData" Type="Edm.String"/>
+        <ReturnType Type="AdminService.return_AdminService_NotificationTemplates_preview"/>
+      </Action>
+      <Action Name="sendTest" IsBound="true">
+        <Parameter Name="in" Type="AdminService.NotificationTemplates"/>
+        <Parameter Name="recipientEmail" Type="Edm.String"/>
+        <ReturnType Type="AdminService.return_AdminService_NotificationTemplates_sendTest"/>
+      </Action>
+      <Action Name="reset" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="AdminService.NumberingSeries"/>
+        <ReturnType Type="AdminService.NumberingSeries"/>
+      </Action>
+      <Action Name="getNextNumber" IsBound="true">
+        <Parameter Name="in" Type="AdminService.NumberingSeries"/>
+        <ReturnType Type="Edm.String"/>
+      </Action>
+      <Action Name="test" IsBound="true">
+        <Parameter Name="in" Type="AdminService.ValidationRules"/>
+        <Parameter Name="testData" Type="Edm.String"/>
+        <ReturnType Type="AdminService.return_AdminService_ValidationRules_test"/>
+      </Action>
+      <Action Name="validate" IsBound="true">
+        <Parameter Name="in" Type="AdminService.WorkflowDefinitions"/>
+        <ReturnType Type="AdminService.return_AdminService_WorkflowDefinitions_validate"/>
+      </Action>
+      <Function Name="getAuditLogsByEntity" IsBound="false" IsComposable="false">
+        <Parameter Name="entityType" Type="Edm.String"/>
+        <Parameter Name="entityId" Type="Edm.Guid"/>
+        <ReturnType Type="Collection(AdminService.AuditLogs)"/>
+      </Function>
+      <Function Name="getAuditLogsByUser" IsBound="false" IsComposable="false">
+        <Parameter Name="userId" Type="Edm.String"/>
+        <Parameter Name="fromDate" Type="Edm.Date"/>
+        <Parameter Name="toDate" Type="Edm.Date"/>
+        <ReturnType Type="Collection(AdminService.AuditLogs)"/>
+      </Function>
+      <Function Name="getActiveSessions" IsBound="false" IsComposable="false">
+        <ReturnType Type="Collection(AdminService.Sessions)"/>
+      </Function>
+      <Function Name="getUsersByRole" IsBound="false" IsComposable="false">
+        <Parameter Name="roleCode" Type="Edm.String"/>
+        <ReturnType Type="Collection(AdminService.Users)"/>
+      </Function>
+      <Function Name="getApprovalMatrixForAFE" IsBound="false" IsComposable="false">
+        <Parameter Name="afeAmount" Type="Edm.Decimal" Scale="variable"/>
+        <Parameter Name="wellType" Type="Edm.String"/>
+        <Parameter Name="fieldId" Type="Edm.Guid"/>
+        <ReturnType Type="Collection(AdminService.ApprovalMatrix)"/>
+      </Function>
+      <Function Name="getSystemConfig" IsBound="false" IsComposable="false">
+        <Parameter Name="configKey" Type="Edm.String"/>
+        <ReturnType Type="AdminService.SystemConfigurations"/>
+      </Function>
+      <Action Name="terminateAllSessions" IsBound="false">
+        <Parameter Name="userId" Type="Edm.String"/>
+        <ReturnType Type="Edm.Int32"/>
+      </Action>
+      <Action Name="exportAuditLogs" IsBound="false">
+        <Parameter Name="fromDate" Type="Edm.Date"/>
+        <Parameter Name="toDate" Type="Edm.Date"/>
+        <Parameter Name="format" Type="Edm.String"/>
+        <ReturnType Type="Edm.Binary"/>
+      </Action>
+      <Action Name="importUsers" IsBound="false">
+        <Parameter Name="userData" Type="Edm.String"/>
+        <ReturnType Type="AdminService.return_AdminService_importUsers"/>
+      </Action>
+      <Action Name="bulkAssignRole" IsBound="false">
+        <Parameter Name="userIds" Type="Collection(Edm.String)" Nullable="true"/>
+        <Parameter Name="roleCode" Type="Edm.String"/>
+        <Parameter Name="scopeType" Type="Edm.String"/>
+        <Parameter Name="scopeValue" Type="Edm.String"/>
+        <ReturnType Type="Edm.Int32"/>
+      </Action>
+      <Annotations Target="AdminService.EntityContainer/AuditLogs">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.AuditLogs/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/Users">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="AdminService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="AdminService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.Users/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.Users/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.Users/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.Users/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.Users/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.Users/userId">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="AdminService.Users/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.Users/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.Users/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.Users/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/Roles">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="AdminService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="AdminService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.Roles/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.Roles/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.Roles/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.Roles/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.Roles/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.Roles/roleCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="AdminService.Roles/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.Roles/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.Roles/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.Roles/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/RoleScopes">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.RoleScopes/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.RoleScopes/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.RoleScopes/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.RoleScopes/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.RoleScopes/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/UserRoles">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.UserRoles/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.UserRoles/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.UserRoles/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.UserRoles/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.UserRoles/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.UserRoles/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.UserRoles/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.UserRoles/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.UserRoles/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/UserPreferences">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.UserPreferences/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.UserPreferences/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.UserPreferences/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.UserPreferences/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.UserPreferences/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/Sessions">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.Sessions/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/LoginHistory">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.LoginHistory/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/ApprovalMatrix">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="AdminService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="AdminService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.ApprovalMatrix/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.ApprovalMatrix/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.ApprovalMatrix/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.ApprovalMatrix/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.ApprovalMatrix/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.ApprovalMatrix/wellType">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Exploration"/>
+              <PropertyValue Property="Value" String="Exploration"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Development"/>
+              <PropertyValue Property="Value" String="Development"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Workover"/>
+              <PropertyValue Property="Value" String="Workover"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Sidetrack"/>
+              <PropertyValue Property="Value" String="Sidetrack"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.ApprovalMatrix/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.ApprovalMatrix/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.ApprovalMatrix/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.ApprovalMatrix/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/ApprovalMatrixConditions">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.ApprovalMatrixConditions/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.ApprovalMatrixConditions/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.ApprovalMatrixConditions/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.ApprovalMatrixConditions/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.ApprovalMatrixConditions/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/SystemConfigurations">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="AdminService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="AdminService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.SystemConfigurations/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.SystemConfigurations/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.SystemConfigurations/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.SystemConfigurations/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.SystemConfigurations/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.SystemConfigurations/configKey">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="AdminService.SystemConfigurations/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.SystemConfigurations/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.SystemConfigurations/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.SystemConfigurations/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/NotificationTemplates">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="AdminService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="AdminService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.NotificationTemplates/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.NotificationTemplates/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.NotificationTemplates/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.NotificationTemplates/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.NotificationTemplates/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.NotificationTemplates/templateCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="AdminService.NotificationTemplates/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.NotificationTemplates/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.NotificationTemplates/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.NotificationTemplates/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/TemplatePlaceholders">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.TemplatePlaceholders/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.TemplatePlaceholders/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.TemplatePlaceholders/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.TemplatePlaceholders/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.TemplatePlaceholders/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/NumberingSeries">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="AdminService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="AdminService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.NumberingSeries/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.NumberingSeries/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.NumberingSeries/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.NumberingSeries/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.NumberingSeries/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.NumberingSeries/seriesCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="AdminService.NumberingSeries/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.NumberingSeries/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.NumberingSeries/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.NumberingSeries/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/ValidationRules">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="AdminService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="AdminService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.ValidationRules/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.ValidationRules/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.ValidationRules/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.ValidationRules/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.ValidationRules/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.ValidationRules/ruleCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="AdminService.ValidationRules/severity">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Error"/>
+              <PropertyValue Property="Value" String="Error"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Warning"/>
+              <PropertyValue Property="Value" String="Warning"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Info"/>
+              <PropertyValue Property="Value" String="Info"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.ValidationRules/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.ValidationRules/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.ValidationRules/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.ValidationRules/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/CostThresholds">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="AdminService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="AdminService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.CostThresholds/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.CostThresholds/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.CostThresholds/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.CostThresholds/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.CostThresholds/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.CostThresholds/wellType">
+        <Annotation Term="Validation.AllowedValues">
+          <Collection>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Exploration"/>
+              <PropertyValue Property="Value" String="Exploration"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Development"/>
+              <PropertyValue Property="Value" String="Development"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Workover"/>
+              <PropertyValue Property="Value" String="Workover"/>
+            </Record>
+            <Record Type="Validation.AllowedValue">
+              <Annotation Term="Core.SymbolicName" String="Sidetrack"/>
+              <PropertyValue Property="Value" String="Sidetrack"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.CostThresholds/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.CostThresholds/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.CostThresholds/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.CostThresholds/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/WorkflowDefinitions">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="AdminService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="AdminService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.WorkflowDefinitions/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.WorkflowDefinitions/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.WorkflowDefinitions/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.WorkflowDefinitions/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.WorkflowDefinitions/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.WorkflowDefinitions/workflowCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="AdminService.WorkflowDefinitions/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.WorkflowDefinitions/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.WorkflowDefinitions/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.WorkflowDefinitions/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/WorkflowSteps">
+        <Annotation Term="Common.DraftNode">
+          <Record Type="Common.DraftNodeType">
+            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.WorkflowSteps/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.WorkflowSteps/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.WorkflowSteps/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.WorkflowSteps/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.WorkflowSteps/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/ReportDefinitions">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="AdminService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="AdminService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.ReportDefinitions/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.ReportDefinitions/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.ReportDefinitions/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.ReportDefinitions/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.ReportDefinitions/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.ReportDefinitions/reportCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="AdminService.ReportDefinitions/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.ReportDefinitions/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.ReportDefinitions/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.ReportDefinitions/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.EntityContainer/Fields">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.Fields/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.Fields/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.Fields/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.Fields/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="AdminService.Fields/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="AdminService.Fields/fieldCode">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+      </Annotations>
+      <Annotations Target="AdminService.getAuditLogsByEntity(Edm.String,Edm.Guid)/entityType">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.getAuditLogsByEntity(Edm.String,Edm.Guid)/entityId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.getAuditLogsByUser(Edm.String,Edm.Date,Edm.Date)/userId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.getAuditLogsByUser(Edm.String,Edm.Date,Edm.Date)/fromDate">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.getAuditLogsByUser(Edm.String,Edm.Date,Edm.Date)/toDate">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.getUsersByRole(Edm.String)/roleCode">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.getApprovalMatrixForAFE(Edm.Decimal,Edm.String,Edm.Guid)/afeAmount">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.getApprovalMatrixForAFE(Edm.Decimal,Edm.String,Edm.Guid)/wellType">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.getApprovalMatrixForAFE(Edm.Decimal,Edm.String,Edm.Guid)/fieldId">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.getSystemConfig(Edm.String)/configKey">
+        <Annotation Term="Core.OptionalParameter">
+          <Record Type="Core.OptionalParameterType"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="AdminService.DraftAdministrativeData">
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftAdministrativeData}"/>
+      </Annotations>
+      <Annotations Target="AdminService.DraftAdministrativeData/DraftUUID">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftUUID}"/>
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="AdminService.DraftAdministrativeData/CreationDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreationDateTime}"/>
+      </Annotations>
+      <Annotations Target="AdminService.DraftAdministrativeData/CreatedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_CreatedByUser}"/>
+      </Annotations>
+      <Annotations Target="AdminService.DraftAdministrativeData/DraftIsCreatedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsCreatedByMe}"/>
+      </Annotations>
+      <Annotations Target="AdminService.DraftAdministrativeData/LastChangeDateTime">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangeDateTime}"/>
+      </Annotations>
+      <Annotations Target="AdminService.DraftAdministrativeData/LastChangedByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_LastChangedByUser}"/>
+      </Annotations>
+      <Annotations Target="AdminService.DraftAdministrativeData/InProcessByUser">
+        <Annotation Term="Common.Label" String="{i18n>Draft_InProcessByUser}"/>
+      </Annotations>
+      <Annotations Target="AdminService.DraftAdministrativeData/DraftIsProcessedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>Draft_DraftIsProcessedByMe}"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

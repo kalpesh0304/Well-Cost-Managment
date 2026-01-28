@@ -1,0 +1,18 @@
+VIEW IntegrationService_IntegrationLogs AS SELECT
+  IntegrationLogs_0.ID,
+  IntegrationLogs_0.integrationName,
+  IntegrationLogs_0.sourceSystem,
+  IntegrationLogs_0.targetSystem,
+  IntegrationLogs_0.direction,
+  IntegrationLogs_0.recordCount,
+  IntegrationLogs_0.processingStartTime,
+  IntegrationLogs_0.processingEndTime,
+  IntegrationLogs_0.status,
+  IntegrationLogs_0.errorMessage,
+  IntegrationLogs_0.recordsProcessed,
+  IntegrationLogs_0.recordsFailed,
+  IntegrationLogs_0.correlationId
+FROM wcm_integration_IntegrationLogs AS IntegrationLogs_0
+WITH ASSOCIATIONS (
+  MANY TO MANY JOIN IntegrationService_IntegrationLogDetails AS details ON (details.log_ID = ID)
+)

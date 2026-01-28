@@ -1,0 +1,32 @@
+VIEW FinancialService_CostActuals AS SELECT
+  CostActuals_0.ID,
+  CostActuals_0.createdAt,
+  CostActuals_0.createdBy,
+  CostActuals_0.modifiedAt,
+  CostActuals_0.modifiedBy,
+  CostActuals_0.s4SyncStatus,
+  CostActuals_0.s4LastSyncAt,
+  CostActuals_0.s4ErrorMessage,
+  CostActuals_0.afe_ID,
+  CostActuals_0.wbsElement_ID,
+  CostActuals_0.costElement_ID,
+  CostActuals_0.vendor_ID,
+  CostActuals_0.postingDate,
+  CostActuals_0.documentDate,
+  CostActuals_0.quantity,
+  CostActuals_0.uom_ID,
+  CostActuals_0.actualAmount,
+  CostActuals_0.currency_ID,
+  CostActuals_0.s4DocumentNo,
+  CostActuals_0.s4PONumber,
+  CostActuals_0.referenceText,
+  CostActuals_0.costType
+FROM wcm_financial_CostActuals AS CostActuals_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN FinancialService_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN FinancialService_WBSElements AS wbsElement ON (wbsElement.ID = wbsElement_ID),
+  MANY TO ONE JOIN FinancialService_CostElements AS costElement ON (costElement.ID = costElement_ID),
+  MANY TO ONE JOIN FinancialService_Vendors AS vendor ON (vendor.ID = vendor_ID),
+  MANY TO ONE JOIN FinancialService_UnitsOfMeasure AS uom ON (uom.ID = uom_ID),
+  MANY TO ONE JOIN FinancialService_Currencies AS currency ON (currency.ID = currency_ID)
+)

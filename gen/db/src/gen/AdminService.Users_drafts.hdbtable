@@ -1,0 +1,26 @@
+COLUMN TABLE AdminService_Users_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  isActive BOOLEAN NULL DEFAULT TRUE,
+  userId NVARCHAR(100) NULL,
+  userName NVARCHAR(100) NULL,
+  email NVARCHAR(100) NULL,
+  department NVARCHAR(50) NULL,
+  title NVARCHAR(50) NULL,
+  manager_ID NVARCHAR(36) NULL,
+  status NVARCHAR(20) NULL DEFAULT 'Active',
+  lastLoginAt TIMESTAMP NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_Users_drafts AS manager ON (manager.ID = manager_ID),
+  MANY TO MANY JOIN AdminService_UserRoles_drafts AS roles ON (roles.user_ID = ID),
+  MANY TO MANY JOIN AdminService_UserPreferences_drafts AS preferences ON (preferences.user_ID = ID),
+  MANY TO ONE JOIN AdminService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)

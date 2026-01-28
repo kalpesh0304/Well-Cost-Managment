@@ -1,0 +1,24 @@
+VIEW OperationsService_CostForecasts AS SELECT
+  CostForecasts_0.ID,
+  CostForecasts_0.createdAt,
+  CostForecasts_0.createdBy,
+  CostForecasts_0.modifiedAt,
+  CostForecasts_0.modifiedBy,
+  CostForecasts_0.afe_ID,
+  CostForecasts_0.well_ID,
+  CostForecasts_0.forecastDate,
+  CostForecasts_0.forecastType,
+  CostForecasts_0.estimatedTotal,
+  CostForecasts_0.actualToDate,
+  CostForecasts_0.forecastToComplete,
+  CostForecasts_0.forecastAtCompletion,
+  CostForecasts_0.varianceAtCompletion,
+  CostForecasts_0.confidenceLevel,
+  CostForecasts_0.confidencePct,
+  CostForecasts_0.assumptions,
+  CostForecasts_0.generatedBy
+FROM wcm_operations_CostForecasts AS CostForecasts_0
+WITH ASSOCIATIONS (
+  MANY TO ONE JOIN OperationsService_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN OperationsService_Wells AS well ON (well.ID = well_ID)
+)

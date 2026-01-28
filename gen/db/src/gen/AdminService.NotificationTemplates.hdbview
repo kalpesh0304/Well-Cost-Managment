@@ -1,0 +1,18 @@
+VIEW AdminService_NotificationTemplates AS SELECT
+  NotificationTemplates_0.ID,
+  NotificationTemplates_0.createdAt,
+  NotificationTemplates_0.createdBy,
+  NotificationTemplates_0.modifiedAt,
+  NotificationTemplates_0.modifiedBy,
+  NotificationTemplates_0.isActive,
+  NotificationTemplates_0.templateCode,
+  NotificationTemplates_0.templateName,
+  NotificationTemplates_0.templateType,
+  NotificationTemplates_0.eventType,
+  NotificationTemplates_0.subject,
+  NotificationTemplates_0.body,
+  NotificationTemplates_0.isHtml
+FROM wcm_configuration_NotificationTemplates AS NotificationTemplates_0
+WITH ASSOCIATIONS (
+  MANY TO MANY JOIN AdminService_TemplatePlaceholders AS placeholders ON (placeholders.template_ID = ID)
+)

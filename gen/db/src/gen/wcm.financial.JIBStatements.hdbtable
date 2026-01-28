@@ -1,0 +1,28 @@
+COLUMN TABLE wcm_financial_JIBStatements (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  statementNumber NVARCHAR(20) NOT NULL,
+  well_ID NVARCHAR(36) NOT NULL,
+  afe_ID NVARCHAR(36),
+  partner_ID NVARCHAR(36) NOT NULL,
+  billingPeriodFrom DATE NOT NULL,
+  billingPeriodTo DATE NOT NULL,
+  workingInterest DECIMAL(8, 4) NOT NULL,
+  grossAmount DECIMAL(15, 2) NOT NULL,
+  partnerShare DECIMAL(15, 2) NOT NULL,
+  currency_ID NVARCHAR(36),
+  dueDate DATE,
+  status NVARCHAR(20) NOT NULL DEFAULT 'Draft',
+  sentDate TIMESTAMP,
+  paidDate DATE,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN wcm_master_Wells AS well ON (well.ID = well_ID),
+  MANY TO ONE JOIN wcm_afe_AFEs AS afe ON (afe.ID = afe_ID),
+  MANY TO ONE JOIN wcm_master_Partners AS partner ON (partner.ID = partner_ID),
+  MANY TO ONE JOIN wcm_master_Currencies AS currency ON (currency.ID = currency_ID),
+  MANY TO MANY JOIN wcm_financial_JIBLineItems AS lineItems ON (lineItems.statement_ID = ID)
+)

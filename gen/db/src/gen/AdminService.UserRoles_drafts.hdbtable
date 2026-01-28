@@ -1,0 +1,24 @@
+COLUMN TABLE AdminService_UserRoles_drafts (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  user_ID NVARCHAR(36) NULL,
+  role_ID NVARCHAR(36) NULL,
+  scopeType NVARCHAR(20) NULL,
+  scopeValue NVARCHAR(50) NULL,
+  effectiveFromDate DATE NULL,
+  effectiveToDate DATE NULL,
+  assignedBy NVARCHAR(100) NULL,
+  assignedAt TIMESTAMP NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN AdminService_Users_drafts AS "USER" ON ("USER".ID = user_ID),
+  MANY TO ONE JOIN AdminService_Roles AS role ON (role.ID = role_ID),
+  MANY TO ONE JOIN AdminService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
+)
