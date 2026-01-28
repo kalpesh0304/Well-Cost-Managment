@@ -1,0 +1,9 @@
+ID;afe_ID;approvalLevel;approverRole;approverUserId;approverName;assignedDate;dueDate;actionDate;actionStatus;comments
+bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb101;aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa101;1;Engineering;alice;Alice Engineer;2025-01-05T09:00:00Z;2025-01-10T17:00:00Z;2025-01-07T14:30:00Z;Approved;Technical review completed. All estimates validated.
+bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb102;aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa101;2;Finance;bob;Bob Finance;2025-01-08T09:00:00Z;2025-01-15T17:00:00Z;2025-01-12T10:15:00Z;Approved;Budget allocated from Q1 CAPEX.
+bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb103;aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa101;3;VP;carol;Carol VP;2025-01-13T09:00:00Z;2025-01-20T17:00:00Z;2025-01-14T16:45:00Z;Approved;Approved for execution.
+bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb104;aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa102;1;Engineering;alice;Alice Engineer;2025-02-05T09:00:00Z;2025-02-10T17:00:00Z;2025-02-08T11:00:00Z;Approved;Estimates reviewed and approved.
+bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb105;aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa102;2;Finance;bob;Bob Finance;2025-02-09T09:00:00Z;2025-02-16T17:00:00Z;;Pending;Awaiting budget confirmation.
+bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb106;aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa103;1;Engineering;alice;Alice Engineer;2024-10-05T09:00:00Z;2024-10-10T17:00:00Z;2024-10-08T14:00:00Z;Approved;Exploration parameters validated.
+bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb107;aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa103;2;Finance;bob;Bob Finance;2024-10-09T09:00:00Z;2024-10-16T17:00:00Z;2024-10-14T09:30:00Z;Approved;Exploration budget approved.
+bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb108;aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa103;3;VP;carol;Carol VP;2024-10-15T09:00:00Z;2024-10-22T17:00:00Z;2024-10-18T15:00:00Z;Approved;High-risk exploration approved with conditions.

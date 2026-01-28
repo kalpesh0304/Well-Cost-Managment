@@ -1,0 +1,11 @@
+ID;categoryCode;categoryName;categoryType;description;isActive
+88888888-aaaa-bbbb-cccc-888888888801;SCOPE;Scope Change;Unfavorable;Changes in project scope;true
+88888888-aaaa-bbbb-cccc-888888888802;PRICE;Price Variance;Unfavorable;Price increases from vendors;true
+88888888-aaaa-bbbb-cccc-888888888803;NPT;Non-Productive Time;Unfavorable;Delays due to NPT;true
+88888888-aaaa-bbbb-cccc-888888888804;WEATHER;Weather Delay;Unfavorable;Weather-related delays;true
+88888888-aaaa-bbbb-cccc-888888888805;EQUIP;Equipment Failure;Unfavorable;Equipment breakdown costs;true
+88888888-aaaa-bbbb-cccc-888888888806;GEOL;Geological Issues;Unfavorable;Unexpected geological conditions;true
+88888888-aaaa-bbbb-cccc-888888888807;EFFI;Efficiency Gains;Favorable;Better than expected performance;true
+88888888-aaaa-bbbb-cccc-888888888808;NEGO;Negotiation Savings;Favorable;Vendor negotiation savings;true
+88888888-aaaa-bbbb-cccc-888888888809;TECH;Technology Improvement;Favorable;Technology-driven savings;true
+88888888-aaaa-bbbb-cccc-888888888810;OTHER;Other;Unfavorable;Other unclassified variances;true

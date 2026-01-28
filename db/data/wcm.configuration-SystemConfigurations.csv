@@ -1,0 +1,11 @@
+ID;configKey;configValue;configType;description
+66666666-aaaa-bbbb-cccc-666666666601;DEFAULT_CURRENCY;USD;String;Default currency for new AFEs
+66666666-aaaa-bbbb-cccc-666666666602;MAX_CONTINGENCY_PCT;50;Number;Maximum contingency percentage allowed
+66666666-aaaa-bbbb-cccc-666666666603;VARIANCE_THRESHOLD;10;Number;Variance percentage requiring approval
+66666666-aaaa-bbbb-cccc-666666666604;PARTNER_CONSENT_DAYS;30;Number;Days for partner consent timeout
+66666666-aaaa-bbbb-cccc-666666666605;AFE_NUMBER_PREFIX;AFE;String;Prefix for AFE numbers
+66666666-aaaa-bbbb-cccc-666666666606;ENABLE_AI_FORECASTING;true;Boolean;Enable AI-powered cost forecasting
+66666666-aaaa-bbbb-cccc-666666666607;S4_INTEGRATION_ENABLED;true;Boolean;Enable S/4HANA integration
+66666666-aaaa-bbbb-cccc-666666666608;AUDIT_RETENTION_YEARS;10;Number;Years to retain audit logs
+66666666-aaaa-bbbb-cccc-666666666609;DEFAULT_DISCOUNT_RATE;0.10;Number;Default discount rate for NPV calculations
+66666666-aaaa-bbbb-cccc-666666666610;MONTE_CARLO_ITERATIONS;10000;Number;Number of Monte Carlo iterations

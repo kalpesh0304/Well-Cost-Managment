@@ -1,0 +1,9 @@
+ID;userId;userName;email;department;title;status
+33333333-aaaa-bbbb-cccc-333333333301;alice;Alice Engineer;alice@wcmenergy.com;Engineering;Senior Drilling Engineer;Active
+33333333-aaaa-bbbb-cccc-333333333302;bob;Bob Finance;bob@wcmenergy.com;Finance;Finance Controller;Active
+33333333-aaaa-bbbb-cccc-333333333303;carol;Carol VP;carol@wcmenergy.com;Executive;VP Operations;Active
+33333333-aaaa-bbbb-cccc-333333333304;dave;Dave Coordinator;dave@wcmenergy.com;Operations;AFE Coordinator;Active
+33333333-aaaa-bbbb-cccc-333333333305;eve;Eve Economist;eve@wcmenergy.com;Planning;Petroleum Economist;Active
+33333333-aaaa-bbbb-cccc-333333333306;frank;Frank Partner;frank@exxonmobil.com;Partner;Partner Representative;Active
+33333333-aaaa-bbbb-cccc-333333333307;grace;Grace Admin;grace@wcmenergy.com;IT;System Administrator;Active
+33333333-aaaa-bbbb-cccc-333333333308;henry;Henry Asset;henry@wcmenergy.com;Asset Management;Asset Manager;Active
