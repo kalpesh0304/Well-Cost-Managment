@@ -127,6 +127,9 @@ entity ETLJobs : common.MasterData {
   lastRunAt               : Timestamp;
   lastRunStatus           : String(20);
   nextRunAt               : Timestamp;
+
+  // Job runs
+  runs                    : Composition of many ETLJobRuns on runs.job = $self;
 }
 
 entity ETLJobRuns : cuid {

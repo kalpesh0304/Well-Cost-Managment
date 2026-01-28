@@ -40,10 +40,6 @@ entity Wells : common.MasterData, common.S4HANAMapping {
   s4WBSElement       : String(24);
   status             : common.WellStatus not null default 'Planned';
 
-  // Associations
-  afes               : Association to many wcm.afe.AFEs on afes.well = $self;
-  partnerInterests   : Association to many wcm.financial.PartnerInterests on partnerInterests.well = $self;
-  dailyReports       : Association to many wcm.operations.DailyReports on dailyReports.well = $self;
 }
 
 // ============================================

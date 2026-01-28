@@ -37,7 +37,6 @@ entity AFEs : cuid, managed, common.S4HANAMapping {
 
   // Associations
   costEstimates        : Association to many CostEstimates on costEstimates.afe = $self;
-  costActuals          : Association to many wcm.financial.CostActuals on costActuals.afe = $self;
   supplements          : Association to many AFEs on supplements.parentAFE = $self;
 }
 
