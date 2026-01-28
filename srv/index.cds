@@ -9,3 +9,10 @@ using from './economics-service';
 using from './operations-service';
 using from './integration-service';
 using from './admin-service';
+
+// Import UI annotations
+using from './master-data-service-ui';
+using from './afe-service-ui';
+using from './financial-service-ui';
+using from './economics-service-ui';
+using from './operations-service-ui';

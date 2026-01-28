@@ -25,15 +25,14 @@ annotate EconomicsService.EconomicsAnalyses with @(
   ],
 
   UI.LineItem: [
-    { Value: analysisNumber, Label: 'Analysis #', ![@UI.Importance]: #High },
-    { Value: analysisName, Label: 'Name', ![@UI.Importance]: #High },
-    { Value: well.wellName, Label: 'Well', ![@UI.Importance]: #High },
+    { Value: analysisNumber, Label: 'Analysis #' },
+    { Value: analysisName, Label: 'Name' },
     { Value: analysisType, Label: 'Type' },
-    { Value: npv, Label: 'NPV', ![@UI.Importance]: #High },
-    { Value: irr, Label: 'IRR %', ![@UI.Importance]: #High },
+    { Value: npv, Label: 'NPV' },
+    { Value: irr, Label: 'IRR %' },
     { Value: paybackPeriod, Label: 'Payback (yrs)' },
     { Value: profitabilityIndex, Label: 'PI' },
-    { Value: status, Label: 'Status', Criticality: statusCriticality }
+    { Value: status, Label: 'Status' }
   ],
 
   UI.Facets: [
@@ -51,12 +50,6 @@ annotate EconomicsService.EconomicsAnalyses with @(
     },
     {
       $Type: 'UI.ReferenceFacet',
-      ID: 'MonteCarloFacet',
-      Label: 'Monte Carlo Results',
-      Target: '@UI.FieldGroup#MonteCarlo'
-    },
-    {
-      $Type: 'UI.ReferenceFacet',
       ID: 'CashFlowsFacet',
       Label: 'Cash Flows',
       Target: 'cashFlows/@UI.LineItem'
@@ -66,18 +59,6 @@ annotate EconomicsService.EconomicsAnalyses with @(
       ID: 'ScenariosFacet',
       Label: 'Scenarios',
       Target: 'scenarios/@UI.LineItem'
-    },
-    {
-      $Type: 'UI.ReferenceFacet',
-      ID: 'SensitivitiesFacet',
-      Label: 'Sensitivity Analysis',
-      Target: 'sensitivities/@UI.LineItem'
-    },
-    {
-      $Type: 'UI.ReferenceFacet',
-      ID: 'AssumptionsFacet',
-      Label: 'Assumptions',
-      Target: 'assumptions/@UI.LineItem'
     }
   ],
 
@@ -101,37 +82,17 @@ annotate EconomicsService.EconomicsAnalyses with @(
       { Value: npv, Label: 'Net Present Value (NPV)' },
       { Value: irr, Label: 'Internal Rate of Return (IRR) %' },
       { Value: paybackPeriod, Label: 'Payback Period (Years)' },
-      { Value: profitabilityIndex, Label: 'Profitability Index (PI)' },
-      { Value: totalCapex, Label: 'Total CAPEX' },
-      { Value: totalOpex, Label: 'Total OPEX' },
-      { Value: totalRevenue, Label: 'Total Revenue' }
-    ]
-  },
-
-  UI.FieldGroup#MonteCarlo: {
-    Label: 'Monte Carlo Results',
-    Data: [
-      { Value: npvP10, Label: 'NPV P10' },
-      { Value: npvP50, Label: 'NPV P50' },
-      { Value: npvP90, Label: 'NPV P90' },
-      { Value: npvMean, Label: 'NPV Mean' },
-      { Value: monteCarloIterations, Label: 'Iterations' }
+      { Value: profitabilityIndex, Label: 'Profitability Index (PI)' }
     ]
   }
 );
 
 annotate EconomicsService.EconomicsAnalyses with {
   ID @UI.Hidden;
-  statusCriticality @Core.Computed;
   analysisNumber @title: 'Analysis Number';
-  analysisName @title: 'Analysis Name' @Common.FieldControl: #Mandatory;
-  analysisType @title: 'Analysis Type';
-  discountRate @title: 'Discount Rate %';
-  npv @title: 'NPV' @Measures.ISOCurrency: currency_code;
+  analysisName @title: 'Analysis Name';
+  npv @title: 'NPV';
   irr @title: 'IRR %';
-  paybackPeriod @title: 'Payback Period (Years)';
-  profitabilityIndex @title: 'Profitability Index';
-  well @title: 'Well' @Common.FieldControl: #Mandatory;
 }
 
 // ============================================
@@ -151,12 +112,12 @@ annotate EconomicsService.CashFlows with @(
   },
 
   UI.LineItem: [
-    { Value: year, Label: 'Year', ![@UI.Importance]: #High },
-    { Value: revenue, Label: 'Revenue', ![@UI.Importance]: #High },
+    { Value: year, Label: 'Year' },
+    { Value: revenue, Label: 'Revenue' },
     { Value: opex, Label: 'OPEX' },
     { Value: capex, Label: 'CAPEX' },
     { Value: taxes, Label: 'Taxes' },
-    { Value: netCashFlow, Label: 'Net Cash Flow', ![@UI.Importance]: #High },
+    { Value: netCashFlow, Label: 'Net Cash Flow' },
     { Value: cumulativeCashFlow, Label: 'Cumulative CF' },
     { Value: discountedCashFlow, Label: 'Discounted CF' }
   ]
@@ -165,11 +126,8 @@ annotate EconomicsService.CashFlows with @(
 annotate EconomicsService.CashFlows with {
   ID @UI.Hidden;
   analysis @UI.Hidden;
-  year @title: 'Year' @Common.FieldControl: #Mandatory;
-  revenue @title: 'Revenue' @Measures.ISOCurrency: currency_code;
-  opex @title: 'OPEX' @Measures.ISOCurrency: currency_code;
-  capex @title: 'CAPEX' @Measures.ISOCurrency: currency_code;
-  netCashFlow @title: 'Net Cash Flow' @Measures.ISOCurrency: currency_code;
+  year @title: 'Year';
+  netCashFlow @title: 'Net Cash Flow';
 }
 
 // ============================================
@@ -195,10 +153,9 @@ annotate EconomicsService.HurdleRates with @(
   ],
 
   UI.LineItem: [
-    { Value: rateName, Label: 'Rate Name', ![@UI.Importance]: #High },
-    { Value: rateType, Label: 'Type', ![@UI.Importance]: #High },
-    { Value: rate, Label: 'Rate %', ![@UI.Importance]: #High },
-    { Value: field.fieldName, Label: 'Field' },
+    { Value: rateName, Label: 'Rate Name' },
+    { Value: rateType, Label: 'Type' },
+    { Value: rate, Label: 'Rate %' },
     { Value: effectiveFrom, Label: 'Effective From' },
     { Value: effectiveTo, Label: 'Effective To' },
     { Value: isActive, Label: 'Active' }
@@ -207,9 +164,9 @@ annotate EconomicsService.HurdleRates with @(
 
 annotate EconomicsService.HurdleRates with {
   ID @UI.Hidden;
-  rateName @title: 'Rate Name' @Common.FieldControl: #Mandatory;
-  rateType @title: 'Rate Type' @Common.FieldControl: #Mandatory;
-  rate @title: 'Rate %' @Common.FieldControl: #Mandatory;
+  rateName @title: 'Rate Name';
+  rateType @title: 'Rate Type';
+  rate @title: 'Rate %';
 }
 
 // ============================================
@@ -229,12 +186,12 @@ annotate EconomicsService.Scenarios with @(
   },
 
   UI.LineItem: [
-    { Value: scenarioName, Label: 'Scenario Name', ![@UI.Importance]: #High },
-    { Value: scenarioType, Label: 'Type', ![@UI.Importance]: #High },
+    { Value: scenarioName, Label: 'Scenario Name' },
+    { Value: scenarioType, Label: 'Type' },
     { Value: probability, Label: 'Probability %' },
     { Value: priceMultiplier, Label: 'Price Mult.' },
     { Value: costMultiplier, Label: 'Cost Mult.' },
-    { Value: npv, Label: 'NPV', ![@UI.Importance]: #High },
+    { Value: npv, Label: 'NPV' },
     { Value: irr, Label: 'IRR %' }
   ]
 );
@@ -242,65 +199,8 @@ annotate EconomicsService.Scenarios with @(
 annotate EconomicsService.Scenarios with {
   ID @UI.Hidden;
   analysis @UI.Hidden;
-  scenarioName @title: 'Scenario Name' @Common.FieldControl: #Mandatory;
-  scenarioType @title: 'Scenario Type' @Common.FieldControl: #Mandatory;
-  npv @title: 'NPV' @Measures.ISOCurrency: currency_code;
-}
-
-// ============================================
-// SENSITIVITY RESULTS
-// ============================================
-annotate EconomicsService.SensitivityResults with @(
-  UI.HeaderInfo: {
-    TypeName: 'Sensitivity Result',
-    TypeNamePlural: 'Sensitivity Results',
-    Title: { Value: variable }
-  },
-
-  UI.LineItem: [
-    { Value: variable, Label: 'Variable', ![@UI.Importance]: #High },
-    { Value: baseValue, Label: 'Base Value' },
-    { Value: lowValue, Label: 'Low Value' },
-    { Value: highValue, Label: 'High Value' },
-    { Value: baseNPV, Label: 'Base NPV' },
-    { Value: lowNPV, Label: 'Low NPV' },
-    { Value: highNPV, Label: 'High NPV' },
-    { Value: npvImpact, Label: 'NPV Impact', ![@UI.Importance]: #High }
-  ]
-);
-
-// ============================================
-// ECONOMICS ASSUMPTIONS
-// ============================================
-annotate EconomicsService.EconomicsAssumptions with @(
-  Capabilities: {
-    InsertRestrictions: { Insertable: true },
-    UpdateRestrictions: { Updatable: true },
-    DeleteRestrictions: { Deletable: true }
-  },
-
-  UI.HeaderInfo: {
-    TypeName: 'Assumption',
-    TypeNamePlural: 'Assumptions',
-    Title: { Value: assumptionType }
-  },
-
-  UI.LineItem: [
-    { Value: assumptionType, Label: 'Type', ![@UI.Importance]: #High },
-    { Value: assumptionName, Label: 'Name', ![@UI.Importance]: #High },
-    { Value: value, Label: 'Value', ![@UI.Importance]: #High },
-    { Value: unit, Label: 'Unit' },
-    { Value: source, Label: 'Source' },
-    { Value: notes, Label: 'Notes' }
-  ]
-);
-
-annotate EconomicsService.EconomicsAssumptions with {
-  ID @UI.Hidden;
-  analysis @UI.Hidden;
-  assumptionType @title: 'Assumption Type' @Common.FieldControl: #Mandatory;
-  assumptionName @title: 'Assumption Name' @Common.FieldControl: #Mandatory;
-  value @title: 'Value' @Common.FieldControl: #Mandatory;
+  scenarioName @title: 'Scenario Name';
+  scenarioType @title: 'Scenario Type';
 }
 
 // ============================================
@@ -327,47 +227,27 @@ annotate EconomicsService.PriceDecks with @(
   ],
 
   UI.LineItem: [
-    { Value: deckName, Label: 'Deck Name', ![@UI.Importance]: #High },
+    { Value: deckName, Label: 'Deck Name' },
     { Value: deckType, Label: 'Type' },
     { Value: description, Label: 'Description' },
-    { Value: effectiveDate, Label: 'Effective Date', ![@UI.Importance]: #High },
-    { Value: status, Label: 'Status', Criticality: statusCriticality },
-    { Value: isActive, Label: 'Active', ![@UI.Importance]: #High }
+    { Value: effectiveDate, Label: 'Effective Date' },
+    { Value: status, Label: 'Status' },
+    { Value: isActive, Label: 'Active' }
   ],
 
   UI.Facets: [
-    {
-      $Type: 'UI.ReferenceFacet',
-      ID: 'GeneralInfoFacet',
-      Label: 'Deck Details',
-      Target: '@UI.FieldGroup#GeneralInfo'
-    },
     {
       $Type: 'UI.ReferenceFacet',
       ID: 'PricesFacet',
       Label: 'Prices',
       Target: 'prices/@UI.LineItem'
     }
-  ],
-
-  UI.FieldGroup#GeneralInfo: {
-    Label: 'Deck Details',
-    Data: [
-      { Value: deckName, Label: 'Deck Name' },
-      { Value: deckType, Label: 'Deck Type' },
-      { Value: description, Label: 'Description' },
-      { Value: effectiveDate, Label: 'Effective Date' },
-      { Value: expirationDate, Label: 'Expiration Date' },
-      { Value: status, Label: 'Status' },
-      { Value: isActive, Label: 'Active' }
-    ]
-  }
+  ]
 );
 
 annotate EconomicsService.PriceDecks with {
   ID @UI.Hidden;
-  statusCriticality @Core.Computed;
-  deckName @title: 'Deck Name' @Common.FieldControl: #Mandatory;
+  deckName @title: 'Deck Name';
   deckType @title: 'Deck Type';
 }
 
@@ -388,19 +268,17 @@ annotate EconomicsService.PriceDeckItems with @(
   },
 
   UI.LineItem: [
-    { Value: year, Label: 'Year', ![@UI.Importance]: #High },
-    { Value: oilPrice, Label: 'Oil Price ($/bbl)', ![@UI.Importance]: #High },
-    { Value: gasPrice, Label: 'Gas Price ($/mcf)', ![@UI.Importance]: #High },
-    { Value: nglPrice, Label: 'NGL Price ($/bbl)' },
-    { Value: currency.currencyCode, Label: 'Currency' }
+    { Value: year, Label: 'Year' },
+    { Value: oilPrice, Label: 'Oil Price ($/bbl)' },
+    { Value: gasPrice, Label: 'Gas Price ($/mcf)' },
+    { Value: nglPrice, Label: 'NGL Price ($/bbl)' }
   ]
 );
 
 annotate EconomicsService.PriceDeckItems with {
   ID @UI.Hidden;
   deck @UI.Hidden;
-  year @title: 'Year' @Common.FieldControl: #Mandatory;
-  oilPrice @title: 'Oil Price' @Measures.ISOCurrency: currency_code;
-  gasPrice @title: 'Gas Price' @Measures.ISOCurrency: currency_code;
-  nglPrice @title: 'NGL Price' @Measures.ISOCurrency: currency_code;
+  year @title: 'Year';
+  oilPrice @title: 'Oil Price';
+  gasPrice @title: 'Gas Price';
 }

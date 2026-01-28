@@ -30,14 +30,12 @@ annotate AFEService.AFEs with @(
 
   // Table columns
   UI.LineItem: [
-    { Value: afeNumber, Label: 'AFE Number', ![@UI.Importance]: #High },
-    { Value: afeName, Label: 'AFE Name', ![@UI.Importance]: #High },
-    { Value: well.wellName, Label: 'Well', ![@UI.Importance]: #High },
+    { Value: afeNumber, Label: 'AFE Number' },
+    { Value: afeName, Label: 'AFE Name' },
     { Value: afeType, Label: 'Type' },
-    { Value: estimatedCost, Label: 'Estimated Cost', ![@UI.Importance]: #High },
-    { Value: currency.code, Label: 'Currency' },
-    { Value: approvalStatus, Label: 'Approval Status', ![@UI.Importance]: #High, Criticality: approvalStatusCriticality },
-    { Value: status, Label: 'Status', Criticality: statusCriticality },
+    { Value: estimatedCost, Label: 'Estimated Cost' },
+    { Value: approvalStatus, Label: 'Approval Status' },
+    { Value: status, Label: 'Status' },
     { Value: validFromDate, Label: 'Valid From' },
     { Value: validToDate, Label: 'Valid To' }
   ],
@@ -58,39 +56,15 @@ annotate AFEService.AFEs with @(
     },
     {
       $Type: 'UI.ReferenceFacet',
-      ID: 'ApprovalInfoFacet',
-      Label: 'Approval Information',
-      Target: '@UI.FieldGroup#ApprovalInfo'
-    },
-    {
-      $Type: 'UI.ReferenceFacet',
-      ID: 'S4InfoFacet',
-      Label: 'SAP S/4HANA',
-      Target: '@UI.FieldGroup#S4Info'
-    },
-    {
-      $Type: 'UI.ReferenceFacet',
       ID: 'LineItemsFacet',
       Label: 'Line Items',
       Target: 'lineItems/@UI.LineItem'
     },
     {
       $Type: 'UI.ReferenceFacet',
-      ID: 'WBSElementsFacet',
-      Label: 'WBS Elements',
-      Target: 'wbsElements/@UI.LineItem'
-    },
-    {
-      $Type: 'UI.ReferenceFacet',
       ID: 'ApprovalsFacet',
       Label: 'Approvals',
       Target: 'approvals/@UI.LineItem'
-    },
-    {
-      $Type: 'UI.ReferenceFacet',
-      ID: 'DocumentsFacet',
-      Label: 'Documents',
-      Target: 'documents/@UI.LineItem'
     }
   ],
 
@@ -113,70 +87,23 @@ annotate AFEService.AFEs with @(
     Label: 'Cost Information',
     Data: [
       { Value: estimatedCost, Label: 'Estimated Cost' },
-      { Value: currency_code, Label: 'Currency' },
       { Value: contingencyAmount, Label: 'Contingency Amount' },
       { Value: contingencyPct, Label: 'Contingency %' }
-    ]
-  },
-
-  UI.FieldGroup#ApprovalInfo: {
-    Label: 'Approval Information',
-    Data: [
-      { Value: approvalStatus, Label: 'Approval Status' },
-      { Value: approvedDate, Label: 'Approved Date' },
-      { Value: approvedBy, Label: 'Approved By' },
-      { Value: parentAFE_ID, Label: 'Parent AFE' }
-    ]
-  },
-
-  UI.FieldGroup#S4Info: {
-    Label: 'SAP S/4HANA Integration',
-    Data: [
-      { Value: s4ProjectNo, Label: 'S/4 Project Number' },
-      { Value: s4WBSElement, Label: 'S/4 WBS Element' },
-      { Value: s4hanaSyncStatus, Label: 'Sync Status' },
-      { Value: s4hanaLastSyncAt, Label: 'Last Sync' }
     ]
   }
 );
 
-// Virtual fields for criticality
-annotate AFEService.AFEs with {
-  approvalStatusCriticality @Core.Computed;
-  statusCriticality @Core.Computed;
-}
-
-// Field labels and value helps
+// Field labels
 annotate AFEService.AFEs with {
   ID @UI.Hidden;
-  afeNumber @title: 'AFE Number' @Common.FieldControl: #Mandatory;
-  afeName @title: 'AFE Name' @Common.FieldControl: #Mandatory;
-  afeType @title: 'AFE Type' @Common.FieldControl: #Mandatory;
-  well @title: 'Well' @Common.FieldControl: #Mandatory @Common.ValueList: {
-    CollectionPath: 'Wells',
-    Parameters: [
-      { $Type: 'Common.ValueListParameterInOut', LocalDataProperty: well_ID, ValueListProperty: 'ID' },
-      { $Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'wellName' },
-      { $Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'uwi' }
-    ]
-  };
-  estimatedCost @title: 'Estimated Cost' @Measures.ISOCurrency: currency_code;
-  currency @title: 'Currency' @Common.ValueList: {
-    CollectionPath: 'Currencies',
-    Parameters: [
-      { $Type: 'Common.ValueListParameterInOut', LocalDataProperty: currency_code, ValueListProperty: 'code' },
-      { $Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'name' }
-    ]
-  };
-  contingencyAmount @title: 'Contingency Amount' @Measures.ISOCurrency: currency_code;
-  contingencyPct @title: 'Contingency %';
-  validFromDate @title: 'Valid From';
-  validToDate @title: 'Valid To';
+  afeNumber @title: 'AFE Number';
+  afeName @title: 'AFE Name';
+  afeType @title: 'AFE Type';
+  estimatedCost @title: 'Estimated Cost';
   approvalStatus @title: 'Approval Status';
   status @title: 'Status';
-  versionNumber @title: 'Version';
-  s4ProjectNo @title: 'S/4 Project No';
-  s4WBSElement @title: 'S/4 WBS Element';
+  validFromDate @title: 'Valid From';
+  validToDate @title: 'Valid To';
 }
 
 // ============================================
@@ -197,15 +124,11 @@ annotate AFEService.AFELineItems with @(
   },
 
   UI.LineItem: [
-    { Value: lineNumber, Label: 'Line #', ![@UI.Importance]: #High },
-    { Value: description, Label: 'Description', ![@UI.Importance]: #High },
-    { Value: wbsElement.elementName, Label: 'WBS Element' },
-    { Value: costElement.elementName, Label: 'Cost Element' },
-    { Value: vendor.vendorName, Label: 'Vendor' },
+    { Value: lineNumber, Label: 'Line #' },
+    { Value: description, Label: 'Description' },
     { Value: quantity, Label: 'Quantity' },
-    { Value: uom.code, Label: 'UOM' },
     { Value: unitRate, Label: 'Unit Rate' },
-    { Value: estimatedAmount, Label: 'Amount', ![@UI.Importance]: #High },
+    { Value: estimatedAmount, Label: 'Amount' },
     { Value: startDate, Label: 'Start' },
     { Value: endDate, Label: 'End' }
   ],
@@ -224,14 +147,9 @@ annotate AFEService.AFELineItems with @(
     Data: [
       { Value: lineNumber, Label: 'Line Number' },
       { Value: description, Label: 'Description' },
-      { Value: wbsElement_ID, Label: 'WBS Element' },
-      { Value: costElement_ID, Label: 'Cost Element' },
-      { Value: vendor_ID, Label: 'Vendor' },
       { Value: quantity, Label: 'Quantity' },
-      { Value: uom_ID, Label: 'Unit of Measure' },
       { Value: unitRate, Label: 'Unit Rate' },
       { Value: estimatedAmount, Label: 'Estimated Amount' },
-      { Value: currency_code, Label: 'Currency' },
       { Value: startDate, Label: 'Start Date' },
       { Value: endDate, Label: 'End Date' },
       { Value: durationDays, Label: 'Duration (Days)' },
@@ -243,11 +161,11 @@ annotate AFEService.AFELineItems with @(
 annotate AFEService.AFELineItems with {
   ID @UI.Hidden;
   afe @UI.Hidden;
-  lineNumber @title: 'Line #' @Common.FieldControl: #Mandatory;
-  description @title: 'Description' @Common.FieldControl: #Mandatory;
-  quantity @title: 'Quantity' @Common.FieldControl: #Mandatory;
-  unitRate @title: 'Unit Rate' @Common.FieldControl: #Mandatory;
-  estimatedAmount @title: 'Amount' @Measures.ISOCurrency: currency_code;
+  lineNumber @title: 'Line #';
+  description @title: 'Description';
+  quantity @title: 'Quantity';
+  unitRate @title: 'Unit Rate';
+  estimatedAmount @title: 'Amount';
 }
 
 // ============================================
@@ -268,12 +186,10 @@ annotate AFEService.WBSElements with @(
   },
 
   UI.LineItem: [
-    { Value: elementCode, Label: 'Code', ![@UI.Importance]: #High },
-    { Value: elementName, Label: 'Name', ![@UI.Importance]: #High },
+    { Value: elementCode, Label: 'Code' },
+    { Value: elementName, Label: 'Name' },
     { Value: hierarchyLevel, Label: 'Level' },
-    { Value: parent.elementName, Label: 'Parent' },
     { Value: sortOrder, Label: 'Sort Order' },
-    { Value: s4WBSElement, Label: 'S/4 WBS' },
     { Value: isActive, Label: 'Active' }
   ]
 );
@@ -281,9 +197,9 @@ annotate AFEService.WBSElements with @(
 annotate AFEService.WBSElements with {
   ID @UI.Hidden;
   afe @UI.Hidden;
-  elementCode @title: 'Element Code' @Common.FieldControl: #Mandatory;
-  elementName @title: 'Element Name' @Common.FieldControl: #Mandatory;
-  hierarchyLevel @title: 'Hierarchy Level' @Common.FieldControl: #Mandatory;
+  elementCode @title: 'Element Code';
+  elementName @title: 'Element Name';
+  hierarchyLevel @title: 'Hierarchy Level';
 }
 
 // ============================================
@@ -303,12 +219,10 @@ annotate AFEService.CostEstimates with @(
   },
 
   UI.LineItem: [
-    { Value: description, Label: 'Description', ![@UI.Importance]: #High },
-    { Value: wbsElement.elementName, Label: 'WBS Element' },
-    { Value: costElement.elementName, Label: 'Cost Element' },
+    { Value: description, Label: 'Description' },
     { Value: quantity, Label: 'Quantity' },
     { Value: unitRate, Label: 'Unit Rate' },
-    { Value: estimatedAmount, Label: 'Amount', ![@UI.Importance]: #High },
+    { Value: estimatedAmount, Label: 'Amount' },
     { Value: confidenceLevel, Label: 'Confidence' }
   ]
 );
@@ -331,20 +245,16 @@ annotate AFEService.Approvals with @(
   },
 
   UI.LineItem: [
-    { Value: approvalLevel, Label: 'Level', ![@UI.Importance]: #High },
-    { Value: approverRole, Label: 'Role', ![@UI.Importance]: #High },
-    { Value: approverName, Label: 'Approver', ![@UI.Importance]: #High },
+    { Value: approvalLevel, Label: 'Level' },
+    { Value: approverRole, Label: 'Role' },
+    { Value: approverName, Label: 'Approver' },
     { Value: assignedDate, Label: 'Assigned' },
     { Value: dueDate, Label: 'Due Date' },
-    { Value: actionStatus, Label: 'Status', ![@UI.Importance]: #High, Criticality: actionStatusCriticality },
+    { Value: actionStatus, Label: 'Status' },
     { Value: actionDate, Label: 'Action Date' },
     { Value: comments, Label: 'Comments' }
   ]
 );
-
-annotate AFEService.Approvals with {
-  actionStatusCriticality @Core.Computed;
-}
 
 // ============================================
 // AFE Documents
@@ -363,7 +273,7 @@ annotate AFEService.AFEDocuments with @(
   },
 
   UI.LineItem: [
-    { Value: documentName, Label: 'Name', ![@UI.Importance]: #High },
+    { Value: documentName, Label: 'Name' },
     { Value: documentType, Label: 'Type' },
     { Value: documentCategory, Label: 'Category' },
     { Value: fileSize, Label: 'Size (bytes)' },
@@ -378,8 +288,7 @@ annotate AFEService.AFEDocuments with @(
 annotate AFEService.Wells with @(
   UI.LineItem: [
     { Value: wellName, Label: 'Well Name' },
-    { Value: uwi, Label: 'UWI' },
-    { Value: field.fieldName, Label: 'Field' },
+    { Value: wellNumber, Label: 'Well Number' },
     { Value: wellType, Label: 'Type' },
     { Value: status, Label: 'Status' }
   ]
