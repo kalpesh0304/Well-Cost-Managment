@@ -1,0 +1,13 @@
+ID;matrixName;entityType;field_ID;wellType;amountFrom;amountTo;approvalLevel;approverRole;escalationDays;isActive
+55555555-aaaa-bbbb-cccc-555555555501;Standard AFE Level 1;AFE;;Development;0.00;500000.00;1;Engineering;3;true
+55555555-aaaa-bbbb-cccc-555555555502;Standard AFE Level 2;AFE;;Development;0.00;500000.00;2;Finance;3;true
+55555555-aaaa-bbbb-cccc-555555555503;Large AFE Level 1;AFE;;Development;500000.01;5000000.00;1;Engineering;3;true
+55555555-aaaa-bbbb-cccc-555555555504;Large AFE Level 2;AFE;;Development;500000.01;5000000.00;2;Finance;5;true
+55555555-aaaa-bbbb-cccc-555555555505;Large AFE Level 3;AFE;;Development;500000.01;5000000.00;3;VP;5;true
+55555555-aaaa-bbbb-cccc-555555555506;Major AFE Level 1;AFE;;Development;5000000.01;99999999.00;1;Engineering;3;true
+55555555-aaaa-bbbb-cccc-555555555507;Major AFE Level 2;AFE;;Development;5000000.01;99999999.00;2;Finance;5;true
+55555555-aaaa-bbbb-cccc-555555555508;Major AFE Level 3;AFE;;Development;5000000.01;99999999.00;3;VP;5;true
+55555555-aaaa-bbbb-cccc-555555555509;Major AFE Level 4;AFE;;Development;5000000.01;99999999.00;4;Board;10;true
+55555555-aaaa-bbbb-cccc-555555555510;Exploration AFE;AFE;;Exploration;0.00;99999999.00;1;Engineering;3;true
+55555555-aaaa-bbbb-cccc-555555555511;Exploration AFE;AFE;;Exploration;0.00;99999999.00;2;Finance;5;true
+55555555-aaaa-bbbb-cccc-555555555512;Exploration AFE;AFE;;Exploration;0.00;99999999.00;3;VP;5;true

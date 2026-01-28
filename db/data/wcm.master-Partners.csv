@@ -1,0 +1,9 @@
+ID;partnerCode;partnerName;partnerType;country_ID;workingInterestDefault;s4BusinessPartner;billingAddress;contactName;contactEmail;isActive
+77777777-7777-7777-7777-777777777701;PTR-WCM-001;WCM Energy Inc;Operator;11111111-1111-1111-1111-111111111101;0.5000;BP1000001;1000 Energy Plaza, Houston TX 77001;James Anderson;james.a@wcmenergy.com;true
+77777777-7777-7777-7777-777777777702;PTR-EXX-001;ExxonMobil Corporation;Non-Operator;11111111-1111-1111-1111-111111111101;0.2500;BP1000002;5959 Las Colinas Blvd, Irving TX 75039;Robert Taylor;robert.t@exxonmobil.com;true
+77777777-7777-7777-7777-777777777703;PTR-CVX-001;Chevron Corporation;Non-Operator;11111111-1111-1111-1111-111111111101;0.1500;BP1000003;6001 Bollinger Canyon Rd, San Ramon CA 94583;Jennifer Martinez;jennifer.m@chevron.com;true
+77777777-7777-7777-7777-777777777704;PTR-COP-001;ConocoPhillips;Non-Operator;11111111-1111-1111-1111-111111111101;0.1000;BP1000004;925 N Eldridge Pkwy, Houston TX 77079;Michael Thompson;michael.t@conocophillips.com;true
+77777777-7777-7777-7777-777777777705;PTR-BP-001;BP plc;Non-Operator;11111111-1111-1111-1111-111111111102;0.2000;BP1000005;1 St James Square, London SW1Y 4PD;Emma Wilson;emma.w@bp.com;true
+77777777-7777-7777-7777-777777777706;PTR-SHELL-001;Shell plc;Non-Operator;11111111-1111-1111-1111-111111111102;0.1500;BP1000006;Shell Centre, London SE1 7NA;William Brown;william.b@shell.com;true
+77777777-7777-7777-7777-777777777707;PTR-EQUI-001;Equinor ASA;Non-Operator;11111111-1111-1111-1111-111111111103;0.1000;BP1000007;Forusbeen 50, 4035 Stavanger Norway;Lars Eriksen;lars.e@equinor.com;true
+77777777-7777-7777-7777-777777777708;PTR-ARAMCO-001;Saudi Aramco;Carried;11111111-1111-1111-1111-111111111104;0.0500;BP1000008;Dhahran 31311, Saudi Arabia;Ahmed Al-Faisal;ahmed.f@aramco.com;true

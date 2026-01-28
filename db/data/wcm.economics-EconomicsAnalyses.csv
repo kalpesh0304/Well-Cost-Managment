@@ -1,0 +1,7 @@
+ID;analysisName;well_ID;afe_ID;analysisType;discountRate;inflationRate;npv;irr;mirr;paybackYears;discountedPayback;profitabilityIndex;recommendation;status
+11111111-aaaa-bbbb-cccc-111111111101;Permian Alpha-1 Economics;55555555-5555-5555-5555-555555555501;aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa101;NEW_WELL;0.1000;0.0250;8500000.00;0.2350;0.1850;3.20;4.10;1.57;RECOMMEND;Approved
+11111111-aaaa-bbbb-cccc-111111111102;Permian Alpha-2 Economics;55555555-5555-5555-5555-555555555502;aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa102;NEW_WELL;0.1000;0.0250;6200000.00;0.1980;0.1620;3.80;4.90;1.34;RECOMMEND;Pending
+11111111-aaaa-bbbb-cccc-111111111103;Permian Beta-1 Exploration;55555555-5555-5555-5555-555555555503;aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa103;NEW_WELL;0.1200;0.0250;15000000.00;0.2850;0.2200;2.50;3.20;1.60;RECOMMEND;Approved
+11111111-aaaa-bbbb-cccc-111111111104;GOM Deepwater Analysis;55555555-5555-5555-5555-555555555504;aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa104;NEW_WELL;0.1500;0.0300;25000000.00;0.1850;0.1520;5.20;6.80;1.33;RECOMMEND;Draft
+11111111-aaaa-bbbb-cccc-111111111105;Ghawar Workover Analysis;55555555-5555-5555-5555-555555555507;aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa107;WORKOVER;0.1000;0.0200;3200000.00;0.3500;0.2800;1.80;2.30;1.40;RECOMMEND;Approved
+11111111-aaaa-bbbb-cccc-111111111106;North Sea Marginal Project;55555555-5555-5555-5555-555555555505;aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa105;NEW_WELL;0.1200;0.0280;1200000.00;0.1150;0.0980;5.80;7.20;1.10;MARGINAL;Approved

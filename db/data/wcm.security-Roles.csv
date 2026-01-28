@@ -1,0 +1,11 @@
+ID;roleCode;roleName;roleType;description;isActive
+44444444-aaaa-bbbb-cccc-444444444401;DRILLING_ENGINEER;Drilling Engineer;Business;Create cost estimates and business cases;true
+44444444-aaaa-bbbb-cccc-444444444402;AFE_COORDINATOR;AFE Coordinator;Business;Manage AFE lifecycle and partner coordination;true
+44444444-aaaa-bbbb-cccc-444444444403;COST_MANAGER;Cost Manager;Business;Post and manage cost actuals;true
+44444444-aaaa-bbbb-cccc-444444444404;FINANCE_CONTROLLER;Finance Controller;Business;Approve costs and manage JIB statements;true
+44444444-aaaa-bbbb-cccc-444444444405;ECONOMIST;Petroleum Economist;Business;NPV/IRR analysis and investment decisions;true
+44444444-aaaa-bbbb-cccc-444444444406;ASSET_MANAGER;Asset Manager;Business;Portfolio management and executive reporting;true
+44444444-aaaa-bbbb-cccc-444444444407;PARTNER_REP;Partner Representative;Business;Review AFEs and provide consent;true
+44444444-aaaa-bbbb-cccc-444444444408;ADMIN;System Administrator;Admin;Full system access and configuration;true
+44444444-aaaa-bbbb-cccc-444444444409;VP_OPERATIONS;VP Operations;Business;Final approval authority;true
+44444444-aaaa-bbbb-cccc-444444444410;VIEWER;Read Only;Application;View-only access to all data;true
