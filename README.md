@@ -1,131 +1,128 @@
-# Well-Cost-Management
+# Well Cost Management - CAP Backend Application
 
-Well Cost Management for Upstream Oil & Gas Companies
-
-## Word to Markdown Converter
-
-This project includes a Word to Markdown converter that supports three documentation categories:
-
-- **Architecture Document**: System design, components, and architecture diagrams
-- **Functional Document**: Features, requirements, and user stories
-- **Technical Document**: Implementation details, APIs, and configurations
+SAP Cloud Application Programming Model (CAP) backend for the Well Cost Management system.
 
 ## Project Structure
 
 ```
-Well-Cost-Management/
-├── converter/
-│   ├── __init__.py
-│   ├── config.py
-│   └── word_to_markdown.py
-├── docs/
-│   ├── architecture/      # Architecture documents output
-│   ├── functional/        # Functional documents output
-│   ├── technical/         # Technical documents output
-│   └── uploads/           # Upload Word documents here
-├── templates/
-│   ├── architecture_template.md
-│   ├── functional_template.md
-│   └── technical_template.md
-├── requirements.txt
-└── README.md
+wcm-app/
+├── db/                          # Database layer (CDS schemas)
+│   ├── common.cds              # Common types and aspects
+│   ├── master-data.cds         # Master data entities
+│   ├── afe.cds                 # AFE entities
+│   ├── financial.cds           # Financial entities
+│   ├── economics.cds           # Investment economics
+│   ├── operations.cds          # Daily operations
+│   ├── integration.cds         # Integration entities
+│   ├── security.cds            # Security & audit
+│   ├── configuration.cds       # Configuration entities
+│   └── index.cds               # Schema index
+├── srv/                         # Service layer
+│   ├── master-data-service.cds # Master data service
+│   ├── afe-service.cds         # AFE service
+│   ├── financial-service.cds   # Financial service
+│   ├── economics-service.cds   # Economics service
+│   ├── operations-service.cds  # Operations service
+│   ├── integration-service.cds # Integration service
+│   ├── admin-service.cds       # Admin service
+│   └── index.cds               # Service index
+├── app/                         # App Router
+│   ├── package.json
+│   └── xs-app.json
+├── package.json                 # Project dependencies
+├── mta.yaml                     # MTA deployment descriptor
+├── xs-security.json            # XSUAA security config
+└── .cdsrc.json                 # CDS configuration
 ```
 
-## Installation
+## Services
 
-1. Clone the repository:
+| Service | Path | Description |
+|---------|------|-------------|
+| MasterDataService | /api/master | Wells, Fields, Vendors, Partners |
+| AFEService | /api/afe | AFE lifecycle management |
+| FinancialService | /api/financial | Cost actuals, JIB, variances |
+| EconomicsService | /api/economics | NPV, IRR, cash flows |
+| OperationsService | /api/operations | Daily reports, alerts |
+| IntegrationService | /api/integration | S/4HANA sync, data quality |
+| AdminService | /api/admin | Users, roles, configuration |
+
+## Development
+
+### Prerequisites
+
+- Node.js >= 18
+- SAP CDS CLI (`npm i -g @sap/cds-dk`)
+- Cloud Foundry CLI (for deployment)
+
+### Local Development
+
 ```bash
-git clone <repository-url>
-cd Well-Cost-Management
+# Install dependencies
+npm install
+
+# Start local server with SQLite
+cds watch
+
+# Run with specific profile
+cds watch --profile development
 ```
 
-2. Install dependencies:
+### Build
+
 ```bash
-pip install -r requirements.txt
+# Build for production
+cds build --production
 ```
 
-## Usage
-
-### Convert a Word Document to Markdown
+### Deploy to SAP BTP
 
 ```bash
-python -m converter.word_to_markdown <input_file.docx> -c <category>
+# Build MTA archive
+mbt build
+
+# Deploy to Cloud Foundry
+cf deploy mta_archives/wcm-app_1.0.0.mtar
 ```
 
-### Parameters
+## Database
 
-| Parameter | Description | Required |
-|-----------|-------------|----------|
-| `input` | Path to the Word document (.docx) | Yes |
-| `-c, --category` | Document category (architecture, functional, technical) | Yes |
-| `-o, --output` | Custom output filename (optional) | No |
+The application uses SAP HANA Cloud in production and SQLite for local development.
 
-### Examples
+### Entity Counts
 
-Convert an architecture document:
-```bash
-python -m converter.word_to_markdown docs/uploads/system_design.docx -c architecture
-```
+| Layer | Entities |
+|-------|----------|
+| Master Data | 10 |
+| AFE | 5 |
+| Financial | 6 |
+| Economics | 6 |
+| Operations | 7 |
+| Integration | 8 |
+| Security | 6 |
+| Configuration | 10 |
+| **Total** | **58** |
 
-Convert a functional document with custom output name:
-```bash
-python -m converter.word_to_markdown docs/uploads/requirements.docx -c functional -o user_requirements
-```
+## Security
 
-Convert a technical document:
-```bash
-python -m converter.word_to_markdown docs/uploads/api_spec.docx -c technical
-```
+Authentication via SAP XSUAA with the following role templates:
 
-## Document Categories
+- DrillingEngineer
+- AFECoordinator
+- CostManager
+- FinanceController
+- Economist
+- AssetManager
+- PartnerRepresentative
+- Administrator
 
-### Architecture Documents
-Output: `docs/architecture/`
+## API Documentation
 
-Used for:
-- System architecture designs
-- Component diagrams
-- Infrastructure documentation
-- Integration architectures
-- Security architecture
-
-### Functional Documents
-Output: `docs/functional/`
-
-Used for:
-- Functional requirements
-- User stories
-- Use cases
-- Business rules
-- Process flows
-
-### Technical Documents
-Output: `docs/technical/`
-
-Used for:
-- API documentation
-- Database schemas
-- Code documentation
-- Configuration guides
-- Deployment procedures
-
-## Templates
-
-Pre-built templates are available in the `templates/` directory:
-
-- `architecture_template.md` - Template for architecture documents
-- `functional_template.md` - Template for functional documents
-- `technical_template.md` - Template for technical documents
-
-## Features
-
-- Converts Word documents (.docx) to Markdown format
-- Preserves document structure (headings, paragraphs, lists)
-- Converts tables to Markdown table format
-- Handles inline formatting (bold, italic)
-- Generates YAML front matter with metadata
-- Organizes output by document category
-
-## License
-
-MIT License
+Access OData metadata at:
+- `/api/master/$metadata`
+- `/api/afe/$metadata`
+- `/api/financial/$metadata`
+- `/api/economics/$metadata`
+- `/api/operations/$metadata`
+- `/api/integration/$metadata`
+- `/api/admin/$metadata`

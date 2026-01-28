@@ -1,19 +1,47 @@
 {
-  "name": "well-cost-management",
+  "name": "wcm-app",
   "version": "1.0.0",
-  "description": "Well Cost Management for Upstream Oil & Gas Companies",
-  "main": "src/index.js",
-  "type": "module",
-  "scripts": {
-    "start": "node src/index.js",
-    "test": "node --test"
+  "description": "Well Cost Management Application - SAP BTP CAP Backend",
+  "repository": "https://github.com/kalpesh0304/Well-Cost-Managment",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^7",
+    "@sap/cds-hana": "^2",
+    "@sap/xsenv": "^4",
+    "@sap/xssec": "^3",
+    "express": "^4",
+    "hdb": "^0.19"
   },
-  "keywords": [
-    "oil",
-    "gas",
-    "well",
-    "cost",
-    "management"
-  ],
-  "license": "MIT"
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7",
+    "@sap/ux-specification": "^1"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch": "cds watch",
+    "build": "cds build --production",
+    "deploy": "cds deploy --to hana",
+    "test": "cds bind --exec jest"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sql"
+      },
+      "[production]": {
+        "db": {
+          "kind": "hana-cloud"
+        },
+        "auth": {
+          "kind": "xsuaa"
+        }
+      }
+    },
+    "hana": {
+      "deploy-format": "hdbtable"
+    }
+  },
+  "sapux": []
 }
