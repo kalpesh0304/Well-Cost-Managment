@@ -1,0 +1,61 @@
+{
+  "authenticationMethod": "route",
+  "sessionTimeout": 30,
+  "routes": [
+    {
+      "source": "^/api/master/(.*)$",
+      "target": "/api/master/$1",
+      "destination": "wcm-srv",
+      "authenticationType": "xsuaa",
+      "csrfProtection": true
+    },
+    {
+      "source": "^/api/afe/(.*)$",
+      "target": "/api/afe/$1",
+      "destination": "wcm-srv",
+      "authenticationType": "xsuaa",
+      "csrfProtection": true
+    },
+    {
+      "source": "^/api/financial/(.*)$",
+      "target": "/api/financial/$1",
+      "destination": "wcm-srv",
+      "authenticationType": "xsuaa",
+      "csrfProtection": true
+    },
+    {
+      "source": "^/api/economics/(.*)$",
+      "target": "/api/economics/$1",
+      "destination": "wcm-srv",
+      "authenticationType": "xsuaa",
+      "csrfProtection": true
+    },
+    {
+      "source": "^/api/operations/(.*)$",
+      "target": "/api/operations/$1",
+      "destination": "wcm-srv",
+      "authenticationType": "xsuaa",
+      "csrfProtection": true
+    },
+    {
+      "source": "^/api/integration/(.*)$",
+      "target": "/api/integration/$1",
+      "destination": "wcm-srv",
+      "authenticationType": "xsuaa",
+      "csrfProtection": true
+    },
+    {
+      "source": "^/api/admin/(.*)$",
+      "target": "/api/admin/$1",
+      "destination": "wcm-srv",
+      "authenticationType": "xsuaa",
+      "csrfProtection": true
+    },
+    {
+      "source": "^/(.*)$",
+      "target": "/$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa"
+    }
+  ]
+}
