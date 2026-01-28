@@ -16,3 +16,5 @@ using from './afe-service-ui';
 using from './financial-service-ui';
 using from './economics-service-ui';
 using from './operations-service-ui';
+using from './integration-service-ui';
+using from './admin-service-ui';
